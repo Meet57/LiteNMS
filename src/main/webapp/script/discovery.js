@@ -4,9 +4,10 @@ var DISCOVERY = {
 
         $("#body").html(`
             <div class="container">
+                <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="modalHeading"></h5></div><div class="modal-body" id="modalBody">...</div><div class="modal-footer" id="modalFooter"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button type="button" class="btn btn-primary" id="modalSubmitButton" onclick="DISCOVERY.addDeviceAction()"></button></div></div></div></div>
                 <div class="row">
                     <div class="col-9 mx-auto mt-2 py-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#discoveryModalForm">
+                    <button type="button" class="btn btn-primary" onclick="DISCOVERY.createNewDevice()">
                         Add Device
                   </button>
                     </div>
@@ -20,42 +21,47 @@ var DISCOVERY = {
         `)
 
         DISCOVERY.loadDiscoveryTable()
+    },
+    createNewDevice: function () {
+        COMPONENTS.modal("Add Device", "Add", "DISCOVERY.addDeviceAction")
+        $("#modalBody").html(DISCOVERY.addDeviceForm());
         DISCOVERY.loadDiscoveryForm()
+        $('#modal').modal('toggle');
     },
     loadDiscoveryTable: function (isUpdate = false) {
         $.get(
             "getDiscoveryDevices",
-            function (data,status){
+            function (data, status) {
                 var dataSet = data.result.result
-                    if(isUpdate){
-                        $('#discoveryTable').DataTable().destroy();
-                        $('#discoveryTable').DataTable({
-                            data: dataSet,
-                            columns: [
-                                { title: 'id' },
-                                { title: 'Device Name' },
-                                { title: 'IP' },
-                                { title: 'ACTIONS' }
-                            ],
-                        });
-                    }else{
-                        $('#discoveryTable').DataTable({
-                            data: dataSet,
-                            columns: [
-                                { title: 'id' },
-                                { title: 'Device Name' },
-                                { title: 'IP' },
-                                { title: 'ACTIONS' }
-                            ],
-                        });
-                    }
+                if (isUpdate) {
+                    $('#discoveryTable').DataTable().destroy();
+                    $('#discoveryTable').DataTable({
+                        data: dataSet,
+                        columns: [
+                            {title: 'id'},
+                            {title: 'Device Name'},
+                            {title: 'IP'},
+                            {title: 'TYPE'},
+                            {title: 'ACTIONS'}
+                        ],
+                    });
+                } else {
+                    $('#discoveryTable').DataTable({
+                        data: dataSet,
+                        columns: [
+                            {title: 'id'},
+                            {title: 'Device Name'},
+                            {title: 'IP'},
+                            {title: 'TYPE'},
+                            {title: 'ACTIONS'}
+                        ],
+                    });
+                }
             }
         )
     },
     loadDiscoveryForm: function () {
-        $("#body").append(COMPONENTS.modal("discoveryModalForm", "Add Device", "Add", "DISCOVERY.addDeviceAction()"))
-        $("#body").append(COMPONENTS.modal("discoveryModalFormForEdit", "Update Device", "Update", "DISCOVERY.updateDeviceAction()"))
-        $("#discoveryModalFormBody").html(DISCOVERY.addDeviceForm());
+        $("#modalBody").html(DISCOVERY.addDeviceForm());
 
         $('input[type=radio][name=deviceType]').change(function () {
             if (this.value === 'ping') {
@@ -71,8 +77,7 @@ var DISCOVERY = {
                         <div class="invalid-feedback">Invalid IP</div>
                     </div>
                 `)
-            }
-            else if (this.value == 'SSH') {
+            } else if (this.value === 'SSH') {
                 $("#deviceCredForm").html(`
                     <div class="form-floating mt-3">
                         <input type="text" autocomplete="off" class="form-control" id="name" placeholder="Device Name" required>
@@ -99,34 +104,6 @@ var DISCOVERY = {
                 `)
             }
         })
-
-    },
-    updateDeviceForm:function (deviceType,id,deviceName,ip,username,password){
-        if(deviceType == "ping"){
-            var html = `
-                <form>
-                    <input type="radio" class="btn-check" name="deviceType" value="ping" id="btnradio1" autocomplete="off" checked>
-                    <label class="btn btn-outline-primary" for="btnradio1">Ping</label>
-                    <div class="form-floating mt-3">
-                        <input type="text" value="${id}" class="form-control" id="id" placeholder="ID" readonly>
-                        <label for="id">ID</label>
-                    </div>
-                    <div class="form-floating mt-3">
-                        <input type="text" autocomplete="off" value="${deviceName}" class="form-control" id="name" placeholder="Device Name" required>
-                        <label for="floatingInput">Device Name</label>
-                        <div class="invalid-feedback">Invalid Device Name</div>
-                    </div>
-                    <div class="form-floating mt-1">
-                        <input type="text" autocomplete="off" value="${ip}" class="form-control" id="ip" placeholder="IP" required>
-                        <label for="floatingInput">IP</label>
-                        <div class="invalid-feedback">Invalid IP</div>
-                    </div>
-                </form>
-            `
-            $("#discoveryModalFormForEditBody").html(html);
-            $('#discoveryModalFormForEdit').modal('toggle');
-        }
-
     },
     addDeviceForm: function () {
         var html = `
@@ -154,6 +131,85 @@ var DISCOVERY = {
         `
         return html
     },
+    updateDeviceForm(type, id, deviceName, ip, username) {
+        COMPONENTS.modal("Update Device", "Update", "DISCOVERY.addDeviceAction")
+        if (type === "ping") {
+            var html = `
+            <form>
+                <div id="deviceCredForm">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="deviceType" value="ping" id="btnradio1" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="btnradio1">Ping</label>
+                    
+                        <input type="radio" class="btn-check" name="deviceType" value="SSH" id="btnradio2" autocomplete="off" disabled>
+                        <label class="btn btn-outline-primary" for="btnradio2">SSH</label>
+                    </div>
+                    <div class="form-floating mt-1">
+                        <input type="text" autocomplete="off" value="${id}" class="form-control" id="id" placeholder="id" readonly>
+                        <label for="floatingInput">ID</label>
+                    </div>
+                    <div class="form-floating mt-1">
+                        <input type="text" autocomplete="off" value="${deviceName}" class="form-control" id="name" placeholder="Device Name" required>
+                        <label for="floatingInput">Device Name</label>
+                        <div class="invalid-feedback">Invalid Device Name</div>
+                    </div>
+                    <div class="form-floating mt-1">
+                        <input type="text" autocomplete="off" value="${ip}" class="form-control" id="ip" placeholder="IP" required>
+                        <label for="floatingInput">IP</label>
+                        <div class="invalid-feedback">Invalid IP</div>
+                    </div>
+                </div>
+            </form>
+            `
+            $("#modalBody").html(html)
+        } else {
+            var html = `
+            <form>
+                <div id="deviceCredForm">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="deviceType" value="ping" id="btnradio1" autocomplete="off" disabled>
+                        <label class="btn btn-outline-primary" for="btnradio1">Ping</label>
+                    
+                        <input type="radio" class="btn-check" name="deviceType" value="SSH" id="btnradio2" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="btnradio2">SSH</label>
+                    </div>
+                    <div class="form-floating mt-1">
+                        <input type="text" autocomplete="off" value="${id}" class="form-control" id="id" placeholder="id" readonly>
+                        <label for="floatingInput">ID</label>
+                    </div>
+                    <div class="form-floating mt-1">
+                        <input type="text" autocomplete="off" value="${type}" class="form-control" id="type" placeholder="type" readonly>
+                        <label for="floatingInput">Type</label>
+                    </div>
+                    <div class="form-floating mt-1">
+                        <input type="text" autocomplete="off" value="${deviceName}" class="form-control" id="name" placeholder="Device Name" required>
+                        <label for="floatingInput">Device Name</label>
+                        <div class="invalid-feedback">Invalid Device Name</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="form-floating mt-1 col-5">
+                            <input type="text" autocomplete="off" value="${username}" class="form-control" id="username" placeholder="Username" autocomplete="off">
+                            <label for="floatingInput">Username</label>
+                            <div class="invalid-feedback">Invalid Username</div>
+                        </div>
+                        <div class="form-floating mt-1 col-7 ms-1">
+                            <input type="password" autocomplete="off" class="form-control" id="password" placeholder="Password" autocomplete="off">
+                            <label for="floatingInput">Password</label>
+                            <div class="invalid-feedback">Invalid Password</div>
+                        </div>
+                    </div>
+                    <div class="form-floating mt-1">
+                        <input type="text" autocomplete="off" class="form-control" value="${ip}" id="ip" placeholder="IP" required>
+                        <label for="floatingInput">IP</label>
+                        <div class="invalid-feedback">Invalid IP</div>
+                    </div>
+                </div>
+            </form>
+            `
+            $("#modalBody").html(html)
+        }
+        $('#modal').modal('toggle');
+    },
     addDeviceAction: function () {
         var doSubmit = true
         $("input").removeClass("is-invalid");
@@ -165,7 +221,7 @@ var DISCOVERY = {
             doSubmit = false
         }
 
-        if ($('input[name="deviceType"]:checked').val() == "ping") {
+        if ($('input[name="deviceType"]:checked').val() === "ping") {
             if ($("#name").val().length == 0) {
                 $("#name").addClass("is-invalid")
                 doSubmit = false
@@ -186,28 +242,78 @@ var DISCOVERY = {
         }
 
         if (doSubmit) {
-            if($('input[name="deviceType"]:checked').val() == "ping"){
-                $.post(
-                    "addDiscoveryDevice",
-                    {deviceName: $("#name").val(),ip:$("#ip").val()},
-                    function (data,status) {
-                        $('#discoveryModalForm').modal('toggle');
-                        COMPONENTS.alert("Device Added","Device has been Added","success")
-                        DISCOVERY.loadDiscoveryTable(true);
-                    }
-                )
+            if ($("#id").val() === undefined) {
+                if ($('input[name="deviceType"]:checked').val() === "ping") {
+                    $.post(
+                        "addDiscoveryDevice",
+                        {deviceName: $("#name").val(), ip: $("#ip").val(), type: "ping"},
+                        function (data, status) {
+                            $('#modal').modal('toggle');
+                            COMPONENTS.alert("Device Added", "Device has been Added", "success")
+                            DISCOVERY.loadDiscoveryTable(true);
+                        }
+                    )
+                } else {
+                    $.post(
+                        "addDiscoveryDevice",
+                        {
+                            deviceName: $("#name").val(),
+                            ip: $("#ip").val(),
+                            type: "ssh",
+                            username: $("#username").val(),
+                            password: $("#password").val()
+                        },
+                        function (data, status) {
+                            $('#modal').modal('toggle');
+                            COMPONENTS.alert("Device Added", "Device has been Added", "success")
+                            DISCOVERY.loadDiscoveryTable(true);
+                        }
+                    )
+                }
+            } else {
+                console.log($('input[name="deviceType"]:checked').val() === "ping");
+                if ($('input[name="deviceType"]:checked').val() === "ping") {
+                    $.post(
+                        "updateDiscoveryDevice",
+                        {
+                            id: $("#id").val(),
+                            type: "ping",
+                            deviceName: $("#name").val(),
+                            ip: $("#ip").val()
+                        },
+                        function (data, status) {
+                            $('#modal').modal('toggle');
+                            COMPONENTS.alert("Device Updated", "Device has been Updated", "success")
+                            DISCOVERY.loadDiscoveryTable(true);
+                        }
+                    )
+                } else {
+                    $.post(
+                        "updateDiscoveryDevice",
+                        {
+                            id: $("#id").val(),
+                            type: "ssh",
+                            deviceName: $("#name").val(),
+                            ip: $("#ip").val(),
+                            username: $("#username").val(),
+                            password: $("#password").val()
+                        },
+                        function (data, status) {
+                            $('#modal').modal('toggle');
+                            COMPONENTS.alert("Device Updated", "Device has been Updated", "success")
+                            DISCOVERY.loadDiscoveryTable(true);
+                        }
+                    )
+                }
             }
         }
     },
-    updateDeviceAction:function (){
-        console.log("Hello")
-    },
-    deleteDeviceAction: function (id,name){
+    deleteDeviceAction: function (id, name) {
         $.post(
             "deleteDiscoveryDevice",
             {id},
-            function (data,status) {
-                COMPONENTS.alert("Device Delete","Device has been deleted","danger")
+            function (data, status) {
+                COMPONENTS.alert("Device Delete", "Device has been deleted", "danger")
                 DISCOVERY.loadDiscoveryTable(true);
             }
         )

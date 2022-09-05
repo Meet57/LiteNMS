@@ -21,6 +21,9 @@
         <action name="addDiscoveryDevice" class="action.DiscoveryAction" method="add">
             <result name="success" type="json" />
         </action>
+        <action name="updateDiscoveryDevice" class="action.DiscoveryAction" method="update">
+            <result name="success" type="json" />
+        </action>
 
 
     </package>

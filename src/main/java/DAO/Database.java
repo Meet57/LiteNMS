@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Database {
     private Connection con;
 
-    private void connect(){
+    private void connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(
@@ -17,7 +17,7 @@ public class Database {
         }
     }
 
-    private void disconnect(){
+    private void disconnect() {
         try {
             con.close();
         } catch (SQLException e) {
@@ -25,39 +25,28 @@ public class Database {
         }
     }
 
-    public Boolean DMLStatement(String operation, String tableName, int id,HashMap<String,String> data) throws SQLException {
-        Statement stmt;
-        StringBuilder query;
-        switch (operation){
-            case "delete":
-                connect();
-//                PreparedStatement pst = con.prepareStatement("delete from ? where id = ?");
-//                pst.setString(1,tableName);
-//                pst.setInt(2,id);
-//                return pst.executeUpdate() > 0;
-                query = new StringBuilder("delete from ? where id = ?");
-                query.replace(query.indexOf("?"),query.indexOf("?")+1,tableName);
-                query.replace(query.indexOf("?"),query.indexOf("?")+1, String.valueOf(id));
-                stmt = con.createStatement();
-                return stmt.executeUpdate(query.toString()) > 0;
-            case "add":
-                connect();
-                stmt = con.createStatement();
-                return stmt.executeUpdate(data.get("query")) > 0;
-        }
+    public Boolean DMLStatement(String operation, String query, ArrayList<String> values) throws SQLException {
 
-        return false;
+        connect();
+        PreparedStatement pst = con.prepareStatement(query);
+        if (values != null) {
+            for (int i = 0; i < values.size(); i++) {
+                pst.setString(i + 1, values.get(i));
+            }
+        }
+        return pst.executeUpdate() > 0;
     }
-    public ArrayList<HashMap<String,String>> select(String query, ArrayList<String> condition) throws SQLException {
+
+    public ArrayList<HashMap<String, String>> select(String query, ArrayList<String> condition) throws SQLException {
         connect();
 
-        ArrayList<HashMap<String,String>> result = new ArrayList<>();
+        ArrayList<HashMap<String, String>> result = new ArrayList<>();
 
         PreparedStatement pst = con.prepareStatement(query);
 
-        if(condition != null){
+        if (condition != null) {
             for (int i = 0; i < condition.size(); i++) {
-                pst.setString(i,condition.get(i));
+                pst.setString(i + 1, condition.get(i));
             }
         }
 
@@ -65,12 +54,12 @@ public class Database {
         ArrayList<String> columnNames = new ArrayList<>();
         ResultSetMetaData rsMetaData = rs.getMetaData();
         int count = rsMetaData.getColumnCount();
-        for(int i = 1; i<=count; i++) {
+        for (int i = 1; i <= count; i++) {
             columnNames.add(rsMetaData.getColumnName(i));
         }
 
-        HashMap<String,String> temp;
-        while(rs.next()){
+        HashMap<String, String> temp;
+        while (rs.next()) {
             temp = new HashMap<>();
             for (String columnName : columnNames) {
                 temp.put(columnName, rs.getString(columnName));

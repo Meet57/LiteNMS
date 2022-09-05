@@ -5,13 +5,14 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
 
 public class DiscoveryAction extends ActionSupport {
     private int id;
-    private String deviceName,ip;
+    private String deviceName, ip, type, username, password;
     private HashMap<String, Object> result = new HashMap<>();
 
     public HashMap<String, Object> getResult() {
@@ -20,6 +21,30 @@ public class DiscoveryAction extends ActionSupport {
 
     public void setResult(HashMap<String, Object> result) {
         this.result = result;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getId() {
@@ -50,36 +75,57 @@ public class DiscoveryAction extends ActionSupport {
         Database db = new Database();
 
 //        ArrayList<HashMap<String,String>> raw = db.select(new ArrayList<String>(Arrays.asList("id","deviceName","ip")),"tbl_ping_devices","1=1");
-        ArrayList<HashMap<String,String>> raw = db.select("select * from tbl_devices",null);
+        ArrayList<HashMap<String, String>> raw = db.select("select * from tbl_devices", null);
         ArrayList<ArrayList<String>> output = new ArrayList<>();
-        raw.forEach(ele->{
+        raw.forEach(ele -> {
+            String html;
+            if (ele.get("type").equals("ping")) {
+                html = "<button class='btn btn-outline-success btn-sm' onclick=\"DISCOVERY.updateDeviceForm('" + ele.get("type") + "','" + ele.get("id") + "','" + ele.get("deviceName") + "','" + ele.get("ip") + "')\">EDIT</button><button class='btn btn-outline-danger btn-sm ms-2' onclick='DISCOVERY.deleteDeviceAction(" + ele.get("id") + ")'>DELETE</button>";
+            } else {
+                html = "<button class='btn btn-outline-success btn-sm' onclick=\"DISCOVERY.updateDeviceForm('" + ele.get("type") + "','" + ele.get("id") + "','" + ele.get("deviceName") + "','" + ele.get("ip") + "','" + ele.get("username") + "')\">EDIT</button><button class='btn btn-outline-danger btn-sm ms-2' onclick='DISCOVERY.deleteDeviceAction(" + ele.get("id") + ")'>DELETE</button>";
+            }
             output.add(new ArrayList<String>(Arrays.asList(
                     ele.get("id"),
                     ele.get("deviceName"),
                     ele.get("ip"),
-                    "<button class='btn btn-outline-success btn-sm' onclick=\"DISCOVERY.updateDeviceForm(\'ping\','"+ele.get("id")+"','"+ele.get("deviceName")+"','"+ele.get("ip")+"')\">EDIT</button><button class='btn btn-outline-danger btn-sm ms-2' onclick='DISCOVERY.deleteDeviceAction("+ele.get("id")+")'>DELETE</button>"
+                    ele.get("type"),
+                    html
             )));
         });
 
-        result.put("result",output);
+        result.put("result", output);
 
         return SUCCESS;
     }
 
-    public String delete() throws Exception{
+    public String delete() throws Exception {
         Database db = new Database();
 
-        db.DMLStatement("delete","tbl_ping_devices",id,null);
+        db.DMLStatement("delete", "delete from tbl_devices where id = ?", new ArrayList<String>(Arrays.asList(String.valueOf(id))));
 
         return SUCCESS;
     }
 
-    public String add() throws Exception{
+    public String add() throws Exception {
         Database db = new Database();
 
-        HashMap<String,String> data = new HashMap<>();
-        data.put("query","insert into tbl_ping_devices (deviceName, ip) values ('"+deviceName+"','"+ip+"')");
-        db.DMLStatement("add","tbl_ping_devices",0,data);
+        if (type.equals("ping")) {
+            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type) values (?,?,?)", new ArrayList<String>(Arrays.asList(deviceName, ip, type)));
+        } else {
+            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type,username,password) values (?,?,?,?,?)", new ArrayList<String>(Arrays.asList(deviceName, ip, type, username, password)));
+        }
+
+        return SUCCESS;
+    }
+
+    public String update() throws Exception {
+        Database db = new Database();
+
+        if (type.equals("ping")) {
+            db.DMLStatement("update", "update tbl_devices set deviceName = ?,ip = ? where id = ? ", new ArrayList<String>(Arrays.asList(deviceName, ip, String.valueOf(id))));
+        } else {
+            db.DMLStatement("update", "update tbl_devices set deviceName = ?,ip = ?,username = ?,password=? where id = ? ", new ArrayList<String>(Arrays.asList(deviceName, ip, username, password, String.valueOf(id))));
+        }
 
         return SUCCESS;
     }
