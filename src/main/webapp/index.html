@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <nav class="navbar fixed-top shadow navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Lite NMS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <a class="nav-item nav-link" id="dashboardNav" onclick="NAVIGATION.showDashboard()"
+                        aria-current="page" href="#">Dashboard</a>
+                    <a class="nav-item nav-link" id="discoveryNav" onclick="NAVIGATION.showDiscovery()"
+                        href="#">Discovery</a>
+                    <a class="nav-item nav-link" id="moniterNav" onclick="NAVIGATION.showMoniter()" href="#">Moniter</a>
+                </ul>
+                <div class="">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="User"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person fs-4 me-1"></i>
+                            Account
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="User">
+                            <li><span class="dropdown-item" href="#">Meet Patel</span></li>
+                            <li class="dropdown-item"><button class="btn btn-outline-danger" href="#">Logout</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="body">
+
+    </div>
+    <div id="alert">
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+    <script src="./script/navigation.js"></script>
+    <script src="./script/dashboard.js"></script>
+    <script src="./script/discovery.js"></script>
+    <script src="./script/moniter.js"></script>
+    <script src="./script/components.js"></script>
+    <script src="./script/socket/socket.js"></script>
+
+    <script>
+        NAVIGATION.loadPage()
+    </script>
+
+</body>
+
+</html>

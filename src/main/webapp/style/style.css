@@ -1,0 +1,19 @@
+body{
+    background-color: rgb(221, 221, 221) !important;
+}
+
+.active{
+    border: 1px solid #0074d9;
+    color: #0074d9 !important;
+    border-radius: 5px;
+}
+
+#body{
+    position: relative;
+    margin-top: 65px;
+}
+
+#moniterContent{
+    max-height: 70vh; 
+    overflow: auto;
+}
