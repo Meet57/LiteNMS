@@ -1,18 +1,18 @@
 package model;
 
-public class PingDevice {
+public class DeviceModel {
     private int id;
     private String name,ip;
 
-    public PingDevice() {
+    public DeviceModel() {
     }
 
-    public PingDevice(String name, String ip) {
+    public DeviceModel(String name, String ip) {
         this.name = name;
         this.ip = ip;
     }
 
-    public PingDevice(int id, String name, String ip) {
+    public DeviceModel(int id, String name, String ip) {
         this.id = id;
         this.name = name;
         this.ip = ip;

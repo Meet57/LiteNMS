@@ -67,40 +67,6 @@ public class Database {
             result.add(temp);
         }
 
-//        StringBuilder column = new StringBuilder();
-//
-//        for(String c : columns) {
-//            column.append(c).append(",");
-//        }
-//
-//        column.deleteCharAt(column.length()-1);
-//
-//        StringBuilder query = new StringBuilder("select ? from ? where ?");
-//        query.replace(query.indexOf("?"),query.indexOf("?")+1,column.toString());
-//        query.replace(query.indexOf("?"),query.indexOf("?")+1,tableName);
-//        query.replace(query.indexOf("?"),query.indexOf("?")+1,condition);
-//
-//        Statement stmt = con.createStatement();
-//        ResultSet rs = stmt.executeQuery(query.toString());
-//
-//        HashMap<String,String> temp = null;
-//
-//        ResultSetMetaData rsMetaData = rs.getMetaData();
-//        System.out.println("List of column names in the current table: ");
-//        //Retrieving the list of column names
-//        int count = rsMetaData.getColumnCount();
-//        for(int i = 1; i<=count; i++) {
-//            System.out.println(rsMetaData.getColumnName(i));
-//        }
-//
-//        while(rs.next()){
-//            temp = new HashMap<>();
-//            for (int i = 0; i < columns.size(); i++) {
-//                temp.put(columns.get(i),rs.getString(i+1));
-//            }
-//            result.add(temp);
-//        }
-
         return result;
     }
 }

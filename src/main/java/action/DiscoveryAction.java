@@ -5,7 +5,6 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
@@ -80,9 +79,9 @@ public class DiscoveryAction extends ActionSupport {
         raw.forEach(ele -> {
             String html;
             if (ele.get("type").equals("ping")) {
-                html = "<button class='btn btn-outline-success btn-sm' onclick=\"DISCOVERY.updateDeviceForm('" + ele.get("type") + "','" + ele.get("id") + "','" + ele.get("deviceName") + "','" + ele.get("ip") + "')\">EDIT</button><button class='btn btn-outline-danger btn-sm ms-2' onclick='DISCOVERY.deleteDeviceAction(" + ele.get("id") + ")'>DELETE</button>";
+                html = "<button class='btn btn-outline-success btn-sm' onclick=\"DISCOVERY.updateDeviceForm('" + ele.get("type") + "','" + ele.get("id") + "','" + ele.get("deviceName") + "','" + ele.get("ip") + "')\">EDIT</button><button class='btn btn-outline-danger btn-sm ms-2' onclick='DISCOVERY.deleteDeviceAction(" + ele.get("id") + ")'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2' onclick='PROVISION.getDiscovery(" + ele.get("id") + ")'>RUN</button>";
             } else {
-                html = "<button class='btn btn-outline-success btn-sm' onclick=\"DISCOVERY.updateDeviceForm('" + ele.get("type") + "','" + ele.get("id") + "','" + ele.get("deviceName") + "','" + ele.get("ip") + "','" + ele.get("username") + "')\">EDIT</button><button class='btn btn-outline-danger btn-sm ms-2' onclick='DISCOVERY.deleteDeviceAction(" + ele.get("id") + ")'>DELETE</button>";
+                html = "<button class='btn btn-outline-success btn-sm' onclick=\"DISCOVERY.updateDeviceForm('" + ele.get("type") + "','" + ele.get("id") + "','" + ele.get("deviceName") + "','" + ele.get("ip") + "','" + ele.get("username") + "')\">EDIT</button><button class='btn btn-outline-danger btn-sm ms-2' onclick='DISCOVERY.deleteDeviceAction(" + ele.get("id") + ")'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2' onclick='PROVISION.getDiscovery(" + ele.get("id") + ")'>RUN</button>";
             }
             output.add(new ArrayList<String>(Arrays.asList(
                     ele.get("id"),

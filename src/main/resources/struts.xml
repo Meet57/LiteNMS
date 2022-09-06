@@ -25,6 +25,11 @@
             <result name="success" type="json" />
         </action>
 
+<!--        Provision-->
+        <action name="checkProvision" class="action.PollingActions" method="discovery">
+            <result name="success" type="json" />
+        </action>
+
 
     </package>
 </struts>

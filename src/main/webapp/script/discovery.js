@@ -14,7 +14,7 @@ var DISCOVERY = {
                 </div>
                 <div class="row">
                     <div class="col-9 mx-auto bg-light shadow mt-2 p-3 rounded">
-                        <table id="discoveryTable" class="table table-hover table-bordered display" width="100%"></table>
+                        <table id="discoveryTable" class="table table-hover table-bordered display"></table>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,7 @@ var DISCOVERY = {
     loadDiscoveryTable: function (isUpdate = false) {
         $.get(
             "getDiscoveryDevices",
-            function (data, status) {
+            function (data) {
                 var dataSet = data.result.result
                 if (isUpdate) {
                     $('#discoveryTable').DataTable().destroy();
@@ -106,7 +106,7 @@ var DISCOVERY = {
         })
     },
     addDeviceForm: function () {
-        var html = `
+        return `
             <form>
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                     <input type="radio" class="btn-check" name="deviceType" value="ping" id="btnradio1" autocomplete="off" checked>
@@ -129,12 +129,12 @@ var DISCOVERY = {
                 </div>
             </form>
         `
-        return html
     },
     updateDeviceForm(type, id, deviceName, ip, username) {
         COMPONENTS.modal("Update Device", "Update", "DISCOVERY.addDeviceAction")
+        let html;
         if (type === "ping") {
-            var html = `
+            html = `
             <form>
                 <div id="deviceCredForm">
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -163,7 +163,7 @@ var DISCOVERY = {
             `
             $("#modalBody").html(html)
         } else {
-            var html = `
+            html = `
             <form>
                 <div id="deviceCredForm">
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -211,31 +211,33 @@ var DISCOVERY = {
         $('#modal').modal('toggle');
     },
     addDeviceAction: function () {
-        var doSubmit = true
+        let doSubmit = true;
         $("input").removeClass("is-invalid");
 
-        var ipAddress = $("#ip");
-        var expression = /((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))/;
-        if (!expression.test(ipAddress.val())) {
+        let ipAddress = $("#ip");
+        const ipRegex = /((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))/;
+        const htmlRegex = /<(“[^”]*”|'[^’]*’|[^'”>])*>/;
+
+        if (!ipRegex.test(ipAddress.val())) {
             ipAddress.addClass("is-invalid")
             doSubmit = false
         }
 
         if ($('input[name="deviceType"]:checked').val() === "ping") {
-            if ($("#name").val().length == 0) {
+            if ($("#name").val().trim().length === 0) {
                 $("#name").addClass("is-invalid")
                 doSubmit = false
             }
         } else {
-            if ($("#name").val().length == 0) {
+            if ($("#name").val().trim().length === 0) {
                 $("#name").addClass("is-invalid")
                 doSubmit = false
             }
-            if ($("#username").val().length == 0) {
+            if ($("#username").val().trim().length === 0) {
                 $("#username").addClass("is-invalid")
                 doSubmit = false
             }
-            if ($("#password").val().length == 0) {
+            if ($("#password").val().trim().length === 0) {
                 $("#password").addClass("is-invalid")
                 doSubmit = false
             }
@@ -246,8 +248,8 @@ var DISCOVERY = {
                 if ($('input[name="deviceType"]:checked').val() === "ping") {
                     $.post(
                         "addDiscoveryDevice",
-                        {deviceName: $("#name").val(), ip: $("#ip").val(), type: "ping"},
-                        function (data, status) {
+                        {deviceName: $("#name").val().trim(), ip: $("#ip").val().trim(), type: "ping"},
+                        function () {
                             $('#modal').modal('toggle');
                             COMPONENTS.alert("Device Added", "Device has been Added", "success")
                             DISCOVERY.loadDiscoveryTable(true);
@@ -257,13 +259,13 @@ var DISCOVERY = {
                     $.post(
                         "addDiscoveryDevice",
                         {
-                            deviceName: $("#name").val(),
-                            ip: $("#ip").val(),
+                            deviceName: $("#name").val().trim(),
+                            ip: $("#ip").val().trim(),
                             type: "ssh",
-                            username: $("#username").val(),
-                            password: $("#password").val()
+                            username: $("#username").val().trim(),
+                            password: $("#password").val().trim()
                         },
-                        function (data, status) {
+                        function () {
                             $('#modal').modal('toggle');
                             COMPONENTS.alert("Device Added", "Device has been Added", "success")
                             DISCOVERY.loadDiscoveryTable(true);
@@ -276,12 +278,12 @@ var DISCOVERY = {
                     $.post(
                         "updateDiscoveryDevice",
                         {
-                            id: $("#id").val(),
+                            id: $("#id").val().trim(),
                             type: "ping",
-                            deviceName: $("#name").val(),
-                            ip: $("#ip").val()
+                            deviceName: $("#name").val().trim(),
+                            ip: $("#ip").val().trim()
                         },
-                        function (data, status) {
+                        function () {
                             $('#modal').modal('toggle');
                             COMPONENTS.alert("Device Updated", "Device has been Updated", "success")
                             DISCOVERY.loadDiscoveryTable(true);
@@ -291,14 +293,14 @@ var DISCOVERY = {
                     $.post(
                         "updateDiscoveryDevice",
                         {
-                            id: $("#id").val(),
+                            id: $("#id").val().trim(),
                             type: "ssh",
-                            deviceName: $("#name").val(),
-                            ip: $("#ip").val(),
-                            username: $("#username").val(),
-                            password: $("#password").val()
+                            deviceName: $("#name").val().trim(),
+                            ip: $("#ip").val().trim(),
+                            username: $("#username").val().trim(),
+                            password: $("#password").val().trim()
                         },
-                        function (data, status) {
+                        function () {
                             $('#modal').modal('toggle');
                             COMPONENTS.alert("Device Updated", "Device has been Updated", "success")
                             DISCOVERY.loadDiscoveryTable(true);
@@ -308,13 +310,29 @@ var DISCOVERY = {
             }
         }
     },
-    deleteDeviceAction: function (id, name) {
+    deleteDeviceAction: function (id) {
         $.post(
             "deleteDiscoveryDevice",
             {id},
-            function (data, status) {
+            function () {
                 COMPONENTS.alert("Device Delete", "Device has been deleted", "danger")
                 DISCOVERY.loadDiscoveryTable(true);
+            }
+        )
+    }
+}
+
+var PROVISION = {
+    getDiscovery: function (id) {
+        $.post(
+            "checkProvision",
+            {id},
+            function (data) {
+                COMPONENTS.alert(
+                    "Discovery Result",
+                    data.result.status,
+                    data.result.code === 1 ? "success" : "danger"
+                );
             }
         )
     }

@@ -41,25 +41,6 @@ var COMPONENTS = {
         $("#modalHeading").html(header)
         $("#modalSubmitButton").html(buttonName)
         $("#modalSubmitButton").attr("onclick",buttonFunction+"()");
-        // var modal = `
-        // <!-- Modal -->
-        // <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        //   <div class="modal-dialog modal-dialog-scrollable">
-        //     <div class="modal-content">
-        //       <div class="modal-header">
-        //         <h5 class="modal-title" id="modalHeading"></h5>
-        //       </div>
-        //       <div class="modal-body" id="modalBody">
-        //         ...
-        //       </div>
-        //       <div class="modal-footer" id="modalFooter">
-        //         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        //         <button type="button" class="btn btn-primary" id="modalSubmitButton" ></button>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </div>
-        // `
     },
     alert: function (title, body, type="primary") {
         var html = `
