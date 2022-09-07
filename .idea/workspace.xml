@@ -12,18 +12,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="5th crud done">
-      <change afterPath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/helper/Ping.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/helper/Polling.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="Before turning it to modelDriven">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/script/htmlSnippets.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DAO/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DAO/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/Polling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/Polling.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/struts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/struts.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/components.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/moniter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/moniter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/navigation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/style/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,20 +55,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "run.code.analysis.last.selected.profile": "pProject Default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Jetty 9.4.48.v20220622" type="JettyConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="Jetty 9.4.48.v20220622" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER" value="false" />
@@ -878,6 +882,8 @@
       <updated>1662113062931</updated>
       <workItem from="1662113064357" duration="9164000" />
       <workItem from="1662353703127" duration="26223000" />
+      <workItem from="1662439059544" duration="22347000" />
+      <workItem from="1662525050319" duration="6000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>
@@ -893,7 +899,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662378632366</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Before turning it to modelDriven">
+      <created>1662439197658</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1662439197658</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -902,6 +915,28 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="4b85c117-6200-4db8-af9d-ee61939885b0">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State />
@@ -914,6 +949,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="5th 1" />
     <MESSAGE value="5th crud done" />
-    <option name="LAST_COMMIT_MESSAGE" value="5th crud done" />
+    <MESSAGE value="Before turning it to modelDriven" />
+    <option name="LAST_COMMIT_MESSAGE" value="Before turning it to modelDriven" />
   </component>
 </project>

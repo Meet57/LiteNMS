@@ -2,89 +2,45 @@ package action;
 
 import DAO.Database;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+import model.DeviceModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
-import static com.opensymphony.xwork2.Action.SUCCESS;
+public class DiscoveryAction extends ActionSupport implements ModelDriven<DeviceModel> {
 
-public class DiscoveryAction extends ActionSupport {
-    private int id;
-    private String deviceName, ip, type, username, password;
-    private HashMap<String, Object> result = new HashMap<>();
+    DeviceModel result = new DeviceModel();
 
-    public HashMap<String, Object> getResult() {
-        return result;
+    public String monitor() throws  Exception{
+        Database db = new Database();
+
+        ArrayList<HashMap<String, String>> raw = db.select("select * from tbl_devices where id = ?", new ArrayList<String>(Collections.singletonList(String.valueOf(result.getId()))));
+
+        HashMap<String, Object> rs = result.getResult();
+        rs.put("data",raw.get(0));
+
+        return SUCCESS;
+
     }
-
-    public void setResult(HashMap<String, Object> result) {
-        this.result = result;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDeviceName() {
-        return deviceName;
-    }
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
     public String get() throws Exception {
         Database db = new Database();
 
-//        ArrayList<HashMap<String,String>> raw = db.select(new ArrayList<String>(Arrays.asList("id","deviceName","ip")),"tbl_ping_devices","1=1");
         ArrayList<HashMap<String, String>> raw = db.select("select * from tbl_devices", null);
         ArrayList<ArrayList<String>> output = new ArrayList<>();
         raw.forEach(ele -> {
             String html;
             if (ele.get("type").equals("ping")) {
-                html = "<button class='btn btn-outline-success btn-sm' onclick=\"DISCOVERY.updateDeviceForm('" + ele.get("type") + "','" + ele.get("id") + "','" + ele.get("deviceName") + "','" + ele.get("ip") + "')\">EDIT</button><button class='btn btn-outline-danger btn-sm ms-2' onclick='DISCOVERY.deleteDeviceAction(" + ele.get("id") + ")'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2' onclick='PROVISION.getDiscovery(" + ele.get("id") + ")'>RUN</button>";
+                html = "<button class='btn btn-outline-success btn-sm editButton' data-id='"+ele.get("id")+"'>EDIT</button><button class='btn btn-outline-danger btn-sm ms-2 deleteButton' data-id='"+ele.get("id")+"'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2 runButton' data-id='"+ele.get("id")+"'>RUN</button>";
             } else {
-                html = "<button class='btn btn-outline-success btn-sm' onclick=\"DISCOVERY.updateDeviceForm('" + ele.get("type") + "','" + ele.get("id") + "','" + ele.get("deviceName") + "','" + ele.get("ip") + "','" + ele.get("username") + "')\">EDIT</button><button class='btn btn-outline-danger btn-sm ms-2' onclick='DISCOVERY.deleteDeviceAction(" + ele.get("id") + ")'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2' onclick='PROVISION.getDiscovery(" + ele.get("id") + ")'>RUN</button>";
+                html = "<button class='btn btn-outline-success btn-sm editButton' data-id='"+ele.get("id")+"'>EDIT</button><button class='btn btn-outline-danger btn-sm ms-2 deleteButton' data-id='"+ele.get("id")+"'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2 runButton' data-id='"+ele.get("id")+"'>RUN</button>";
+            }
+            if(ele.get("provision").equals("1")){
+                html += "<button class='btn btn-outline-success btn-sm ms-2 provisionButton' data-id='"+ele.get("id")+"'>PROVISION</button>";
             }
             output.add(new ArrayList<String>(Arrays.asList(
-                    ele.get("id"),
                     ele.get("deviceName"),
                     ele.get("ip"),
                     ele.get("type"),
@@ -92,7 +48,7 @@ public class DiscoveryAction extends ActionSupport {
             )));
         });
 
-        result.put("result", output);
+        result.putInResult("list", output);
 
         return SUCCESS;
     }
@@ -100,7 +56,7 @@ public class DiscoveryAction extends ActionSupport {
     public String delete() throws Exception {
         Database db = new Database();
 
-        db.DMLStatement("delete", "delete from tbl_devices where id = ?", new ArrayList<String>(Arrays.asList(String.valueOf(id))));
+        db.DMLStatement("delete", "delete from tbl_devices where id = ?", new ArrayList<String>(Collections.singletonList(String.valueOf(result.getId()))));
 
         return SUCCESS;
     }
@@ -108,11 +64,22 @@ public class DiscoveryAction extends ActionSupport {
     public String add() throws Exception {
         Database db = new Database();
 
-        if (type.equals("ping")) {
-            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type) values (?,?,?)", new ArrayList<String>(Arrays.asList(deviceName, ip, type)));
-        } else {
-            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type,username,password) values (?,?,?,?,?)", new ArrayList<String>(Arrays.asList(deviceName, ip, type, username, password)));
+        ArrayList<HashMap<String, String>> temp = db.select("select * from tbl_devices where type=? and ip=? and id != ?",new ArrayList<String>(Arrays.asList(result.getType(),result.getIp(),String.valueOf(result.getId()))));
+
+        HashMap<String, Object> rs = result.getResult();
+        if(temp.size() != 0){
+            rs.put("status","Already exists");
+            rs.put("code",0);
+            return SUCCESS;
         }
+
+        if (result.getType().equals("ping")) {
+            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type) values (?,?,?)", new ArrayList<String>(Arrays.asList(result.getDeviceName(), result.getIp(), result.getType())));
+        } else {
+            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type,username,password) values (?,?,?,?,?)", new ArrayList<String>(Arrays.asList(result.getDeviceName(), result.getIp(), result.getType(), result.getUsername(), result.getPassword())));
+        }
+        rs.put("status",result.getDeviceName()+": device added successfully");
+        rs.put("code",1);
 
         return SUCCESS;
     }
@@ -120,12 +87,21 @@ public class DiscoveryAction extends ActionSupport {
     public String update() throws Exception {
         Database db = new Database();
 
-        if (type.equals("ping")) {
-            db.DMLStatement("update", "update tbl_devices set deviceName = ?,ip = ? where id = ? ", new ArrayList<String>(Arrays.asList(deviceName, ip, String.valueOf(id))));
+        if (result.getType().equals("ping")) {
+            db.DMLStatement("update", "update tbl_devices set provision = false,deviceName = ?,ip = ? where id = ? ", new ArrayList<String>(Arrays.asList(result.getDeviceName(), result.getIp(), String.valueOf(result.getId()))));
         } else {
-            db.DMLStatement("update", "update tbl_devices set deviceName = ?,ip = ?,username = ?,password=? where id = ? ", new ArrayList<String>(Arrays.asList(deviceName, ip, username, password, String.valueOf(id))));
+            db.DMLStatement("update", "update tbl_devices set provision = false,deviceName = ?,ip = ?,username = ?,password=? where id = ? ", new ArrayList<String>(Arrays.asList(result.getDeviceName(), result.getIp(), result.getUsername(), result.getPassword(), String.valueOf(result.getId()))));
         }
 
+        HashMap<String, Object> rs = result.getResult();
+        rs.put("status",result.getDeviceName()+": device updated successfully");
+        rs.put("code",1);
+
         return SUCCESS;
+    }
+
+    @Override
+    public DeviceModel getModel() {
+        return result;
     }
 }

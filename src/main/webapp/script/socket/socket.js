@@ -1,6 +1,4 @@
-const websocket = new WebSocket("ws://localhost:8080/endpoint");
-const messageTextArea = document.getElementById("showMessages");
-const textMessage = document.getElementById("textMessage");
+var websocket = new WebSocket("ws://localhost:8080/endpoint");
 websocket.onopen = function (message) {processOnOpen(message);};
 websocket.onmessage = function (message) {processOnMessage(message)}
 websocket.onclose = function (message) {processOnClose(message);};

@@ -15,13 +15,13 @@ var NAVIGATION = {
         }
         localStorage.setItem("navigation","showDiscovery")
     },
-    showMoniter: function(loadContent = true){
+    showMonitor: function(loadContent = true){
         $('#navbarSupportedContent ul a').filter(".active").removeClass("active")
-        $('#moniterNav').addClass("active")
+        $('#monitorNav').addClass("active")
         if(loadContent){
-            MONITER.loadMoniter()
+            MONITER.loadMonitor()
         }
-        localStorage.setItem("navigation","showMoniter")
+        localStorage.setItem("navigation","showMonitor")
     },
     loadPage: function(){
         var tab = localStorage.getItem("navigation")

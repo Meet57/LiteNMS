@@ -13,7 +13,7 @@ body{
     margin-top: 65px;
 }
 
-#moniterContent{
+#monitorContent{
     max-height: 70vh; 
     overflow: auto;
 }

@@ -27,7 +27,15 @@ public class Polling {
         String output = sshConnection(username, password, host, port, commands);
 
         HashMap<String,String> metrics = new LinkedHashMap<>();
+
+        if(output.split(" ")[0].equals("ERROR")){
+            metrics.put("code","0");
+            metrics.put("status",output);
+            return metrics;
+        }
+
         String[] arr = output.split("\n");
+        metrics.put("code","1");
         metrics.put("IP",host);
         metrics.put("Mem",arr[0].split(" ")[0]);
         metrics.put("UMem",arr[0].split(" ")[1]);
@@ -61,7 +69,7 @@ public class Polling {
                 output.append(responseString);
             }
         } catch (JSchException | InterruptedException e) {
-            return "Connection Failed";
+            return "ERROR " + e.getMessage();
         } finally {
             if (session != null) {
                 session.disconnect();

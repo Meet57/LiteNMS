@@ -3,16 +3,19 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-    <constant name="struts.devMode" value="true" />
+<!--    <constant name="struts.devMode" value="true" />-->
+    <constant name="struts.action.excludePattern" value="/websocket*,^ws://.$"/>
 
     <package name="action" extends="json-default" namespace="/">
 
         <action name="">
             <result>/index.html</result>
         </action>
-
 <!--        Discovery Actions-->
         <action name="getDiscoveryDevices" class="action.DiscoveryAction" method="get">
+            <result name="success" type="json" />
+        </action>
+        <action name="getSingleDiscoveryDevice" class="action.DiscoveryAction" method="monitor">
             <result name="success" type="json" />
         </action>
         <action name="deleteDiscoveryDevice" class="action.DiscoveryAction" method="delete">
@@ -29,7 +32,9 @@
         <action name="checkProvision" class="action.PollingActions" method="discovery">
             <result name="success" type="json" />
         </action>
-
+        <action name="putProvision" class="action.PollingActions" method="put">
+            <result name="success" type="json" />
+        </action>
 
     </package>
 </struts>
