@@ -13,20 +13,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="Before turning it to modelDriven">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/script/htmlSnippets.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helper/Polling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/Polling.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/struts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/struts.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/moniter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/moniter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/moniter.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/navigation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/style/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -884,6 +879,8 @@
       <workItem from="1662353703127" duration="26223000" />
       <workItem from="1662439059544" duration="22347000" />
       <workItem from="1662525050319" duration="6000" />
+      <workItem from="1662530555903" duration="106000" />
+      <workItem from="1662530704802" duration="4039000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>

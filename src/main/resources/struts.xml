@@ -36,5 +36,10 @@
             <result name="success" type="json" />
         </action>
 
+<!--        Monitor-->
+        <action name="getMonitorDevices" class="action.MonitorAction" method="get">
+            <result name="success" type="json" />
+        </action>
+
     </package>
 </struts>

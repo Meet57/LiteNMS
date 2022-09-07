@@ -19,7 +19,7 @@ var NAVIGATION = {
         $('#navbarSupportedContent ul a').filter(".active").removeClass("active")
         $('#monitorNav').addClass("active")
         if(loadContent){
-            MONITER.loadMonitor()
+            MONITOR.loadMonitor()
         }
         localStorage.setItem("navigation","showMonitor")
     },
