@@ -20,3 +20,11 @@ insert into tbl_devices (id, deviceName, type, ip, username, password, provision
 insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (8, 'Domainer', 'ping', '178.20.206.237', 'Twitterwire', '6r9Y3aC', 0);
 insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (9, 'Regrant', 'ping', '152.111.248.255', 'Rhycero', 'P8QFuy', 0);
 insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (10, 'Daltfresh', 'ping', '14.208.221.122', 'Voonyx', 'YkOZ6qLRf9', 0);
+
+create table users (id INT AUTO_INCREMENT PRIMARY KEY,username VARCHAR(50),password VARCHAR(50));
+
+insert into users (id, username, password) values (1, 'shekhar', 'admin');
+insert into users (id, username, password) values (2, 'pavan', 'admin');
+insert into users (id, username, password) values (3, 'rahil', 'admin');
+insert into users (id, username, password) values (4, 'meet', 'admin');
+insert into users (id, username, password) values (5, 'smit', 'admin');

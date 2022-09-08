@@ -13,16 +13,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="7th sept - form validation with jquery">
-      <change afterPath="$PROJECT_DIR$/tables.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/DAO/ConnectionPool.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/action/AuthenticationAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/helper/MyInterceptor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/UserModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/script/authentication.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DAO/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DAO/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/struts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/struts.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/htmlSnippets.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tables.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -883,6 +889,7 @@
       <workItem from="1662530555903" duration="106000" />
       <workItem from="1662530704802" duration="12953000" />
       <workItem from="1662551709636" duration="6414000" />
+      <workItem from="1662612286897" duration="20939000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>
@@ -912,7 +919,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662538697897</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="7th sept - form validation with jquery">
+      <created>1662612658806</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1662612658806</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -960,5 +974,16 @@
     <MESSAGE value="code refactoring" />
     <MESSAGE value="7th sept - form validation with jquery" />
     <option name="LAST_COMMIT_MESSAGE" value="7th sept - form validation with jquery" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/helper/MyInterceptor.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -3,7 +3,7 @@ package websocket;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/endpoint")
+@ServerEndpoint("/websocket/endpoint")
 public class WebSocketServerClass {
     @OnOpen
     public void handleOpen(Session session) {
@@ -28,6 +28,10 @@ public class WebSocketServerClass {
     @OnError
     public void handleError(Throwable throwable) {
         throwable.printStackTrace();
+    }
+
+    public static void sendMessgae(String s){
+
     }
 }
 

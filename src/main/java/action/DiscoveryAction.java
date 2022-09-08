@@ -17,7 +17,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Device
     public String monitor() throws  Exception{
         Database db = new Database();
 
-        ArrayList<HashMap<String, String>> raw = db.select("select * from tbl_devices where id = ?", new ArrayList<String>(Collections.singletonList(String.valueOf(result.getId()))));
+        ArrayList<HashMap<String, String>> raw = db.select("select id,deviceName,username,ip,type from tbl_devices where id = ?", new ArrayList<String>(Collections.singletonList(String.valueOf(result.getId()))));
 
         HashMap<String, Object> rs = result.getResult();
         rs.put("data",raw.get(0));

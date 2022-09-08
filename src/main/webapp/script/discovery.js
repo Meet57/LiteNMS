@@ -8,21 +8,11 @@ var DISCOVERY = {
 
         DISCOVERY.loadDiscoveryTable()
 
-        $("#discoveryTable").on("click", ".deleteButton", function () {
+        $("#discoveryTable").on("click", ".deleteButton", DISCOVERY.deleteDeviceAction);
 
-            DISCOVERY.deleteDeviceAction($(this).data("id"))
-
-        });
-
-        $("#discoveryTable").on("click", ".editButton", function () {
-
-            DISCOVERY.getDeviceData($(this).data("id"))
-
-        });
+        $("#discoveryTable").on("click", ".editButton", DISCOVERY.getDeviceData);
 
         $("#discoveryTable").on("click", ".runButton", PROVISION.getDiscovery);
-
-        $("#discoveryTable").on("click", ".provisionButton", PROVISION.monitorDevice);
 
         $("#discoveryTable").on("click", ".provisionButton", PROVISION.monitorDevice);
     },
@@ -67,7 +57,7 @@ var DISCOVERY = {
 
         COMPONENTS.modal("Add device", "Add", "DISCOVERY.addDeviceAction")
 
-        $("#modalBody").html(`<form id="discoveryForm"><div class="btn-group" role="group" aria-label="Basic radio toggle button group"><input type="radio" class="btn-check" name="deviceType" value="ping" id="btnradio1" autocomplete="off" checked="checked"><label class="btn btn-outline-primary" for="btnradio1">Ping</label><input type="radio" class="btn-check" name="deviceType" value="SSH" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2">SSH</label></div><div id="deviceCredForm"></div></form>`);
+        $("#modalBody").html(`<form id="discoveryForm"><div class="btn-group" role="group" aria-label="Basic radio toggle button group"><input type="radio" class="btn-check" name="type" value="ping" id="btnradio1" autocomplete="off" checked="checked"><label class="btn btn-outline-primary" for="btnradio1">Ping</label><input type="radio" class="btn-check" name="type" value="SSH" id="btnradio2" autocomplete="off"><label class="btn btn-outline-primary" for="btnradio2">SSH</label></div><div id="deviceCredForm"></div></form>`);
 
         $('input[type="radio"]').click(function () {
             if ($(this).attr("value") === "ping") {
@@ -89,14 +79,14 @@ var DISCOVERY = {
         let doSubmit = true;
 
         $.validator.addMethod('IP4Checker', function(value) {
-            return value.match(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/);
+            var expression = /((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))/;
+            return value.match(expression);
         }, 'Invalid IP address');
 
         $('#discoveryForm').validate({
             rules: {
                 'deviceName': {
                     required:true,
-                    minlength: 4,
                     maxlength: 20
                 },
                 'ip': {
@@ -105,12 +95,10 @@ var DISCOVERY = {
                 },
                 'username': {
                     required:true,
-                    minlength: 4,
                     maxlength: 20
                 },
                 'password': {
                     required:true,
-                    minlength: 8,
                     maxlength: 20
                 },
             },
@@ -125,18 +113,18 @@ var DISCOVERY = {
             },
         });
 
-        $('#discoveryForm').valid()
+        if(!$('#discoveryForm').valid()) return
 
         if (doSubmit) {
 
             if ($("#id").val() === undefined) {
 
-                if ($('input[name="deviceType"]:checked').val() === "ping") {
+                if ($('input[name="type"]:checked').val() === "ping") {
 
                     $.post(
                         "addDiscoveryDevice",
 
-                        {deviceName: $("#deviceName").val().trim(), ip: $("#ip").val().trim(), type: "ping"},
+                        $('#discoveryForm').serialize(),
 
                         function (data) {
 
@@ -154,19 +142,7 @@ var DISCOVERY = {
                     $.post(
                         "addDiscoveryDevice",
 
-                        {
-
-                            deviceName: $("#deviceName").val().trim(),
-
-                            ip: $("#ip").val().trim(),
-
-                            type: "ssh",
-
-                            username: $("#username").val().trim(),
-
-                            password: $("#password").val().trim()
-
-                        },
+                        $('#discoveryForm').serialize(),
 
                         function (data) {
 
@@ -183,22 +159,12 @@ var DISCOVERY = {
 
             } else {
 
-                if ($('input[name="deviceType"]:checked').val() === "ping") {
+                if ($('input[name="type"]:checked').val() === "ping") {
 
                     $.post(
                         "updateDiscoveryDevice",
 
-                        {
-
-                            id: $("#id").val().trim(),
-
-                            type: "ping",
-
-                            deviceName: $("#deviceName").val().trim(),
-
-                            ip: $("#ip").val().trim()
-
-                        },
+                        $('#discoveryForm').serialize(),
 
                         function (data) {
 
@@ -216,21 +182,7 @@ var DISCOVERY = {
                     $.post(
                         "updateDiscoveryDevice",
 
-                        {
-
-                            id: $("#id").val().trim(),
-
-                            type: "ssh",
-
-                            deviceName: $("#deviceName").val().trim(),
-
-                            ip: $("#ip").val().trim(),
-
-                            username: $("#username").val().trim(),
-
-                            password: $("#password").val().trim()
-
-                        },
+                        $('#discoveryForm').serialize(),
 
                         function (data) {
 
@@ -251,12 +203,12 @@ var DISCOVERY = {
 
     },
 
-    deleteDeviceAction: function (id) {
+    deleteDeviceAction: function () {
 
         $.post(
             "deleteDiscoveryDevice",
 
-            {id},
+            {id:$(this).data("id")},
 
             function () {
 
@@ -274,7 +226,7 @@ var DISCOVERY = {
         $.post(
             "getSingleDiscoveryDevice",
 
-            {id},
+            {id: $(this).data("id")},
 
             function (data) {
 
@@ -283,9 +235,9 @@ var DISCOVERY = {
                 COMPONENTS.modal("Update device", "Update", "DISCOVERY.addDeviceAction")
 
                 if (data.type === "ping") {
-                    $("#modalBody").html(`<form id="discoveryForm"><div id="deviceCredForm"><input type="hidden" autocomplete="off" value="${data.id}" class="form-control" id="id" name="id" placeholder="id" ><div class="btn-group" role="group" aria-label="Basic radio toggle button group"><input type="radio" class="btn-check" name="deviceType" value="ping" id="btnradio1" autocomplete="off" checked="checked"><label class="btn btn-outline-primary" for="btnradio1">Ping</label><input type="radio" class="btn-check" name="deviceType" value="SSH" id="btnradio2" autocomplete="off" disabled="disabled"><label class="btn btn-outline-primary" for="btnradio2">SSH</label></div><div class="form-floating mt-1"><input type="text" autocomplete="off" value="${data.deviceName}" class="form-control" id="deviceName" name="deviceName" placeholder="Device Name" ><label for="floatingInput">Device Name</label><div class="invalid-feedback">Invalid Device Name</div></div><div class="form-floating mt-1"><input type="text" autocomplete="off" value="${data.ip}" class="form-control" id="ip" name="ip" placeholder="IP" ><label for="floatingInput">IP</label><div class="invalid-feedback">Invalid IP</div></div></div></form>`)
+                    $("#modalBody").html(`<form id="discoveryForm"><div id="deviceCredForm"><input type="hidden" autocomplete="off" value="${data.id}" class="form-control" id="id" name="id" placeholder="id" ><div class="btn-group" role="group" aria-label="Basic radio toggle button group"><input type="radio" class="btn-check" name="type" value="ping" id="btnradio1" autocomplete="off" checked="checked"><label class="btn btn-outline-primary" for="btnradio1">Ping</label><input type="radio" class="btn-check" name="type" value="SSH" id="btnradio2" autocomplete="off" disabled="disabled"><label class="btn btn-outline-primary" for="btnradio2">SSH</label></div><div class="form-floating mt-1"><input type="text" autocomplete="off" value="${data.deviceName}" class="form-control" id="deviceName" name="deviceName" placeholder="Device Name" ><label for="floatingInput">Device Name</label><div class="invalid-feedback">Invalid Device Name</div></div><div class="form-floating mt-1"><input type="text" autocomplete="off" value="${data.ip}" class="form-control" id="ip" name="ip" placeholder="IP" ><label for="floatingInput">IP</label><div class="invalid-feedback">Invalid IP</div></div></div></form>`)
                 } else {
-                    $("#modalBody").html(`<form id="discoveryForm"><div id="deviceCredForm"><input type="hidden" autocomplete="off" value="${data.id}" class="form-control" id="id" name="id" placeholder="id" ><div class="btn-group" role="group" aria-label="Basic radio toggle button group"><input type="radio" class="btn-check" name="deviceType" value="ping" id="btnradio1" autocomplete="off" disabled="disabled"><label class="btn btn-outline-primary" for="btnradio1">Ping</label><input type="radio" class="btn-check" name="deviceType" value="SSH" id="btnradio2" autocomplete="off" checked="checked"><label class="btn btn-outline-primary" for="btnradio2">SSH</label></div><div class="form-floating mt-1"><input type="text" autocomplete="off" value="${data.deviceName}" class="form-control" id="deviceName" name="deviceName" placeholder="Device Name" ><label for="floatingInput">Device Name</label><div class="invalid-feedback">Invalid Device Name</div></div><div class="d-flex justify-content-between"><div class="form-floating mt-1 col-5"><input type="text" autocomplete="off" value="${data.username}" class="form-control" id="username" name="username" placeholder="Username" autocomplete="off"><label for="floatingInput">Username</label><div class="invalid-feedback">Invalid Username</div></div><div class="form-floating mt-1 col-7 ms-1"><input type="password" autocomplete="off" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off"><label for="floatingInput">Password</label><div class="invalid-feedback">Invalid Password</div></div></div><div class="form-floating mt-1"><input type="text" autocomplete="off" class="form-control" value="${data.ip}" id="ip" name="ip" placeholder="IP" ><label for="floatingInput">IP</label><div class="invalid-feedback">Invalid IP</div></div></div></form>`)
+                    $("#modalBody").html(`<form id="discoveryForm"><div id="deviceCredForm"><input type="hidden" autocomplete="off" value="${data.id}" class="form-control" id="id" name="id" placeholder="id" ><div class="btn-group" role="group" aria-label="Basic radio toggle button group"><input type="radio" class="btn-check" name="type" value="ping" id="btnradio1" autocomplete="off" disabled="disabled"><label class="btn btn-outline-primary" for="btnradio1">Ping</label><input type="radio" class="btn-check" name="type" value="SSH" id="btnradio2" autocomplete="off" checked="checked"><label class="btn btn-outline-primary" for="btnradio2">SSH</label></div><div class="form-floating mt-1"><input type="text" autocomplete="off" value="${data.deviceName}" class="form-control" id="deviceName" name="deviceName" placeholder="Device Name" ><label for="floatingInput">Device Name</label><div class="invalid-feedback">Invalid Device Name</div></div><div class="d-flex justify-content-between"><div class="form-floating mt-1 col-5"><input type="text" autocomplete="off" value="${data.username}" class="form-control" id="username" name="username" placeholder="Username" autocomplete="off"><label for="floatingInput">Username</label><div class="invalid-feedback">Invalid Username</div></div><div class="form-floating mt-1 col-7 ms-1"><input type="password" autocomplete="off" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off"><label for="floatingInput">Password</label><div class="invalid-feedback">Invalid Password</div></div></div><div class="form-floating mt-1"><input type="text" autocomplete="off" class="form-control" value="${data.ip}" id="ip" name="ip" placeholder="IP" ><label for="floatingInput">IP</label><div class="invalid-feedback">Invalid IP</div></div></div></form>`)
                 }
 
                 $('input[type="radio"]').trigger('click');
