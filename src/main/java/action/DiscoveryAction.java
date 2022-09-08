@@ -31,12 +31,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Device
         ArrayList<HashMap<String, String>> raw = db.select("select * from tbl_devices", null);
         ArrayList<ArrayList<String>> output = new ArrayList<>();
         raw.forEach(ele -> {
-            String html;
-            if (ele.get("type").equals("ping")) {
-                html = "<button class='btn btn-outline-success btn-sm editButton' data-id='"+ele.get("id")+"'>EDIT</button><button class='btn btn-outline-danger btn-sm ms-2 deleteButton' data-id='"+ele.get("id")+"'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2 runButton' data-id='"+ele.get("id")+"'>RUN</button>";
-            } else {
-                html = "<button class='btn btn-outline-success btn-sm editButton' data-id='"+ele.get("id")+"'>EDIT</button><button class='btn btn-outline-danger btn-sm ms-2 deleteButton' data-id='"+ele.get("id")+"'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2 runButton' data-id='"+ele.get("id")+"'>RUN</button>";
-            }
+            String html = "<button class='btn btn-outline-success btn-sm editButton' data-id='"+ele.get("id")+"'>EDIT</button><button class='btn btn-outline-danger btn-sm ms-2 deleteButton' data-id='"+ele.get("id")+"'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2 runButton' data-id='"+ele.get("id")+"' data-type='"+ele.get("type")+"' data-ip='"+ele.get("ip")+"' >RUN</button>";
             if(Integer.parseInt(ele.get("provision")) >= 1 ){
                 html += "<button class='btn btn-outline-success btn-sm ms-2 provisionButton' data-id='"+ele.get("id")+"'>PROVISION</button>";
             }

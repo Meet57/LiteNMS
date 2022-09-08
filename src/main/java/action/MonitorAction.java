@@ -6,6 +6,8 @@ import com.opensymphony.xwork2.ModelDriven;
 import model.DeviceModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class MonitorAction extends ActionSupport implements ModelDriven<DeviceModel> {
@@ -14,23 +16,33 @@ public class MonitorAction extends ActionSupport implements ModelDriven<DeviceMo
 
     public String get() throws Exception {
         Database db = new Database();
-        StringBuilder html = new StringBuilder();
         HashMap<String, Object> rs = result.getResult();
 
         ArrayList<HashMap<String, String>> raw = db.select("select * from tbl_monitor_devices", null);
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
 
-        for (HashMap<String,String> row : raw) {
-            html.append("<div class=\"border rounded border-1 my-2 p-2 d-flex justify-content-between align-items-center\">\n" +
-                    "<div><span class=\"badge mx-1 text-bg-dark\">"+row.get("type")+"</span>"+
-                    row.get("ip") +
-                    "                </div><div>\n" +
-                    "                    <button class=\"btn btn-outline-primary btn-sm\">View</button>\n" +
-                    "                    <button class=\"btn btn-outline-danger ms-1 btn-sm\">Delete</button>\n" +
-                    "                </div>\n" +
-                    "            </div>");
+        String html;
+        for (HashMap<String,String> ele : raw) {
+
+            html = "<button class='btn btn-outline-primary btn-sm editMonitorButton' data-id='"+ele.get("id")+"'>VIEW</button><button class='btn btn-outline-danger btn-sm ms-2 deleteMonitorButton' data-id='"+ele.get("id")+"'>DELETE</button>";
+
+            output.add(new ArrayList<String>(Arrays.asList(
+                    ele.get("deviceName"),
+                    ele.get("ip"),
+                    ele.get("type"),
+                    html
+            )));
         }
 
-        rs.put("result",html.toString());
+        rs.put("list",output);
+
+        return SUCCESS;
+    }
+
+    public String delete() throws Exception {
+        Database db = new Database();
+
+        db.DMLStatement("delete", "delete from tbl_monitor_devices where id = ?", new ArrayList<String>(Collections.singletonList(String.valueOf(result.getId()))));
 
         return SUCCESS;
     }

@@ -3,8 +3,8 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-<!--    <constant name="struts.devMode" value="true" />-->
-    <constant name="struts.action.excludePattern" value="/websocket*,^ws://.$"/>
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.action.excludePattern" value="^ws://.$"/>
 
     <package name="action" extends="json-default" namespace="/">
 
@@ -38,6 +38,9 @@
 
 <!--        Monitor-->
         <action name="getMonitorDevices" class="action.MonitorAction" method="get">
+            <result name="success" type="json" />
+        </action>
+        <action name="deleteMonitorDevice" class="action.MonitorAction" method="delete">
             <result name="success" type="json" />
         </action>
 

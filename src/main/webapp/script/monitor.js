@@ -1,41 +1,81 @@
 var MONITOR = {
     loadMonitor: function () {
-        var html = `
-                <div class="d-flex">
-                <div class="m-3 card border shadow" id="sideNav" style="min-width: 400px;">
-                    <div class="card-header pb-0">
-                        <div class="h3">
-                            Monitor
-                        </div>
-                    </div>
-                    <div class="card-body" style="height: 70vh; overflow: auto;" id="monitorList">
-                    
-                    </div>
-                </div>
-                <div class="m-3 container" >
-                    <div class="row" id="monitorHeader">
-                        <h2>
-                            Please select any moniter
-                        </h2>
-                    </div>
-                    <hr>
-                    <div class="row" id="monitorContent" >
-                    </div>
-                </div>
-            </div>
-        `
+        $("#body").removeClass()
 
-        $('#body').removeClass()
-        $('#body').html(html)
+        $("#body").html(`<div class="container"><div class="row"><div class="col-9 mx-auto bg-light shadow mt-5 p-3 rounded"><table id="monitorTable" class="table table-hover table-bordered display"></table></div></div></div>`)
 
-        MONITOR.loadMonitorDevices()
+        MONITOR.loadMonitorTable()
+
+        $("#monitorTable").on("click", ".deleteMonitorButton", MONITOR.deleteMonitor);
+
+        $("#monitorTable").on("click", ".editMonitorButton", function () {
+
+            // DISCOVERY.getDeviceData($(this).data("id"))
+            console.log($(this).data("id"))
+
+        });
+
+        $("#monitorTable").on("click", ".viewMonitorButton", function () {
+
+            // MONITOR.deleteMonitor($(this).data("id"))
+            console.log($(this).data("id"))
+
+        });
     },
-    loadMonitorDevices: function (){
+
+    loadMonitorTable: function (isUpdate = false) {
+
         $.get(
             "getMonitorDevices",
-            function (data){
-                $('#monitorList').html(data.result.result)
+
+            function (data) {
+
+                var dataSet = data.result.list
+
+                if (isUpdate) $('#monitorTable').DataTable().destroy();
+
+                $('#monitorTable').html(`<table id="monitorTable" class="table table-hover table-bordered display"></table>`)
+
+                $('#monitorTable').DataTable({
+
+                    data: dataSet,
+
+                    columns: [
+
+                        {title: 'Device Name'},
+
+                        {title: 'IP'},
+
+                        {title: 'TYPE'},
+
+                        {title: 'ACTIONS'}
+
+                    ],
+
+                });
+
             }
         )
+    },
+
+    deleteMonitor: function () {
+
+        $.post(
+
+            "deleteMonitorDevice",
+
+            {id: $(this).data("id")},
+
+            function () {
+
+                COMPONENTS.alert("Device Delete", "Device has been deleted", "danger")
+
+                MONITOR.loadMonitorTable(true)
+
+            }
+
+        )
+
     }
+
 }

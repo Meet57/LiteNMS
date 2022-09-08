@@ -19,30 +19,31 @@ public class PollingActions extends ActionSupport implements ModelDriven<DeviceM
     public String discovery() throws Exception {
 
         Database db = new Database();
-
-        HashMap<String, String> data = db.select("select * from tbl_devices where id = ?", new ArrayList<>(Collections.singletonList(String.valueOf(result.getId())))).get(0);
-
         HashMap<String, Object> rs = result.getResult();
+
         Ping p;
-        if (data.get("type").equals("ping")) {
+        if (result.getType().equals("ping")) {
             p = new Ping();
-            if (p.isUp(data.get("ip"))) {
+            if (p.isUp(result.getIp())) {
                 rs.put("status", "Device up for polling");
                 rs.put("code", 1);
-                new Database().DMLStatement("update", "update tbl_devices set provision = 1 where id = ?", new ArrayList<>(Arrays.asList(String.valueOf(result.getId()))));
+                db.DMLStatement("update", "update tbl_devices set provision = 1 where id = ?", new ArrayList<>(Arrays.asList(String.valueOf(result.getId()))));
             } else {
                 rs.put("status", "Device not available for polling");
                 rs.put("code", 0);
             }
         } else {
             p = new Ping();
-            if (p.isUp(data.get("ip"))) {
+            if (p.isUp(result.getIp())) {
                 Polling polling = new Polling();
-                HashMap<String, String> metric = polling.polling(data.get("username"), data.get("password"), data.get("ip"), 22);
+
+                HashMap<String,String> data = db.select("select username,password from tbl_devices where id = ?", new ArrayList<>(Arrays.asList(String.valueOf(result.getId())))).get(0);
+
+                HashMap<String, String> metric = polling.polling(data.get("username"), data.get("password"), result.getIp(), 22);
                 if (metric.get("code").equals("1")) {
-                    rs.put("status", "Device not available for polling");
+                    rs.put("status", "Device up for polling");
                     rs.put("code", 1);
-                    new Database().DMLStatement("update", "update tbl_devices set provision = 1 where id = ?", new ArrayList<>(Arrays.asList(String.valueOf(result.getId()))));
+                    db.DMLStatement("update", "update tbl_devices set provision = 1 where id = ?", new ArrayList<>(Arrays.asList(String.valueOf(result.getId()))));
                 } else {
                     rs.put("status", metric.get("status"));
                     rs.put("code", 0);
