@@ -41,7 +41,9 @@ public class MyInterceptor implements Interceptor {
 
         }
 
-        return inv.invoke();
+        inv.invoke();
+
+        return "success";
 
     }
 }

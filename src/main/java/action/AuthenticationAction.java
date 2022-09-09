@@ -47,6 +47,27 @@ public class AuthenticationAction extends ActionSupport implements ModelDriven<U
         return SUCCESS;
     }
 
+    public String forget() throws Exception {
+
+        ArrayList<HashMap<String, String>> existingData = new Database().select("select * from users where username = ?",
+                new ArrayList<>(Collections.singletonList(user.getUsername()))
+        );
+
+        HashMap<String,Object> rs = user.getResult();
+
+        if(existingData.size()==0){
+            rs.put("status","User Does not exist");
+            rs.put("code",0);
+
+            return SUCCESS;
+        }
+
+        rs.put("status","'"+existingData.get(0).get("password")+"' is your password");
+        rs.put("code",0);
+
+        return SUCCESS;
+    }
+
     @Override
     public UserModel getModel() {
         return user;

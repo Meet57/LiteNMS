@@ -3,8 +3,8 @@ package action;
 import DAO.Database;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import helper.Ping;
-import helper.Polling;
+import helper.PingUtil;
+import helper.PollingUtil;
 import model.DeviceModel;
 
 import java.util.ArrayList;
@@ -21,9 +21,9 @@ public class PollingActions extends ActionSupport implements ModelDriven<DeviceM
         Database db = new Database();
         HashMap<String, Object> rs = result.getResult();
 
-        Ping p;
+        PingUtil p;
         if (result.getType().equals("ping")) {
-            p = new Ping();
+            p = new PingUtil();
             if (p.isUp(result.getIp())) {
                 rs.put("status", "Device up for polling");
                 rs.put("code", 1);
@@ -33,9 +33,9 @@ public class PollingActions extends ActionSupport implements ModelDriven<DeviceM
                 rs.put("code", 0);
             }
         } else {
-            p = new Ping();
+            p = new PingUtil();
             if (p.isUp(result.getIp())) {
-                Polling polling = new Polling();
+                PollingUtil polling = new PollingUtil();
 
                 HashMap<String,String> data = db.select("select username,password from tbl_devices where id = ?", new ArrayList<>(Arrays.asList(String.valueOf(result.getId())))).get(0);
 

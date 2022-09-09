@@ -2,7 +2,7 @@ var AUTHENTICATION = {
     login: function () {
         $("#loginForm").submit(function (event) {
             event.preventDefault()
-            if($("#loginForm").valid()){
+            if ($("#loginForm").valid()) {
                 $.post(
                     "authenticate",
                     $("#loginForm").serialize(),
@@ -17,6 +17,21 @@ var AUTHENTICATION = {
             }
         })
     },
+    forget: function () {
+        if ($("#loginForm").valid()) {
+            $.post(
+                "forgetPassword",
+                $("#loginForm").serialize(),
+                function (data) {
+                    COMPONENTS.alert(
+                        "Forgot Password",
+                        data.result.status,
+                        data.result.code === 1 ? "success" : "danger"
+                    )
+                }
+            )
+        }
+    }
 }
 
 AUTHENTICATION.login()

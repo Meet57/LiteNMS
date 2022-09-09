@@ -10,16 +10,20 @@ create table tbl_devices
 );
 
 
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (1, 'Zaam-Dox', 'ssh', '191.216.73.67', 'LiveZ', 'lpoI5A0vT', 0);
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (2, 'Flowdesk', 'ssh', '1.105.58.204', 'Fliptune', 'bDkXZ1VuZ1bM', 0);
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (3, 'Stringtough', 'ping', '107.165.37.42', 'Mynte', 'HEiwLqd', 0);
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (4, 'Overhold', 'ping', '242.90.231.216', 'Dynazzy', 'IaILHQ', 0);
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (5, 'It', 'ping', '229.217.51.218', 'Blogtag', 'RIa5LubSf', 0);
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (6, 'Otcom', 'ssh', '74.148.122.69', 'Voonder', 'q0YX6M', 0);
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (7, 'Zamit', 'ssh', '39.186.208.210', 'Topiclounge', 'a3f5tc', 0);
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (8, 'Domainer', 'ping', '178.20.206.237', 'Twitterwire', '6r9Y3aC', 0);
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (9, 'Regrant', 'ping', '152.111.248.255', 'Rhycero', 'P8QFuy', 0);
-insert into tbl_devices (id, deviceName, type, ip, username, password, provision) values (10, 'Daltfresh', 'ping', '14.208.221.122', 'Voonyx', 'YkOZ6qLRf9', 0);
+insert into tbl_devices (deviceName, type, ip, username, password, provision) values ('Shekhar ssh', 'ssh', '10.20.42.142', 'shekhar', 'Mind@123', 0);
+insert into tbl_devices (deviceName, type, ip, provision) values ('Shekhar ping', 'ping', '10.20.42.142', 0);
+insert into tbl_devices (deviceName, type, ip, username, password, provision) values ('Rahil ssh', 'ssh', '10.20.40.204', 'rahil', 'Mind@123', 0);
+insert into tbl_devices (deviceName, type, ip, provision) values ('Rahil ping', 'ping', '10.20.42.204', 0);
+insert into tbl_devices (deviceName, type, ip, username, password, provision) values ('Smit ssh', 'ssh', '10.20.40.113', 'smit', 'Mind@123', 0);
+insert into tbl_devices (deviceName, type, ip, provision) values ('Smit ping', 'ping', '10.20.40.113', 0);
+insert into tbl_devices (deviceName, type, ip, username, password, provision) values ('Server 1 ssh', 'ssh', '172.16.10.183', 'root', 'motadata', 0);
+insert into tbl_devices (deviceName, type, ip, provision) values ('server 1 ping', 'ping', '172.16.10.183', 0);
+insert into tbl_devices (deviceName, type, ip, username, password, provision) values ('Server 2 ssh', 'ssh', '172.16.10.193', 'root', 'motadata', 0);
+insert into tbl_devices (deviceName, type, ip, provision) values ('server 2 ping', 'ping', '172.16.10.193', 0);
+insert into tbl_devices (deviceName, type, ip, username, password, provision) values ('Server 2 ssh', 'ssh', '172.16.10.185', 'root', 'motadata', 0);
+insert into tbl_devices (deviceName, type, ip, provision) values ('server 2 ping', 'ping', '172.16.10.185', 0);
+INSERT INTO `tbl_devices` VALUES (67,'smit ssh','10.20.40.158','ssh','smit','mind@1682',1),(74,'smit','10.20.40.158','ping',NULL,NULL,1));
+
 
 create table users (id INT AUTO_INCREMENT PRIMARY KEY,username VARCHAR(50),password VARCHAR(50));
 
@@ -28,3 +32,18 @@ insert into users (id, username, password) values (2, 'pavan', 'admin');
 insert into users (id, username, password) values (3, 'rahil', 'admin');
 insert into users (id, username, password) values (4, 'meet', 'admin');
 insert into users (id, username, password) values (5, 'smit', 'admin');
+
+create table metrics (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    ts TIMESTAMP,
+    ip VARCHAR(30),
+    type VARCHAR(5),
+    avaibility VARCHAR(5),
+    packetloss int,
+    rtt VARCHAR(7),
+    cpu int,
+    mem int,
+    tmem int,
+    disk int,
+    tdisk int
+);

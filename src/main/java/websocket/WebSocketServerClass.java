@@ -8,8 +8,7 @@ public class WebSocketServerClass {
     @OnOpen
     public void handleOpen(Session session) {
         try {
-            session.getBasicRemote().sendText("Hi");
-            session.getBasicRemote().sendText("Hi From server");
+            session.getBasicRemote().sendText(session.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }

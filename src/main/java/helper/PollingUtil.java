@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class Polling {
+public class PollingUtil {
     JSch jsch;
     Session session;
     Channel channel;
@@ -15,13 +15,14 @@ public class Polling {
     public HashMap<String, String> polling(String username, String password,
                                            String host, int port) throws Exception {
 
-        Ping ping = new Ping();
+        PingUtil ping = new PingUtil();
         if(!ping.isUp(host)) return null;
 
         ArrayList<String> commands = new ArrayList<>();
 
         commands.add("free -m | grep 'Mem' | awk '{print $2,$3}'");
         commands.add("mpstat 1 3 | tail -n 1 | awk '{print $12}'");
+//        commands.add("top -bn1 | grep '%Cpu(s)' | awk '{printf $8}'");
         commands.add("df -h | grep \"/$\" | awk '{print $5}'");
 
         String output = sshConnection(username, password, host, port, commands);
@@ -36,11 +37,11 @@ public class Polling {
 
         String[] arr = output.split("\n");
         metrics.put("code","1");
-        metrics.put("IP",host);
-        metrics.put("Mem",arr[0].split(" ")[0]);
-        metrics.put("UMem",arr[0].split(" ")[1]);
-        metrics.put("ICPU",arr[1]);
-        metrics.put("Storage",arr[2]);
+        metrics.put("ip",host);
+        metrics.put("mem",arr[0].split(" ")[0]);
+        metrics.put("umem",arr[0].split(" ")[1]);
+        metrics.put("cpu",arr[1]);
+        metrics.put("disk",arr[2]);
 
         return metrics;
     }
