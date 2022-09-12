@@ -14,6 +14,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MetricCollector {
+    public static void startPolling() {
+        System.out.println("Polling Started with :" + Runtime.getRuntime().availableProcessors() + " cores");
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ScheduledExecutorService scs = Executors.newSingleThreadScheduledExecutor();
+
+        ScheduledFuture scheduledFuture = scs.scheduleAtFixedRate(
+                schedulerTask(executorService),
+                0,
+                5,
+                TimeUnit.MINUTES
+        );
+    }
 
     public static Runnable pingPolling(String[] ipAddresses) {
         return new Runnable() {
@@ -117,7 +129,6 @@ public class MetricCollector {
         return new Runnable() {
             @Override
             public void run() {
-                System.out.println("Polling");
                 List<Runnable> callables = new ArrayList<>();
 
                 Database db = new Database();
@@ -143,18 +154,5 @@ public class MetricCollector {
                 }
             }
         };
-    }
-
-    public static void main(String[] args) throws SQLException {
-
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
-        ScheduledExecutorService scs = Executors.newSingleThreadScheduledExecutor();
-
-        ScheduledFuture scheduledFuture = scs.scheduleAtFixedRate(
-                schedulerTask(executorService),
-                0,
-                1,
-                TimeUnit.MINUTES
-        );
     }
 }

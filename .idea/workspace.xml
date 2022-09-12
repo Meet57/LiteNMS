@@ -12,19 +12,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="connection pool&#10;websocket&#10;loginpage">
-      <change afterPath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" afterDir="false" />
+    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="pooling file ready">
+      <change afterPath="$PROJECT_DIR$/src/main/java/action/MetricAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/helper/onServerStart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/MetricModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/action/AuthenticationAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/AuthenticationAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helper/MyInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/MyInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helper/Ping.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/PingUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helper/Polling.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/authentication.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/authentication.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DAO/ConnectionPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DAO/ConnectionPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DAO/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DAO/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/PollingActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/PollingAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/struts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/struts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/components.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/style/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tables.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +76,20 @@
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.MetricCollector">
+  <component name="RunManager" selected="Jetty Server.Jetty 9.4.48.v20220622">
+    <configuration name="MetricCollector (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="helper.polling.MetricCollector" />
+      <module name="LiteNMS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="helper.polling.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MetricCollector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="helper.polling.MetricCollector" />
       <module name="LiteNMS" />
@@ -125,7 +145,7 @@
     <configuration name="Jetty 9.4.48.v20220622" type="JettyConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="Jetty 9.4.48.v20220622" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER" value="false" />
       <option name="START_JAVASCRIPT_DEBUGGER" value="true" />
-      <option name="UPDATING_POLICY" value="restart-server" />
+      <option name="UPDATING_POLICY" value="update-resources" />
       <deployment>
         <artifact name="LiteNMS:war exploded">
           <settings DEPLOYMENT_METHOD="contexts">
@@ -922,8 +942,17 @@
         </option>
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.helper.polling.PollingWorker" />
+      <item itemvalue="Application.MetricCollector" />
+      <item itemvalue="Application.MetricCollector (1)" />
+      <item itemvalue="Application.PingUtil" />
+      <item itemvalue="Application.PollingWorker" />
+      <item itemvalue="Jetty Server.Jetty 9.4.48.v20220622" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MetricCollector (1)" />
         <item itemvalue="Application.MetricCollector" />
         <item itemvalue="Application.helper.polling.PollingWorker" />
         <item itemvalue="Application.PollingWorker" />
@@ -947,7 +976,10 @@
       <workItem from="1662530704802" duration="12953000" />
       <workItem from="1662551709636" duration="6414000" />
       <workItem from="1662612286897" duration="25222000" />
-      <workItem from="1662700924586" duration="25532000" />
+      <workItem from="1662700924586" duration="27359000" />
+      <workItem from="1662875689126" duration="15847000" />
+      <workItem from="1662921123891" duration="2627000" />
+      <workItem from="1662958480831" duration="1912000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>
@@ -991,7 +1023,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662641641498</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="pooling file ready">
+      <created>1662730863390</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1662730863390</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1039,7 +1078,8 @@
     <MESSAGE value="code refactoring" />
     <MESSAGE value="7th sept - form validation with jquery" />
     <MESSAGE value="connection pool&#10;websocket&#10;loginpage" />
-    <option name="LAST_COMMIT_MESSAGE" value="connection pool&#10;websocket&#10;loginpage" />
+    <MESSAGE value="pooling file ready" />
+    <option name="LAST_COMMIT_MESSAGE" value="pooling file ready" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

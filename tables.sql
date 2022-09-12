@@ -20,8 +20,8 @@ insert into tbl_devices (deviceName, type, ip, username, password, provision) va
 insert into tbl_devices (deviceName, type, ip, provision) values ('server 1 ping', 'ping', '172.16.10.183', 0);
 insert into tbl_devices (deviceName, type, ip, username, password, provision) values ('Server 2 ssh', 'ssh', '172.16.10.193', 'root', 'motadata', 0);
 insert into tbl_devices (deviceName, type, ip, provision) values ('server 2 ping', 'ping', '172.16.10.193', 0);
-insert into tbl_devices (deviceName, type, ip, username, password, provision) values ('Server 2 ssh', 'ssh', '172.16.10.185', 'root', 'motadata', 0);
-insert into tbl_devices (deviceName, type, ip, provision) values ('server 2 ping', 'ping', '172.16.10.185', 0);
+insert into tbl_devices (deviceName, type, ip, username, password, provision) values ('Server 3 ssh', 'ssh', '172.16.10.195', 'root', 'motadata', 0);
+insert into tbl_devices (deviceName, type, ip, provision) values ('server 3 ping', 'ping', '172.16.10.195', 0);
 INSERT INTO `tbl_devices` VALUES (67,'smit ssh','10.20.40.158','ssh','smit','mind@1682',1),(74,'smit','10.20.40.158','ping',NULL,NULL,1));
 
 

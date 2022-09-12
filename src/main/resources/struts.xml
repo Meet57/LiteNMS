@@ -35,10 +35,10 @@
         </action>
 
 <!--        Provision-->
-        <action name="checkProvision" class="action.PollingActions" method="discovery">
+        <action name="checkProvision" class="action.PollingAction" method="discovery">
             <result name="success" type="json" />
         </action>
-        <action name="putProvision" class="action.PollingActions" method="put">
+        <action name="putProvision" class="action.PollingAction" method="put">
             <result name="success" type="json" />
         </action>
 
@@ -47,6 +47,11 @@
             <result name="success" type="json" />
         </action>
         <action name="deleteMonitorDevice" class="action.MonitorAction" method="delete">
+            <result name="success" type="json" />
+        </action>
+
+<!--        Metric Data-->
+        <action name="getMetrics" class="action.MetricAction" method="get">
             <result name="success" type="json" />
         </action>
 

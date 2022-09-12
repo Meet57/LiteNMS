@@ -13,7 +13,7 @@ public class PollingUtil {
     Channel channel;
 
     public HashMap<String, String> polling(String username, String password,
-                                           String host, int port) throws Exception {
+                                           String host, int port){
 
         PingUtil ping = new PingUtil();
         if(!ping.isUp(host)) return null;
@@ -29,19 +29,25 @@ public class PollingUtil {
 
         HashMap<String,String> metrics = new LinkedHashMap<>();
 
-        if(output.split(" ")[0].equals("ERROR")){
+        try{
+            if(output.split(" ")[0].equals("ERROR")){
+                metrics.put("code","0");
+                metrics.put("status",output);
+                return metrics;
+            }
+
+            String[] arr = output.split("\n");
+            metrics.put("code","1");
+            metrics.put("ip",host);
+            metrics.put("mem",arr[0].split(" ")[0]);
+            metrics.put("umem",arr[0].split(" ")[1]);
+            metrics.put("cpu",arr[1]);
+            metrics.put("disk",arr[2]);
+        }catch (Exception e){
             metrics.put("code","0");
-            metrics.put("status",output);
+            metrics.put("status","Something went worng<br> Please check dependencies in the client monitor<br> Try installing sysstat in the system");
             return metrics;
         }
-
-        String[] arr = output.split("\n");
-        metrics.put("code","1");
-        metrics.put("ip",host);
-        metrics.put("mem",arr[0].split(" ")[0]);
-        metrics.put("umem",arr[0].split(" ")[1]);
-        metrics.put("cpu",arr[1]);
-        metrics.put("disk",arr[2]);
 
         return metrics;
     }

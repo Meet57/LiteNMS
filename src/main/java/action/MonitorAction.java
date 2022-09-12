@@ -24,7 +24,7 @@ public class MonitorAction extends ActionSupport implements ModelDriven<DeviceMo
         String html;
         for (HashMap<String,String> ele : raw) {
 
-            html = "<button class='btn btn-outline-primary btn-sm editMonitorButton' data-id='"+ele.get("id")+"'>VIEW</button><button class='btn btn-outline-danger btn-sm ms-2 deleteMonitorButton' data-id='"+ele.get("id")+"'>DELETE</button>";
+            html = "<button class='btn btn-outline-primary btn-sm viewMonitorButton' data-ip='"+ele.get("ip")+"' data-type='"+ele.get("type")+"'>VIEW</button><button class='btn btn-outline-danger btn-sm ms-2 deleteMonitorButton' data-id='"+ele.get("id")+"'>DELETE</button>";
 
             output.add(new ArrayList<String>(Arrays.asList(
                     ele.get("deviceName"),

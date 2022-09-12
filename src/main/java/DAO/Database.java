@@ -8,10 +8,6 @@ public class Database {
 
     private Connection con;
 
-    static {
-        ConnectionPool.createConnectionPool(5);
-    }
-
     public Boolean DMLStatement(String operation, String query, ArrayList<String> values) throws SQLException {
 
         con = ConnectionPool.getConnection();

@@ -18,6 +18,7 @@
           <option value="org.apache.struts:struts2-json-plugin" />
           <option value="org.apache.struts:struts2-core" />
           <option value="junit:junit" />
+          <option value="org.mortbay.jetty:servlet-api-2.5" />
         </list>
       </option>
     </inspection_tool>

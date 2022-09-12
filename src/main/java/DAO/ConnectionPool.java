@@ -9,6 +9,7 @@ public class ConnectionPool {
     private static LinkedBlockingDeque<Connection> connectionPool;
 
     public static void createConnectionPool(int size){
+        System.out.println("DB poll ready");
         Connection con;
         connectionPool = new LinkedBlockingDeque<>(size);
         for (int i = 0; i < size; i++) {

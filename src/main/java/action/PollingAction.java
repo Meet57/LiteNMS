@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class PollingActions extends ActionSupport implements ModelDriven<DeviceModel> {
+public class PollingAction extends ActionSupport implements ModelDriven<DeviceModel> {
     DeviceModel result = new DeviceModel();
 
     //    ABle to monitor or not for provision
