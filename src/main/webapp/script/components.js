@@ -1,7 +1,7 @@
 var COMPONENTS = {
-    card: function (title, body, col = "auto") {
+    card: function (title, body, col = "auto",height="h-100") {
         return `
-            <div class="col-${col} card my-2 shadow p-0 h-100">
+            <div class="col-${col} card my-2 shadow p-0">
                 <div class="card-header h3">
                         ${title}
                 </div>
@@ -69,7 +69,7 @@ var CHARTS = {
         return `<canvas id="${id}" style="width:100%"></canvas>`
     }
     ,
-    chart: function (id, chart, labels, data, colors, text) {
+    chart: function (id, chart, labels, data, colors, text, limits = null) {
         if (colors == null) {
             colors = []
             for (let i = 0; i < data.length; i++) {
@@ -79,6 +79,18 @@ var CHARTS = {
                 colors.push(`rgba(${r},${g},${b})`)
             }
         }
+
+        let scales = {}
+        if(limits!==null){
+            scales = {
+                y: {
+                    beginAtZero: true,
+                    min: limits[0],
+                    max: limits[1],
+                }
+            }
+        }
+
         var ctx = document.getElementById(id);
         new Chart(ctx, {
             type: chart,
@@ -94,6 +106,9 @@ var CHARTS = {
                     hoverOffset: 4
                 }]
             },
+            options: {
+                scales: scales
+            }
         });
     }
 }

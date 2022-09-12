@@ -64,6 +64,12 @@ var MONITOR = {
 
                 console.log(data)
 
+                if (data.result.code == 0) {
+                    COMPONENTS.alert("Polling Status", data.result.status, "danger")
+
+                    return
+                }
+
                 $("#table").css("display", "none")
 
                 $("#visual").css("display", "block")
@@ -72,29 +78,31 @@ var MONITOR = {
 
                 $("#graph").html(COMPONENTS.card("Availability", CHARTS.canvas("availability"), "3"))
 
-                $("#graph").append(COMPONENTS.card("RTT", `<h3>${data.result.rtt} ms</h3>`, "2"))
+                $("#graph").append("<div class='col-3' id='memrtt'></div>")
 
-                if(data.type === "ssh"){
+                if (data.type === "ssh") {
 
                     $("#graph").append(COMPONENTS.card("Memory", CHARTS.canvas("memory"), "3"))
 
-                    CHARTS.chart("memory", "doughnut", ["Used Memory [MB]", "Free Memory [MB]"], [data.result.mem,data.result.tmem-data.result.mem], ["pink", "cyan"])
+                    $("#memrtt").append(COMPONENTS.card("Storage", `<h3>${data.result.disk} Used</h3>`, "12", "null"))
 
-                    $("#graph").append(COMPONENTS.card("Storage", `<h3>${data.result.disk} Used</h3>`, "2"))
+                    CHARTS.chart("memory", "doughnut", ["Used Memory [MB]", "Free Memory [MB]"], [data.result.mem, data.result.tmem - data.result.mem], ["pink", "cyan"])
 
                 }
+
+                $("#memrtt").append(COMPONENTS.card("RTT", `<h3>${data.result.rtt} ms</h3>`, "12", "null"))
 
                 $("#graph").append(COMPONENTS.card("Ping Chart", CHARTS.canvas("pingchart"), "5"))
 
                 CHARTS.chart("availability", "doughnut", ["UP %", "DOWN %"], [data.result.availability, 100 - parseInt(data.result.availability)], ["blue", "red"])
 
-                CHARTS.chart("pingchart", "bar", data.result.time.map(ele => ele.split(" ")[1]), data.result.packets, Array(20).fill("#80c6ff"),"Ping Chart")
+                CHARTS.chart("pingchart", "bar", data.result.time.map(ele => ele.split(" ")[1]), data.result.packets, Array(data.result.packets.length).fill("#80c6ff"), "Received packets out of 4", [0, 4])
 
-                if(data.type === "ssh"){
+                if (data.type === "ssh") {
 
                     $("#graph").append(COMPONENTS.card("CPU Usage", CHARTS.canvas("cpu"), "6"))
 
-                    CHARTS.chart("cpu", "line", data.result.time.map(ele => ele.split(" ")[1]), data.result.cpu, Array(20).fill("#80c6ff"),"CPU Utilization in %")
+                    CHARTS.chart("cpu", "line", data.result.time.map(ele => ele.split(" ")[1]), data.result.cpu, Array(data.result.cpu.length).fill("#80c6ff"), "CPU Utilization in %", [0, 100])
                 }
 
             }
