@@ -20,12 +20,18 @@ function processOnOpen(message) {}
 
 function processOnMessage(message) {
 
-    if(message.data.includes("id")){
-        localStorage.setItem("id",message.data.split(":")[1])
-        console.log(message.data.split(":")[1]+" Socket id set to localstorage")
-    }
-
-    if()
+    // let data = message.data
+    //
+    // console.log(data)
+    //
+    // if(data.includes("id")){
+    //     localStorage.setItem("socketId",message.data.split(" ")[1])
+    // }
+    //
+    // else{
+    //     data = data.split("~")
+    //     COMPONENTS.alert(data[1],data[2],data[0] === "1" ? "success" : "danger")
+    // }
 
 }
 

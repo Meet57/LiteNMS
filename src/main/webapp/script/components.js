@@ -1,5 +1,5 @@
 var COMPONENTS = {
-    card: function (title, body, col = "auto",height="h-100") {
+    card: function (title, body, col = "auto", height = "h-100") {
         return `
             <div class="col-${col} card my-2 shadow p-0">
                 <div class="card-header h3">
@@ -12,31 +12,6 @@ var COMPONENTS = {
                 </div>
             </div>
         `
-    },
-    table: function (title, content) {
-
-        var table = `
-        <table class="w-100 table table-striped table-hover mt-3"><thead class="table-dark"><tr>
-        `
-        title.forEach(title => {
-            table += `
-                <td>${title}</td>
-            `
-        });
-
-        table += `</tr></thead><tbody>`
-
-        content.forEach(row => {
-            table += '<tr>'
-            row.forEach(data => {
-                table += `<td>${data}</td>`
-            })
-            table += '</tr>'
-        })
-
-        table += '</tbody></table>'
-
-        return table
     },
     modal: function (header, buttonName, buttonFunction) {
         $("#modalHeading").html(header)
@@ -67,8 +42,8 @@ var COMPONENTS = {
 var CHARTS = {
     canvas: function (id) {
         return `<canvas id="${id}" style="width:100%"></canvas>`
-    }
-    ,
+    },
+
     chart: function (id, chart, labels, data, colors, text, limits = null) {
         if (colors == null) {
             colors = []
@@ -81,7 +56,7 @@ var CHARTS = {
         }
 
         let scales = {}
-        if(limits!==null){
+        if (limits !== null) {
             scales = {
                 y: {
                     beginAtZero: true,

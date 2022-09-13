@@ -8,13 +8,13 @@ public class Database {
 
     private Connection con;
 
-    public Boolean DMLStatement(String operation, String query, ArrayList<String> values) throws SQLException {
+    public Boolean DMLStatement(String operation, String query, ArrayList<Object> values) throws SQLException {
 
         con = ConnectionPool.getConnection();
         PreparedStatement pst = con.prepareStatement(query);
         if (values != null) {
             for (int i = 0; i < values.size(); i++) {
-                pst.setString(i + 1, values.get(i));
+                pst.setObject(i + 1, values.get(i));
             }
         }
 
@@ -23,7 +23,7 @@ public class Database {
         return result;
     }
 
-    public ArrayList<HashMap<String, String>> select(String query, ArrayList<String> condition) throws SQLException {
+    public ArrayList<HashMap<String, String>> select(String query, ArrayList<Object> condition) throws SQLException {
 
         con = ConnectionPool.getConnection();
 
@@ -33,7 +33,7 @@ public class Database {
 
         if (condition != null) {
             for (int i = 0; i < condition.size(); i++) {
-                pst.setString(i + 1, condition.get(i));
+                pst.setObject(i + 1, condition.get(i));
             }
         }
 

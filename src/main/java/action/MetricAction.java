@@ -3,6 +3,7 @@ package action;
 import DAO.Database;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import helper.PingUtil;
 import model.MetricModel;
 
 import java.time.LocalDate;
@@ -34,7 +35,7 @@ public class MetricAction extends ActionSupport implements ModelDriven<MetricMod
         int availability = 0, mem = 0, tmem = 0;
         String disk = "";
         ArrayList<Integer> packets = new ArrayList<>();
-        ArrayList<Integer> cpu = new ArrayList<>();
+        ArrayList<Float> cpu = new ArrayList<>();
         ArrayList<String> time = new ArrayList<>();
 
         for (int i = 0; i < raw.size(); i++) {
@@ -44,7 +45,7 @@ public class MetricAction extends ActionSupport implements ModelDriven<MetricMod
 
             if (result.getType().equals("ssh")) {
                 try {
-                    cpu.add(100 - Integer.parseInt(raw.get(i).get("cpu")));
+                    cpu.add(Float.valueOf(raw.get(i).get("cpu")));
                     if (raw.get(i).get("disk") == null) {
                         disk = raw.get(i).get("disk");
                     }
@@ -52,7 +53,7 @@ public class MetricAction extends ActionSupport implements ModelDriven<MetricMod
                     tmem = Integer.parseInt(raw.get(i).get("tmem"));
                     disk = raw.get(i).get("disk");
                 } catch (Exception e) {
-                    cpu.add(0);
+                    cpu.add(0F);
                 }
             }
         }
@@ -67,7 +68,24 @@ public class MetricAction extends ActionSupport implements ModelDriven<MetricMod
         rs.put("disk", disk);
         rs.put("cpu", cpu);
         rs.put("time", time);
+        rs.put("actions","<button class='col-auto btn btn-outline-primary pingNow' data-ip='"+result.getIp()+"' >Ping Now</button>");
 
+        return SUCCESS;
+    }
+
+    public String deviceStatus() throws Exception{
+
+        PingUtil ping = new PingUtil();
+
+        HashMap<String, Object> rs = result.getResult();
+
+        if (ping.isUp(result.getIp())) {
+            rs.put("status", "Device is up");
+            rs.put("code", 1);
+        } else {
+            rs.put("status", "Device is down");
+            rs.put("code", 0);
+        }
         return SUCCESS;
     }
 

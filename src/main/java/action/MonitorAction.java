@@ -42,7 +42,7 @@ public class MonitorAction extends ActionSupport implements ModelDriven<DeviceMo
     public String delete() throws Exception {
         Database db = new Database();
 
-        db.DMLStatement("delete", "delete from tbl_monitor_devices where id = ?", new ArrayList<String>(Collections.singletonList(String.valueOf(result.getId()))));
+        db.DMLStatement("delete", "delete from tbl_monitor_devices where id = ?", new ArrayList<Object>(Collections.singletonList(String.valueOf(result.getId()))));
 
         return SUCCESS;
     }

@@ -2,9 +2,11 @@ var MONITOR = {
     loadMonitor: function () {
         $("#body").removeClass()
 
-        $("#body").html(`<div class="container"><div id="visual"><div class="row pt-4 d-flex justify-content-between align-items-center"><div class="col-auto"><button class="btn btn-outline-danger" onclick="MONITOR.showMonitorTable()">BACK</button></div><div class="h1 col-auto" id="ipAddress">10.20.40.224</div><hr><div class="row d-flex justify-content-evenly" id="graph"></div></div></div><div id="table"><div class="row"><div class="col-9 mx-auto bg-light shadow mt-5 p-3 rounded"><table id="monitorTable" class="table table-hover table-bordered display"></table></div></div></div></div>`)
+        $("#body").html(`<div class="container"><div id="visual"><div class="row pt-4 d-flex justify-content-between align-items-center"><div class="col-auto"><button class="btn btn-outline-danger" onclick="MONITOR.showMonitorTable()">BACK</button></div><div class="h1 col-auto" id="ipAddress">10.20.40.224</div><hr><div class="row d-flex justify-content-end" id="actions"></div><div class="row d-flex justify-content-evenly" id="graph"></div></div></div><div id="table"><div class="row"><div class="col-9 mx-auto bg-light shadow mt-5 p-3 rounded"><table id="monitorTable" class="table table-hover table-bordered display"></table></div></div></div></div>`)
 
         MONITOR.loadMonitorTable()
+
+        $("#body").on("click", ".pingNow", MONITOR.pingDevice);
 
         $("#monitorTable").on("click", ".deleteMonitorButton", MONITOR.deleteMonitor);
 
@@ -64,7 +66,7 @@ var MONITOR = {
 
                 console.log(data)
 
-                if (data.result.code == 0) {
+                if (data.result.code === 0) {
                     COMPONENTS.alert("Polling Status", data.result.status, "danger")
 
                     return
@@ -75,6 +77,8 @@ var MONITOR = {
                 $("#visual").css("display", "block")
 
                 $("#ipAddress").html(data.ip)
+
+                $("#actions").html(data.result.actions)
 
                 $("#graph").html(COMPONENTS.card("Availability", CHARTS.canvas("availability"), "3"))
 
@@ -90,7 +94,7 @@ var MONITOR = {
 
                 }
 
-                $("#memrtt").append(COMPONENTS.card("RTT", `<h3>${data.result.rtt} ms</h3>`, "12", "null"))
+                $("#memrtt").append(COMPONENTS.card("Status", `<h3>${data.result.rtt === "-1.0" ? "<span class='text-danger'>DOWN</span>" : `UP <span class="h6 text-success">RTT: ${data.result.rtt} ms</span>`}</h3>`, "12", "null"))
 
                 $("#graph").append(COMPONENTS.card("Ping Chart", CHARTS.canvas("pingchart"), "5"))
 
@@ -125,6 +129,21 @@ var MONITOR = {
             }
         )
 
+    },
+
+    pingDevice: function (){
+
+        let request = {
+            url: "deviceStatus",
+            data: {ip: $(this).data("ip")},
+            callback: MONITOR.sendNotification,
+        };
+
+        API.ajaxget(request);
+    },
+
+    sendNotification: function (data){
+        COMPONENTS.alert("Monitor",data.ip+": "+data.result.status,data.result.code === 1 ? "success" : "danger");
     }
 
 }

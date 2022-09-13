@@ -17,7 +17,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Device
     public String monitor() throws  Exception{
         Database db = new Database();
 
-        ArrayList<HashMap<String, String>> raw = db.select("select id,deviceName,username,ip,type from tbl_devices where id = ?", new ArrayList<String>(Collections.singletonList(String.valueOf(result.getId()))));
+        ArrayList<HashMap<String, String>> raw = db.select("select id,deviceName,username,ip,type from tbl_devices where id = ?", new ArrayList<Object>(Collections.singletonList(result.getId())));
 
         HashMap<String, Object> rs = result.getResult();
         rs.put("data",raw.get(0));
@@ -51,7 +51,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Device
     public String delete() throws Exception {
         Database db = new Database();
 
-        db.DMLStatement("delete", "delete from tbl_devices where id = ?", new ArrayList<String>(Collections.singletonList(String.valueOf(result.getId()))));
+        db.DMLStatement("delete", "delete from tbl_devices where id = ?", new ArrayList<Object>(Collections.singletonList(String.valueOf(result.getId()))));
 
         return SUCCESS;
     }
@@ -59,7 +59,7 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Device
     public String add() throws Exception {
         Database db = new Database();
 
-        ArrayList<HashMap<String, String>> temp = db.select("select * from tbl_devices where type=? and ip=? and id != ?",new ArrayList<String>(Arrays.asList(result.getType(),result.getIp(),String.valueOf(result.getId()))));
+        ArrayList<HashMap<String, String>> temp = db.select("select * from tbl_devices where type=? and ip=? and id != ?",new ArrayList<Object>(Arrays.asList(result.getType(),result.getIp(),result.getId())));
 
         HashMap<String, Object> rs = result.getResult();
         if(temp.size() != 0){
@@ -69,9 +69,9 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Device
         }
 
         if (result.getType().equals("ping")) {
-            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type) values (?,?,?)", new ArrayList<String>(Arrays.asList(result.getDeviceName(), result.getIp(), result.getType())));
+            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type) values (?,?,?)", new ArrayList<Object>(Arrays.asList(result.getDeviceName(), result.getIp(), result.getType())));
         } else {
-            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type,username,password) values (?,?,?,?,?)", new ArrayList<String>(Arrays.asList(result.getDeviceName(), result.getIp(), result.getType(), result.getUsername(), result.getPassword())));
+            db.DMLStatement("add", "insert into tbl_devices (deviceName,ip,type,username,password) values (?,?,?,?,?)", new ArrayList<Object>(Arrays.asList(result.getDeviceName(), result.getIp(), result.getType(), result.getUsername(), result.getPassword())));
         }
         rs.put("status",result.getDeviceName()+": device added successfully");
         rs.put("code",1);
@@ -83,9 +83,9 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Device
         Database db = new Database();
 
         if (result.getType().equals("ping")) {
-            db.DMLStatement("update", "update tbl_devices set provision = false,deviceName = ?,ip = ? where id = ? ", new ArrayList<String>(Arrays.asList(result.getDeviceName(), result.getIp(), String.valueOf(result.getId()))));
+            db.DMLStatement("update", "update tbl_devices set provision = false,deviceName = ?,ip = ? where id = ? ", new ArrayList<Object>(Arrays.asList(result.getDeviceName(), result.getIp(), String.valueOf(result.getId()))));
         } else {
-            db.DMLStatement("update", "update tbl_devices set provision = false,deviceName = ?,ip = ?,username = ?,password=? where id = ? ", new ArrayList<String>(Arrays.asList(result.getDeviceName(), result.getIp(), result.getUsername(), result.getPassword(), String.valueOf(result.getId()))));
+            db.DMLStatement("update", "update tbl_devices set provision = false,deviceName = ?,ip = ?,username = ?,password=? where id = ? ", new ArrayList<Object>(Arrays.asList(result.getDeviceName(), result.getIp(), result.getUsername(), result.getPassword(), String.valueOf(result.getId()))));
         }
 
         HashMap<String, Object> rs = result.getResult();

@@ -61,7 +61,7 @@ public class PollingUtil {
             session = new JSch().getSession(username, host, port);
             session.setPassword(password);
             session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
+            session.connect(1000);
 
             for (String command : commands) {
                 channel = (ChannelExec) session.openChannel("exec");

@@ -13,7 +13,7 @@
         </action>
 
 <!--        Authentication-->
-        <action name="login" class="action.AuthenticationAction" method="login">
+        <action name="authenticate" class="action.AuthenticationAction" method="login">
             <result name="success" type="json" />
         </action>
 
@@ -52,6 +52,15 @@
 
 <!--        Metric Data-->
         <action name="getMetrics" class="action.MetricAction" method="get">
+            <result name="success" type="json" />
+        </action>
+
+        <action name="deviceStatus" class="action.MetricAction" method="deviceStatus">
+            <result name="success" type="json" />
+        </action>
+
+<!--        Dashboard data-->
+        <action name="getDashboard" class="action.DashboardAction" method="get">
             <result name="success" type="json" />
         </action>
 

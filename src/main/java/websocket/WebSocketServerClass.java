@@ -14,13 +14,14 @@ public class WebSocketServerClass {
     public void handleOpen(Session session) {
         try {
             users.put(session.getId(),session);
-            session.getBasicRemote().sendText("id:"+session.getId());
+            session.getBasicRemote().sendText("id "+session.getId());
+            session.getBasicRemote().sendText("1~Websocket~Connected Successfully");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void sendMessage(String id,HashMap<String,String> message){
+    public static void sendMessage(String id,HashMap<String,Object> message){
         try {
             users.get(id).getBasicRemote().sendText(message.toString());
         } catch (IOException e) {

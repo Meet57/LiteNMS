@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class DeviceModel {
     private int id;
-    private String type,deviceName,ip,username,password;
+    private String type,deviceName,ip,username,password,socketId;
 
     private HashMap<String, Object> result;
 
@@ -88,4 +88,11 @@ public class DeviceModel {
         this.ip = ip;
     }
 
+    public String getSocketId() {
+        return socketId;
+    }
+
+    public void setSocketId(String socketId) {
+        this.socketId = socketId;
+    }
 }

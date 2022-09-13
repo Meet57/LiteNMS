@@ -12,11 +12,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="Metric UI complete">
+    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="converting notification to websocket">
+      <change afterPath="$PROJECT_DIR$/src/main/java/action/DashboardAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/services/DashboardData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/script/helper/ajax.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DAO/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DAO/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/action/MetricAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MetricAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/PollingAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/PollingAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/struts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/struts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/components.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" afterDir="false" />
@@ -60,6 +74,9 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
 }</component>
@@ -966,7 +983,10 @@
       <workItem from="1662700924586" duration="27359000" />
       <workItem from="1662875689126" duration="15847000" />
       <workItem from="1662921123891" duration="2627000" />
-      <workItem from="1662958480831" duration="11773000" />
+      <workItem from="1662958480831" duration="22263000" />
+      <workItem from="1662996619742" duration="599000" />
+      <workItem from="1663044576590" duration="6173000" />
+      <workItem from="1663057457014" duration="15477000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>
@@ -1024,7 +1044,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662961498574</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="converting notification to websocket">
+      <created>1662974638997</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1662974638997</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1074,6 +1101,7 @@
     <MESSAGE value="connection pool&#10;websocket&#10;loginpage" />
     <MESSAGE value="pooling file ready" />
     <MESSAGE value="Metric UI complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="Metric UI complete" />
+    <MESSAGE value="converting notification to websocket" />
+    <option name="LAST_COMMIT_MESSAGE" value="converting notification to websocket" />
   </component>
 </project>

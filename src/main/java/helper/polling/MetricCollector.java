@@ -22,7 +22,7 @@ public class MetricCollector {
         ScheduledFuture scheduledFuture = scs.scheduleAtFixedRate(
                 schedulerTask(executorService),
                 0,
-                5,
+                2,
                 TimeUnit.MINUTES
         );
     }
@@ -46,7 +46,7 @@ public class MetricCollector {
                             new Database().DMLStatement(
                                     "add",
                                     "insert into metrics (ip, ts, type, packetloss, rtt) values (?,now(),'ping',?,?)",
-                                    new ArrayList<String>(Arrays.asList(result.split(" ")[0], matcher.group(1), matcher.group(3)))
+                                    new ArrayList<Object>(Arrays.asList(result.split(" ")[0], matcher.group(1), matcher.group(3)))
                             );
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
@@ -58,7 +58,7 @@ public class MetricCollector {
                             new Database().DMLStatement(
                                     "add",
                                     "insert into metrics (ip, ts, type, packetloss, rtt) values (?,now(),'ping',?,-1)",
-                                    new ArrayList<String>(Arrays.asList(result.split(" ")[0], matcher.group(1)))
+                                    new ArrayList<Object>(Arrays.asList(result.split(" ")[0], matcher.group(1)))
                             );
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
@@ -96,7 +96,7 @@ public class MetricCollector {
                             new Database().DMLStatement(
                                     "add",
                                     "insert into metrics (ip, ts, type, packetloss, rtt, cpu, mem, tmem, disk) values (?,now(),'ssh',?,?,?,?,?,?)",
-                                    new ArrayList<String>(Arrays.asList(result.get("ip"), result.get("packetloss"), result.get("rtt"), result.get("cpu"), result.get("umem"), result.get("mem"), result.get("disk")))
+                                    new ArrayList<Object>(Arrays.asList(result.get("ip"), result.get("packetloss"), result.get("rtt"), 100 - Float.parseFloat(result.get("cpu")), result.get("umem"), result.get("mem"), result.get("disk")))
                             );
 
                         } else {
@@ -104,7 +104,7 @@ public class MetricCollector {
                             new Database().DMLStatement(
                                     "add",
                                     "insert into metrics (ip, ts, type, packetloss, rtt) values (?,now(),'ssh',?,?)",
-                                    new ArrayList<String>(Arrays.asList(result.get("ip"), result.get("packetloss"), result.get("rtt")))
+                                    new ArrayList<Object>(Arrays.asList(ip, result.get("packetloss"), result.get("rtt")))
                             );
                         }
 
@@ -113,13 +113,13 @@ public class MetricCollector {
                         new Database().DMLStatement(
                                 "add",
                                 "insert into metrics (ip, ts, type, packetloss, rtt) values (?,now(),'ssh',?,-1)",
-                                new ArrayList<String>(Arrays.asList(ip, matcher.group(1)))
+                                new ArrayList<Object>(Arrays.asList(ip, matcher.group(1)))
                         );
 
                     }
 
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    System.err.println(e.getMessage());
                 }
             }
         };
@@ -129,7 +129,7 @@ public class MetricCollector {
         return new Runnable() {
             @Override
             public void run() {
-                List<Runnable> callables = new ArrayList<>();
+                List<Runnable> runnables = new ArrayList<>();
 
                 Database db = new Database();
 
@@ -137,16 +137,16 @@ public class MetricCollector {
                 try {
                     availableMonitor = db.select("select * from tbl_monitor_devices", null);
 
+                    runnables.add(pingPolling(availableMonitor.stream().filter(device -> device.get("type").equals("ping")).map(device -> device.get("ip")).toArray(String[]::new)));
+
                     availableMonitor.stream().filter(device -> device.get("type").equals("ssh")).forEach(
                             monitor -> {
-                                callables.add(shhPolling(monitor.get("ip"), monitor.get("username"), monitor.get("password")));
+                                runnables.add(shhPolling(monitor.get("ip"), monitor.get("username"), monitor.get("password")));
                             }
                     );
 
-                    callables.add(pingPolling(availableMonitor.stream().filter(device -> device.get("type").equals("ping")).map(device -> device.get("ip")).toArray(String[]::new)));
-
-                    for (int i = 0; i < callables.size(); i++) {
-                        executorService.submit(callables.get(i));
+                    for (int i = 0; i < runnables.size(); i++) {
+                        executorService.submit(runnables .get(i));
                     }
 
                 } catch (SQLException e) {

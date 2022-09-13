@@ -5,7 +5,9 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import helper.PingUtil;
 import helper.PollingUtil;
+import helper.polling.MetricCollector;
 import model.DeviceModel;
+import websocket.WebSocketServerClass;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +17,6 @@ import java.util.HashMap;
 public class PollingAction extends ActionSupport implements ModelDriven<DeviceModel> {
     DeviceModel result = new DeviceModel();
 
-    //    ABle to monitor or not for provision
     public String discovery() throws Exception {
 
         Database db = new Database();
@@ -54,6 +55,8 @@ public class PollingAction extends ActionSupport implements ModelDriven<DeviceMo
             }
         }
 
+//        WebSocketServerClass.sendMessage(result.getSocketId(),rs);
+
         return SUCCESS;
     }
 
@@ -64,7 +67,8 @@ public class PollingAction extends ActionSupport implements ModelDriven<DeviceMo
 
         HashMap<String, String> data = db.select("select * from tbl_devices where id = ?", new ArrayList<>(Collections.singletonList(String.valueOf(result.getId())))).get(0);
 
-        ArrayList<HashMap<String, String>> exsitingDevices = db.select("select * from tbl_monitor_devices where type = ? and ip = ?", new ArrayList<String>(Arrays.asList(data.get("type"), data.get("ip"))));
+        ArrayList<HashMap<String, String>> exsitingDevices = db.select("select * from tbl_monitor_devices where type = ? and ip = ?", new ArrayList<Object>(
+                Arrays.asList(data.get("type"), data.get("ip"))));
 
         db.DMLStatement("update", "update tbl_devices set provision = 2 where id = ?", new ArrayList<>(Collections.singletonList(String.valueOf(result.getId()))));
 
@@ -81,8 +85,16 @@ public class PollingAction extends ActionSupport implements ModelDriven<DeviceMo
         }
 
         db.DMLStatement("add", "insert into tbl_monitor_devices (deviceName,ip,type,username,password) values (?,?,?,?,?)",
-                new ArrayList<String>(Arrays.asList(data.get("deviceName"), data.get("ip"), data.get("type"), data.get("username"), data.get("password")))
+                new ArrayList<Object>(Arrays.asList(data.get("deviceName"), data.get("ip"), data.get("type"), data.get("username"), data.get("password")))
         );
+
+//        if(data.get("type").equals("ssh")){
+//            new Thread(MetricCollector.shhPolling(data.get("ip"),data.get("username"),data.get("password"))).start();
+//        }else{
+//            String[] ar = new String[1];
+//            ar[0] = data.get("ip");
+//            new Thread(MetricCollector.pingPolling(ar)).start();
+//        }
 
         rs.put("status", data.get("deviceName") + ": device added for monitoring");
         rs.put("code", 1);
