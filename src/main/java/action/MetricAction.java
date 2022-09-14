@@ -59,6 +59,12 @@ public class MetricAction extends ActionSupport implements ModelDriven<MetricMod
         }
         availability = 100 - availability / raw.size();
 
+        if(raw.get(raw.size() - 1).get("rtt").equals("-1.0")){
+            rs.put("ip","<div class='d-flex'><h1>"+result.getIp()+"</h1><span class=\"badge h-100 rounded-pill mx-2 text-bg-danger\">DOWN</span>\n</div>");
+        }else{
+            rs.put("ip","<div class='d-flex'><h1>"+result.getIp()+"</h1><span class=\"badge h-100 rounded-pill mx-2 text-bg-success\">UP</span>\n</div>");
+        }
+
         rs.put("code",1);
         rs.put("availability", availability);
         rs.put("rtt", raw.get(raw.size() - 1).get("rtt"));

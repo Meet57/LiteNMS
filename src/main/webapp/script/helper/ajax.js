@@ -1,6 +1,6 @@
 var API = {
 
-    ajaxpost: function (request) {
+    ajaxpost: function (request,async = true) {
         $.ajax({
 
             type: 'POST',
@@ -8,6 +8,8 @@ var API = {
             url: request.url,
 
             data: request.data,
+
+            async: async,
 
             success: function (data) {
                 let callbacks;
@@ -29,7 +31,7 @@ var API = {
         });
     },
 
-    ajaxget: function (request) {
+    ajaxget: function (request,async=true) {
         $.ajax({
 
             type: 'GET',
@@ -37,6 +39,8 @@ var API = {
             url: request.url,
 
             data: request.data,
+
+            async: async,
 
             success: function (data) {
                 let callbacks;

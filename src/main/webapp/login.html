@@ -19,19 +19,18 @@
         <h1>Lite NMS</h1>
         <hr>
         <h4>Login</h4>
-        <form id="loginForm">
+        <form id="loginForm" method="post">
             <div class="form-floating mt-3">
-                <input type="text" autocomplete="off" class="form-control" id="username" name="username" value="meet">
+                <input type="text" autocomplete="off" class="form-control" id="username" name="username">
                 <label for="floatingInput">Username</label>
                 <div class="invalid-feedback">Invalid Username</div>
             </div>
             <div class="form-floating mt-3">
-                <input type="password" autocomplete="off" class="form-control" id="password" name="password" value="admin">
+                <input type="password" autocomplete="off" class="form-control" id="password" name="password">
                 <label for="floatingInput">Password</label>
                 <div class="invalid-feedback">Invalid Password</div>
             </div>
             <button type="submit" class="btn btn-outline-success mt-3">Submit</button>
-            <button type="button" class="btn btn-outline-danger ms-3 mt-3" onclick="AUTHENTICATION.forget()">Forgot</button>
         </form>
     </div>
 </div>
@@ -44,8 +43,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="./script/helper/ajax.js"></script>
 <script src="script/authentication.js"></script>
 <script src="script/components.js"></script>
+
+<script>
+    AUTHENTICATION.load()
+</script>
 
 </body>
 

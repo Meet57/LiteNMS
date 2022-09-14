@@ -53,6 +53,10 @@ public class DiscoveryAction extends ActionSupport implements ModelDriven<Device
 
         db.DMLStatement("delete", "delete from tbl_devices where id = ?", new ArrayList<Object>(Collections.singletonList(String.valueOf(result.getId()))));
 
+        HashMap<String, Object> rs = result.getResult();
+        rs.put("status", "Device deleted");
+        rs.put("code", 0);
+
         return SUCCESS;
     }
 

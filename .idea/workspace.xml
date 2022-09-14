@@ -12,28 +12,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="converting notification to websocket">
-      <change afterPath="$PROJECT_DIR$/src/main/java/action/DashboardAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/services/DashboardData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/script/helper/ajax.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="dashboard ready,&#10;ping now button&#10;query changed to object">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DAO/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DAO/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/AuthenticationAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/AuthenticationAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/action/MetricAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MetricAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/action/PollingAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/PollingAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/MyInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/MyInterceptor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/DashboardData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/DashboardData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/struts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/struts.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/authentication.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/authentication.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/components.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/helper/ajax.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/helper/ajax.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/navigation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,8 +104,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PingUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="helper.PingUtil" />
+    <configuration name="PollingUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="helper.PollingUtil" />
       <module name="LiteNMS" />
       <extension name="coverage">
         <pattern>
@@ -947,20 +944,20 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.PollingUtil" />
       <item itemvalue="Application.helper.polling.PollingWorker" />
       <item itemvalue="Application.MetricCollector" />
       <item itemvalue="Application.MetricCollector (1)" />
-      <item itemvalue="Application.PingUtil" />
       <item itemvalue="Application.PollingWorker" />
       <item itemvalue="Jetty Server.Jetty 9.4.48.v20220622" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.PollingUtil" />
         <item itemvalue="Application.MetricCollector (1)" />
         <item itemvalue="Application.MetricCollector" />
         <item itemvalue="Application.helper.polling.PollingWorker" />
         <item itemvalue="Application.PollingWorker" />
-        <item itemvalue="Application.PingUtil" />
       </list>
     </recent_temporary>
   </component>
@@ -986,7 +983,8 @@
       <workItem from="1662958480831" duration="22263000" />
       <workItem from="1662996619742" duration="599000" />
       <workItem from="1663044576590" duration="6173000" />
-      <workItem from="1663057457014" duration="15477000" />
+      <workItem from="1663057457014" duration="17914000" />
+      <workItem from="1663129433222" duration="22445000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>
@@ -1051,7 +1049,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662974638997</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="dashboard ready,&#10;ping now button&#10;query changed to object">
+      <created>1663079373442</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1663079373443</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1102,6 +1107,7 @@
     <MESSAGE value="pooling file ready" />
     <MESSAGE value="Metric UI complete" />
     <MESSAGE value="converting notification to websocket" />
-    <option name="LAST_COMMIT_MESSAGE" value="converting notification to websocket" />
+    <MESSAGE value="dashboard ready,&#10;ping now button&#10;query changed to object" />
+    <option name="LAST_COMMIT_MESSAGE" value="dashboard ready,&#10;ping now button&#10;query changed to object" />
   </component>
 </project>

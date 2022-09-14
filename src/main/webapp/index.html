@@ -38,8 +38,8 @@
                             Account
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="User">
-                            <li><span class="dropdown-item" href="#">Meet Patel</span></li>
-                            <li class="dropdown-item"><button class="btn btn-outline-danger" href="#">Logout</button></li>
+                            <li><span class="dropdown-item" id="navUsername">Meet Patel</span></li>
+                            <li class="dropdown-item"><button class="btn btn-outline-danger" onclick="NAVIGATION.logout()">Logout</button></li>
                         </ul>
                     </div>
                 </div>
@@ -47,6 +47,20 @@
         </div>
     </nav>
 
+
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalHeading"></h5></div>
+                <div class="modal-body" id="modalBody">...</div>
+                <div class="modal-footer" id="modalFooter">
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="modalSubmitButton" onclick="DISCOVERY.addDeviceAction()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="body">
 
     </div>
@@ -58,6 +72,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

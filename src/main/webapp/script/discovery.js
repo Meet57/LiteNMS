@@ -4,11 +4,11 @@ var DISCOVERY = {
 
         $("#body").removeClass()
 
-        $("#body").html(`<div class="container"><div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="modalHeading"></h5></div><div class="modal-body" id="modalBody">...</div><div class="modal-footer" id="modalFooter"><button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button type="button" class="btn btn-primary" id="modalSubmitButton" onclick="DISCOVERY.addDeviceAction()"></button></div></div></div></div><div class="row"><div class="col-9 mx-auto mt-2 py-3"><button type="button" class="btn btn-primary" onclick="DISCOVERY.modelForm()">Add Device</button></div></div><div class="row"><div class="col-9 mx-auto bg-light shadow mt-2 p-3 rounded"><table id="discoveryTable" class="table table-hover table-bordered display"></table></div></div></div>`)
+        $("#body").html(`<div class="container"><div class="row"><div class="col-9 mx-auto mt-2 py-3"><button type="button" class="btn btn-primary" onclick="DISCOVERY.modelForm()">Add Device</button></div></div><div class="row"><div class="col-9 mx-auto bg-light shadow mt-2 p-3 rounded"><table id="discoveryTable" class="table table-hover table-bordered display"></table></div></div></div>`)
 
         DISCOVERY.loadDiscoveryTable()
 
-        $("#discoveryTable").on("click", ".deleteButton", DISCOVERY.deleteDeviceAction);
+        $("#discoveryTable").on("click", ".deleteButton", DISCOVERY.deleteDeviceModal);
 
         $("#discoveryTable").on("click", ".editButton", DISCOVERY.getDeviceData);
 
@@ -203,21 +203,25 @@ var DISCOVERY = {
 
     },
 
-    deleteDeviceAction: function () {
+    deleteDeviceModal: function (){
+        COMPONENTS.modal("Delete device", "Delete", "DISCOVERY.deleteDeviceAction",$(this).data("id"))
+        $('#modalBody').html("Do you want to delete this device ?");
+        $('#modal').modal('toggle');
+    },
 
-        $.post(
-            "deleteDiscoveryDevice",
+    deleteDeviceAction: function (id) {
 
-            {id: $(this).data("id")},
+        $('#modal').modal('toggle');
 
-            function () {
+        let request = {
+            url: "deleteDiscoveryDevice",
+            data: {id},
+            callback: DISCOVERY.sendNotification,
+        };
 
-                COMPONENTS.alert("Device Delete", "Device has been deleted", "danger")
+        API.ajaxget(request,false);
 
-                DISCOVERY.loadDiscoveryTable(true);
-
-            }
-        )
+        DISCOVERY.loadDiscoveryTable(true);
 
     },
 
@@ -246,6 +250,9 @@ var DISCOVERY = {
 
             }
         )
+    },
+    sendNotification: function (data) {
+        COMPONENTS.alert("Discovery", data.result.status, data.result.code === 1 ? "success" : "danger");
     }
 }
 
@@ -288,7 +295,12 @@ var PROVISION = {
         $.post(
             "putProvision",
 
-            {id: $(this).data("id"), type: $(this).data("type"), ip: $(this).data("ip"),socketId: localStorage.getItem("socketId")},
+            {
+                id: $(this).data("id"),
+                type: $(this).data("type"),
+                ip: $(this).data("ip"),
+                socketId: localStorage.getItem("socketId")
+            },
 
             function (data) {
 

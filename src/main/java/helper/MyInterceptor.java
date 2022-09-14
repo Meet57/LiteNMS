@@ -22,28 +22,25 @@ public class MyInterceptor implements Interceptor {
     }
 
     @Override
-    public String intercept(ActionInvocation inv) throws Exception {
+    public String intercept(ActionInvocation actionInvocation) throws Exception {
 
-        ActionContext context = inv.getInvocationContext();
+        Map<String, Object> sessionMain = ActionContext.getContext().getSession();
 
-        SessionMap<String,Object> map = (SessionMap<String,Object>) inv.getInvocationContext().getSession();
+        boolean result = false;
 
-        if(map==null)
+        if (sessionMain.get("username") != null)
+        {
+            actionInvocation.invoke();
+
+            result = true;
+        }
+
+        if (!result)
         {
             return "login";
         }
 
-        Object user = map.get("username");
-
-        if(user==null ||user.equals("") || map.isEmpty() ){
-
-            return "login";
-
-        }
-
-        inv.invoke();
-
-        return "success";
+        return ActionSupport.SUCCESS;
 
     }
 }

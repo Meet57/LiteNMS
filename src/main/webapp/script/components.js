@@ -13,10 +13,14 @@ var COMPONENTS = {
             </div>
         `
     },
-    modal: function (header, buttonName, buttonFunction) {
+    modal: function (header, buttonName, buttonFunction, parameter) {
         $("#modalHeading").html(header)
         $("#modalSubmitButton").html(buttonName)
-        $("#modalSubmitButton").attr("onclick", buttonFunction + "()");
+        if (!parameter) {
+            $("#modalSubmitButton").attr("onclick", buttonFunction + "()");
+        } else {
+            $("#modalSubmitButton").attr("onclick", buttonFunction + "(" + parameter + ")");
+        }
     },
     alert: function (title, body, type = "primary") {
         var html = `
@@ -62,6 +66,9 @@ var CHARTS = {
                     beginAtZero: true,
                     min: limits[0],
                     max: limits[1],
+                    ticks: {
+                        precision: 0
+                    }
                 }
             }
         }

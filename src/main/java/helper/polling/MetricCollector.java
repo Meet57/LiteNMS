@@ -22,7 +22,7 @@ public class MetricCollector {
         ScheduledFuture scheduledFuture = scs.scheduleAtFixedRate(
                 schedulerTask(executorService),
                 0,
-                2,
+                5,
                 TimeUnit.MINUTES
         );
     }

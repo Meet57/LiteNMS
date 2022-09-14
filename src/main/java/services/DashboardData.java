@@ -24,35 +24,39 @@ public class DashboardData {
             result.put(
                     "cpu",
                     hashMapToHTML(db.select("select ip, max(cpu) as cpu from metrics where ( ts like ? and cpu is NOT NULL ) group by ip order by cpu desc limit 5;",
-                                    new ArrayList<>(Collections.singletonList(date))), new ArrayList<>(Arrays.asList("ip","cpu")))
+                            new ArrayList<>(Collections.singletonList(date))), new ArrayList<>(Arrays.asList("ip", "cpu")))
             );
 
             result.put(
                     "rtt",
-                    hashMapToHTML(db.select("select ip, min(rtt) as rtt from metrics where ( ts like ? and rtt != -1 ) group by ip order by rtt limit 5;",
-                            new ArrayList<>(Collections.singletonList(date))), new ArrayList<>(Arrays.asList("ip","rtt")))
+                    hashMapToHTML(db.select("select ip, max(rtt) as rtt from metrics where ( ts like ? and rtt != -1 ) group by ip order by rtt desc limit 5;",
+                            new ArrayList<>(Collections.singletonList(date))), new ArrayList<>(Arrays.asList("ip", "rtt")))
             );
 
             result.put(
                     "disk",
                     hashMapToHTML(db.select("select ip, max(disk) as disk from metrics where ( ts like ? and disk is NOT NULL ) group by ip order by disk desc limit 5;",
-                            new ArrayList<>(Collections.singletonList(date))), new ArrayList<>(Arrays.asList("ip","disk")))
+                            new ArrayList<>(Collections.singletonList(date))), new ArrayList<>(Arrays.asList("ip", "disk")))
             );
 
-            ArrayList<HashMap<String, String>> metrics = db.select("select * from metrics where ts like ?", new ArrayList<>(Collections.singletonList(date)));
-
             HashMap<String, String> devices = new HashMap<>();
+
+            ArrayList<HashMap<String, String>> ips = db.select("select ip from tbl_monitor_devices", null);
+
+            for (HashMap<String, String> ip : ips) {
+                devices.put(ip.get("ip"), "UNKNOWN");
+            }
+
+            ArrayList<HashMap<String, String>> metrics = db.select("SELECT ip,packetloss FROM metrics WHERE id IN (SELECT MAX(id) FROM metrics where ts like ? group by ip);", new ArrayList<>(Collections.singletonList(date)));
 
             if (metrics.size() > 0) {
                 for (HashMap<String, String> metric : metrics) {
                     String status = metric.get("packetloss").equals("0") ? "UP" : "DOWN";
                     devices.put(metric.get("ip"), status);
                 }
-            } else {
-                devices.put("Wait for the first polling cycle", "Devices will load soon");
             }
 
-            result.put("devices",hashMapTo2dArray(devices));
+            result.put("devices", hashMapTo2dArray(devices));
 
 
         } catch (SQLException e) {
