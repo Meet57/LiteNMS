@@ -4,8 +4,6 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.interceptor.Interceptor;
-import com.opensymphony.xwork2.util.ValueStack;
-import org.apache.struts2.dispatcher.SessionMap;
 
 import java.util.Map;
 

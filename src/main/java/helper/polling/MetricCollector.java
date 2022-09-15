@@ -4,7 +4,6 @@ import DAO.Database;
 import helper.CacheData;
 import helper.PingUtil;
 import helper.PollingUtil;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,13 +15,14 @@ import java.util.regex.Pattern;
 
 public class MetricCollector {
     public static void startPolling() {
-        System.out.println("Polling Started with :" + Runtime.getRuntime().availableProcessors() + " cores");
+
         ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
         ScheduledExecutorService scs = Executors.newSingleThreadScheduledExecutor();
 
         scs.scheduleAtFixedRate(
                 schedulerTask(executorService),
-                1,
+                0,
                 5,
                 TimeUnit.MINUTES
         );
@@ -33,6 +33,7 @@ public class MetricCollector {
             @Override
             public void run() {
                 String[] allResults = PingUtil.ping(ipAddresses);
+
                 for (String result : allResults) {
 
                     Pattern pattern = Pattern.compile(".* : xmt\\/rcv\\/%loss = \\d\\/\\d\\/(\\d+)%(, min\\/avg\\/max =.*\\/(\\d+.\\d+)\\/)*");
@@ -44,6 +45,7 @@ public class MetricCollector {
                     if (matcher.group(1).equals("0")) {
 
                         try {
+
                             new Database().databaseDMLOperation(
                                     "add",
                                     "insert into metrics (ip, timestamp, type, packet_loss, rtt,status) values (?,now(),'ping',?,?,1)",
@@ -53,12 +55,15 @@ public class MetricCollector {
                             CacheData.getData().put(result.split(" ")[0],"UP");
 
                         } catch (SQLException e) {
+
                             e.printStackTrace();
+
                         }
 
                     } else {
 
                         try {
+
                             new Database().databaseDMLOperation(
                                     "add",
                                     "insert into metrics (ip, timestamp, type, packet_loss, status) values (?,now(),'ping',?,0)",
@@ -68,9 +73,10 @@ public class MetricCollector {
                             CacheData.getData().put(result.split(" ")[0],"DOWN");
 
                         } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
 
+                            e.printStackTrace();
+
+                        }
                     }
                 }
             }
@@ -91,11 +97,13 @@ public class MetricCollector {
                     matcher.find();
 
                     if (matcher.group(1).equals("0")) {
+
                         PollingUtil poll = new PollingUtil();
 
                         HashMap<String, String> result = poll.polling(username, password, ip, 22);
 
                         result.put("rtt", matcher.group(3));
+
                         result.put("packet_loss", matcher.group(1));
 
                         if (result.get("code").equals("1")) {
@@ -159,11 +167,15 @@ public class MetricCollector {
                     );
 
                     for (int i = 0; i < runnables.size(); i++) {
+
                         executorService.submit(runnables .get(i));
+
                     }
 
                 } catch (SQLException e) {
+
                     e.printStackTrace();
+
                 }
             }
         };

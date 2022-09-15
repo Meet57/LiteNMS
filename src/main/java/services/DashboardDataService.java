@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class DashboardDataService {
 
@@ -17,6 +16,7 @@ public class DashboardDataService {
         Database db = new Database();
 
         String startDate = String.valueOf(LocalDate.now()) + " 00:00:00";
+
         String endDate = String.valueOf(LocalDate.now()) + " 23:59:59";
 
         HashMap<String, Object> result = new HashMap<>();
@@ -42,6 +42,7 @@ public class DashboardDataService {
             );
 
             HashMap<String, Object> devices = new HashMap<>(CacheData.getData());
+
             ArrayList<ArrayList<Object>> deviceStatus = new ArrayList<>();
 
             for (String ip : devices.keySet()) {
@@ -52,7 +53,9 @@ public class DashboardDataService {
 
 
         } catch (SQLException e) {
+
             e.printStackTrace();
+
         }
 
         return result;
@@ -92,7 +95,6 @@ public class DashboardDataService {
             sb.append("<h3 class='text-danger'>N/A</h3>");
 
         }
-
 
         return sb.toString();
     }

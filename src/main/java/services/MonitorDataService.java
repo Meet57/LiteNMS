@@ -20,6 +20,7 @@ public class MonitorDataService {
         HashMap<String, Object> rs = metricModel.getResult();
 
         String startDate = String.valueOf(LocalDate.now()) + " 00:00:00";
+
         String endDate = String.valueOf(LocalDate.now()) + " 23:59:59";
 
         ArrayList<HashMap<String, String>> raw = null;
