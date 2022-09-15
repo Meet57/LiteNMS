@@ -19,7 +19,7 @@ public class MetricCollector {
         ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         ScheduledExecutorService scs = Executors.newSingleThreadScheduledExecutor();
 
-        ScheduledFuture scheduledFuture = scs.scheduleAtFixedRate(
+        scs.scheduleAtFixedRate(
                 schedulerTask(executorService),
                 0,
                 5,

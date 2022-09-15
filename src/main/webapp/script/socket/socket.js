@@ -20,18 +20,15 @@ function processOnOpen(message) {}
 
 function processOnMessage(message) {
 
-    // let data = message.data
-    //
-    // console.log(data)
-    //
-    // if(data.includes("id")){
-    //     localStorage.setItem("socketId",message.data.split(" ")[1])
-    // }
-    //
-    // else{
-    //     data = data.split("~")
-    //     COMPONENTS.alert(data[1],data[2],data[0] === "1" ? "success" : "danger")
-    // }
+    let data = JSON.parse(message.data)
+
+    console.log(data)
+
+    switch (data.type){
+        case 'socketId':
+            localStorage.setItem("socketId",data.socketId)
+            break
+    }
 
 }
 

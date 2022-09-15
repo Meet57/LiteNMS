@@ -5,6 +5,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import helper.PingUtil;
 import model.MetricModel;
+import websocket.WebSocketServerClass;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -85,13 +86,17 @@ public class MetricAction extends ActionSupport implements ModelDriven<MetricMod
 
         HashMap<String, Object> rs = result.getResult();
 
+        rs.put("type","notification");
         if (ping.isUp(result.getIp())) {
-            rs.put("status", "Device is up");
+            rs.put("status", result.getIp()+": Device is up");
             rs.put("code", 1);
         } else {
-            rs.put("status", "Device is down");
+            rs.put("status", result.getIp()+": Device is down");
             rs.put("code", 0);
         }
+
+        WebSocketServerClass.sendMessage(result.getSocketId(),rs);
+
         return SUCCESS;
     }
 

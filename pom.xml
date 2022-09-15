@@ -50,6 +50,11 @@
             <artifactId>servlet-api-2.5</artifactId>
             <version>6.1.7</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180130</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>LiteNMS</finalName>

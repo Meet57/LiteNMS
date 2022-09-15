@@ -22,7 +22,13 @@ var COMPONENTS = {
             $("#modalSubmitButton").attr("onclick", buttonFunction + "(" + parameter + ")");
         }
     },
-    alert: function (title, body, type = "primary") {
+    alert: function (title, body, type=1) {
+
+        switch (type){
+            case 1:
+                type = "pruima"
+        }
+
         var html = `
             <div class="position-fixed top-0 end-0 p-3" style="z-index: 99999">
               <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">

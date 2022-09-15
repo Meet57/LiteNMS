@@ -45,10 +45,10 @@
         </action>
 
 <!--        Authentication-->
-        <action name="authenticate" class="action.AuthenticationAction" method="login">
+        <action name="authenticate" class="action.LoginAction" method="login">
             <result name="success" type="json" />
         </action>
-        <action name="logout" class="action.AuthenticationAction" method="logout">
+        <action name="logout" class="action.LoginAction" method="logout">
             <result name="success" type="json" />
         </action>
 

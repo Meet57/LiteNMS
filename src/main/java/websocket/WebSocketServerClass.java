@@ -1,9 +1,12 @@
 package websocket;
 
+import org.json.JSONObject;
+
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 @ServerEndpoint("/websocket/endpoint")
 public class WebSocketServerClass {
@@ -13,9 +16,12 @@ public class WebSocketServerClass {
     @OnOpen
     public void handleOpen(Session session) {
         try {
+            JSONObject jo = new JSONObject();
+            jo.put("socketId",session.getId());
+            jo.put("type","socketId");
+
             users.put(session.getId(),session);
-            session.getBasicRemote().sendText("id "+session.getId());
-            session.getBasicRemote().sendText("1~Websocket~Connected Successfully");
+            session.getBasicRemote().sendText(String.valueOf(jo));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -23,7 +29,8 @@ public class WebSocketServerClass {
 
     public static void sendMessage(String id,HashMap<String,Object> message){
         try {
-            users.get(id).getBasicRemote().sendText(message.toString());
+            JSONObject jo = new JSONObject(message);
+            users.get(id).getBasicRemote().sendText(jo.toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -34,8 +41,8 @@ public class WebSocketServerClass {
     }
 
     @OnClose
-    public void handleClose() {
-        System.out.println("Client is now disconnected....");
+    public void handleClose(Session session) {
+        users.remove(session.getId());
     }
 
     @OnError

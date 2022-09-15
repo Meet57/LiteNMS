@@ -145,7 +145,7 @@ var MONITOR = {
 
         let request = {
             url: "deviceStatus",
-            data: {ip: $(this).data("ip")},
+            data: {ip: $(this).data("ip"),socketId: localStorage.getItem("socketId")},
             callback: MONITOR.sendNotification,
         };
 

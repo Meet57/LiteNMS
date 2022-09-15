@@ -3,11 +3,19 @@ package model;
 import java.util.HashMap;
 
 public class MetricModel {
-    private String ip,type;
+    private String ip,type,socketId;
     private HashMap<String, Object> result;
 
     public MetricModel() {
         result = new HashMap<>();
+    }
+
+    public String getSocketId() {
+        return socketId;
+    }
+
+    public void setSocketId(String socketId) {
+        this.socketId = socketId;
     }
 
     public String getIp() {

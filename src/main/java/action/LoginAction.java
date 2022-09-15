@@ -9,7 +9,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import java.util.*;
 
-public class AuthenticationAction extends ActionSupport implements ModelDriven<UserModel>, SessionAware {
+public class LoginAction extends ActionSupport implements ModelDriven<UserModel>, SessionAware {
 
     UserModel user = new UserModel();
     private SessionMap<String,Object> sessionMap;
