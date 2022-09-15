@@ -2,6 +2,7 @@ package action;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import helper.CacheData;
 import model.DeviceModel;
 import services.MonitorTabService;
 
@@ -10,6 +11,8 @@ public class MonitorTabAction extends ActionSupport implements ModelDriven<Devic
     DeviceModel result = new DeviceModel();
 
     public String getMonitorDevices(){
+
+        System.out.println(CacheData.data);
 
         MonitorTabService.getMonitorDevices(result);
 

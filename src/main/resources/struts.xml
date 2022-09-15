@@ -79,7 +79,7 @@
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
-        <action name="putProvision" class="action.PollingAction" method="put">
+        <action name="putProvision" class="action.PollingAction" method="putDeviceForMonitoring">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>

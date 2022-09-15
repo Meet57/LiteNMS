@@ -19,15 +19,16 @@ public class MonitorDataService {
 
         HashMap<String, Object> rs = metricModel.getResult();
 
-        String date = String.valueOf(LocalDate.now()) + "%";
+        String startDate = String.valueOf(LocalDate.now()) + " 00:00:00";
+        String endDate = String.valueOf(LocalDate.now()) + " 23:59:59";
 
         ArrayList<HashMap<String, String>> raw = null;
 
         try {
 
             raw = db.databaseSelectOperation(
-                    "select * from metrics where ip = ? and type = ? and timestamp like ?",
-                    new ArrayList<>(Arrays.asList(metricModel.getIp(), metricModel.getType(), date))
+                    "select * from metrics where ip = ? and type = ? and (timestamp between ? and ? )",
+                    new ArrayList<>(Arrays.asList(metricModel.getIp(), metricModel.getType(), startDate,endDate))
             );
 
 
@@ -88,7 +89,7 @@ public class MonitorDataService {
 
             availability = 100 - availability / raw.size();
 
-            if (raw.get(raw.size() - 1).get("rtt").equals("-1.0")) {
+            if (raw.get(raw.size() - 1).get("status").equals("0")) {
 
                 rs.put("ip", "<div class='d-flex'><h1>" + metricModel.getIp() + "</h1><span class=\"badge h-100 rounded-pill mx-2 text-bg-danger\">DOWN</span>\n</div>");
 

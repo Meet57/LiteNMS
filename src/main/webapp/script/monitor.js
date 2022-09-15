@@ -103,7 +103,7 @@ var MONITOR = {
 
         }
 
-        $("#memrtt").append(COMPONENTS.card("RTT", `<h3>${data.result.rtt === "-1.0" ? "<span class='text-danger'>N/A</span>" : `<span class="text-success">${data.result.rtt} ms</span>`}</h3>`, "12", "null"))
+        $("#memrtt").append(COMPONENTS.card("RTT", `<h3>${data.result.rtt === undefined ? "<span class='text-danger'>N/A</span>" : `<span class="text-success">${data.result.rtt} ms</span>`}</h3>`, "12", "null"))
 
         $("#graph").append(COMPONENTS.card("Ping Chart", CHARTS.canvas("pingchart"), "5"))
 

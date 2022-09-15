@@ -78,8 +78,9 @@ public class MonitorTabService {
         Database db = new Database();
 
         try {
-            db.databaseDMLOperation("delete", "delete from tbl_monitor_devices where id = ?", new ArrayList<Object>(Collections.singletonList(String.valueOf(deviceModel.getId()))));
+            System.out.println(db.databaseDMLOperation("delete", "delete from tbl_monitor_devices where id = ?", new ArrayList<Object>(Collections.singletonList(deviceModel.getId()))));
 
+            System.out.println(db.databaseDMLOperation("delete", "delete from metrics where (ip,type) = (select ip,type from tbl_monitor_devices where id = ?)", new ArrayList<Object>(Collections.singletonList(deviceModel.getId()))));
 
             HashMap<String, Object> rs = deviceModel.getResult();
 

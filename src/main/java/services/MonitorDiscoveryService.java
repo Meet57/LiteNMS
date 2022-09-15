@@ -42,7 +42,7 @@ public class MonitorDiscoveryService {
 
             ArrayList<ArrayList<String>> output = new ArrayList<>();
             raw.forEach(ele -> {
-                String html = "<button class='btn btn-outline-success btn-sm editButton' data-id='" + ele.get("id") + "'>EDIT</button><button class='btn btn-outline-danger btn-sm ms-2 deleteButton' data-id='" + ele.get("id") + "'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2 runButton' data-id='" + ele.get("id") + "' data-type='" + ele.get("type") + "' data-ip='" + ele.get("ip") + "' >RUN</button>";
+                String html = "<button class='btn btn-outline-success btn-sm editButton' data-ip='" + ele.get("ip") + "' data-id='" + ele.get("id") + "'>EDIT</button><button class='btn btn-outline-danger btn-sm ms-2 deleteButton' data-ip='" + ele.get("ip") + "' data-id='" + ele.get("id") + "'>DELETE</button><button class='btn btn-outline-primary btn-sm ms-2 runButton' data-id='" + ele.get("id") + "' data-type='" + ele.get("type") + "' data-ip='" + ele.get("ip") + "' >RUN</button>";
                 if (Integer.parseInt(ele.get("provision")) >= 1) {
                     html += "<button class='btn btn-outline-success btn-sm ms-2 provisionButton' data-id='" + ele.get("id") + "'>PROVISION</button>";
                 }
@@ -61,4 +61,76 @@ public class MonitorDiscoveryService {
         }
     }
 
+    public static void deleteDiscoveryDevice(DeviceModel deviceModel) {
+        Database db = new Database();
+        HashMap<String, Object> rs = deviceModel.getResult();
+
+        try {
+            db.databaseDMLOperation("delete", "delete from tbl_devices where id = ?", new ArrayList<Object>(Collections.singletonList(String.valueOf(deviceModel.getId()))));
+
+
+            rs.put("status", "Device deleted");
+            rs.put("code", 0);
+
+        } catch (SQLException e) {
+            rs.put("status", "Error occurred while deleting");
+            rs.put("code", 0);
+            e.printStackTrace();
+        }
+    }
+
+    public static void addDiscoveryDevice(DeviceModel deviceModel) {
+        Database db = new Database();
+
+        ArrayList<HashMap<String, String>> temp = null;
+        HashMap<String, Object> rs = deviceModel.getResult();
+        try {
+            temp = db.databaseSelectOperation("select * from tbl_devices where type=? and ip=? and id != ?", new ArrayList<Object>(Arrays.asList(deviceModel.getType(), deviceModel.getIp(), deviceModel.getId())));
+
+
+            if (temp.size() != 0) {
+                rs.put("status", "Already exists");
+                rs.put("code", 0);
+                return;
+            }
+
+            if (deviceModel.getType().equals("ping")) {
+                db.databaseDMLOperation("add", "insert into tbl_devices (deviceName,ip,type) values (?,?,?)", new ArrayList<Object>(Arrays.asList(deviceModel.getDeviceName(), deviceModel.getIp(), deviceModel.getType())));
+            } else {
+                db.databaseDMLOperation("add", "insert into tbl_devices (deviceName,ip,type,username,password) values (?,?,?,?,?)", new ArrayList<Object>(Arrays.asList(deviceModel.getDeviceName(), deviceModel.getIp(), deviceModel.getType(), deviceModel.getUsername(), deviceModel.getPassword())));
+            }
+            rs.put("status", deviceModel.getIp() + ": device added successfully");
+            rs.put("code", 1);
+
+        } catch (SQLException e) {
+            rs.put("status", "Error occurred while adding");
+            rs.put("code", 0);
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateDiscoveryDevice(DeviceModel deviceModel) {
+
+        Database db = new Database();
+        HashMap<String, Object> rs = deviceModel.getResult();
+
+        try {
+            if (deviceModel.getType().equals("ping")) {
+
+                db.databaseDMLOperation("update", "update tbl_devices set provision = false,deviceName = ?,ip = ? where id = ? ", new ArrayList<Object>(Arrays.asList(deviceModel.getDeviceName(), deviceModel.getIp(), String.valueOf(deviceModel.getId()))));
+
+            } else {
+                db.databaseDMLOperation("update", "update tbl_devices set provision = false,deviceName = ?,ip = ?,username = ?,password=? where id = ? ", new ArrayList<Object>(Arrays.asList(deviceModel.getDeviceName(), deviceModel.getIp(), deviceModel.getUsername(), deviceModel.getPassword(), String.valueOf(deviceModel.getId()))));
+            }
+
+
+            rs.put("status", deviceModel.getIp() + ": device updated successfully");
+            rs.put("code", 1);
+
+        } catch (SQLException e) {
+            rs.put("status", "Error occurred while updating");
+            rs.put("code", 0);
+            e.printStackTrace();
+        }
+    }
 }
