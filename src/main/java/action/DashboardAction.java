@@ -1,7 +1,8 @@
 package action;
 
 import com.opensymphony.xwork2.ActionSupport;
-import services.DashboardData;
+import helper.CacheData;
+import services.DashboardDataService;
 
 import java.util.HashMap;
 
@@ -16,9 +17,9 @@ public class DashboardAction extends ActionSupport {
         this.result = result;
     }
 
-    public String get() throws  Exception{
+    public String getDashboardData() throws  Exception{
 
-        result.put("result", DashboardData.getDashboardData());
+        result.put("result", DashboardDataService.getDashboardData());
 
         return SUCCESS;
     }

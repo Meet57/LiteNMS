@@ -19,7 +19,8 @@ public class ConnectionPool {
 
                 connectionPool.put(con);
             } catch (SQLException | ClassNotFoundException | InterruptedException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                System.exit(1);
             }
         }
     }

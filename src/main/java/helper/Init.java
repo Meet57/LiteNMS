@@ -6,7 +6,7 @@ import helper.polling.MetricCollector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-public class onServerStart extends HttpServlet {
+public class Init extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
@@ -14,5 +14,6 @@ public class onServerStart extends HttpServlet {
         System.out.println("Started");
         ConnectionPool.createConnectionPool(5);
         MetricCollector.startPolling();
+        CacheData.loadMonitorDevices();
     }
 }

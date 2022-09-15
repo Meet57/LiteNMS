@@ -17,7 +17,7 @@
     </filter-mapping>
     <servlet>
         <servlet-name>OnServerStart</servlet-name>
-        <servlet-class>helper.onServerStart</servlet-class>
+        <servlet-class>helper.Init</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
 </web-app>

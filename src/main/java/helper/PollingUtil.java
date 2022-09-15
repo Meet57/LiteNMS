@@ -15,8 +15,7 @@ public class PollingUtil {
     public HashMap<String, String> polling(String username, String password,
                                            String host, int port) {
 
-        PingUtil ping = new PingUtil();
-        if (!ping.isUp(host)) return null;
+        if (!PingUtil.isUp(host)) return null;
 
 //        ArrayList<String> commands = new ArrayList<>();
 
@@ -77,7 +76,7 @@ public class PollingUtil {
             e.printStackTrace();
             return "ERROR " + e.getMessage();
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } finally {
             if (session != null) {
                 session.disconnect();

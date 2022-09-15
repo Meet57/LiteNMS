@@ -32,7 +32,7 @@ public class WebSocketServerClass {
             JSONObject jo = new JSONObject(message);
             users.get(id).getBasicRemote().sendText(jo.toString());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
     @OnMessage

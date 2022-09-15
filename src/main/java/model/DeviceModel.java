@@ -13,31 +13,12 @@ public class DeviceModel {
         result = new HashMap<>();
     }
 
-    public DeviceModel(int id, String deviceName, String ip) {
-        this();
-        this.id = id;
-        this.deviceName = deviceName;
-        this.ip = ip;
-    }
-
-    public DeviceModel(int id, String deviceName, String ip, String username, String password) {
-        this();
-        this.id = id;
-        this.deviceName = deviceName;
-        this.ip = ip;
-        this.username = username;
-        this.password = password;
-    }
-
     public HashMap<String, Object> getResult() {
         return result;
     }
 
     public void setResult(HashMap<String, Object> result) {
         this.result = result;
-    }
-    public void putInResult(String key,Object value) {
-        result.put(key,value);
     }
 
     public String getUsername() {

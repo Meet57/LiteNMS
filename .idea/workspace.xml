@@ -12,17 +12,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="ajax, ui updates, Monitor up down, login">
+    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="starting refactoring 2">
+      <change afterPath="$PROJECT_DIR$/src/main/java/action/MonitorTabAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/helper/CacheData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/services/DashboardDataService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/services/LoginService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/services/MonitorDataService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/services/MonitorDiscoveryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/services/MonitorTabService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/action/MetricAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MetricAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DAO/ConnectionPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DAO/ConnectionPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DAO/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DAO/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/DashboardAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/DashboardAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/DiscoveryAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MonitorDiscoveryAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/LoginAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/LoginAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/MetricAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MonitorDataActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/MonitorAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/PollingAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/PollingAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/PingUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/PingUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/onServerStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/Init.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/MetricModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/MetricModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/DeviceModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/DashboardData.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/components.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/struts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/struts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tables.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tables.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -977,7 +995,7 @@
       <workItem from="1663044576590" duration="6173000" />
       <workItem from="1663057457014" duration="17914000" />
       <workItem from="1663129433222" duration="23578000" />
-      <workItem from="1663216484182" duration="5977000" />
+      <workItem from="1663216484182" duration="20252000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>
@@ -1056,7 +1074,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663162075129</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="starting refactoring">
+      <created>1663229188911</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1663229188911</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1109,6 +1134,9 @@
     <MESSAGE value="converting notification to websocket" />
     <MESSAGE value="dashboard ready,&#10;ping now button&#10;query changed to object" />
     <MESSAGE value="ajax, ui updates, Monitor up down, login" />
-    <option name="LAST_COMMIT_MESSAGE" value="ajax, ui updates, Monitor up down, login" />
+    <MESSAGE value="starting refacorting" />
+    <MESSAGE value="starting refactoring" />
+    <MESSAGE value="starting refactoring 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="starting refactoring 2" />
   </component>
 </project>

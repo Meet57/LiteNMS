@@ -35,15 +35,15 @@ insert into users (id, username, password) values (5, 'smit', 'admin');
 
 create table metrics (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    ts TIMESTAMP,
+    timestamp TIMESTAMP,
     ip VARCHAR(30),
     type VARCHAR(5),
     avaibility VARCHAR(5),
-    packetloss int,
+    packet_loss int,
     rtt VARCHAR(7),
     cpu int,
     mem int,
-    tmem int,
+    total_mem int,
     disk int,
     tdisk int
 );

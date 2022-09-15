@@ -53,23 +53,23 @@
         </action>
 
 <!--        Discovery Actions-->
-        <action name="getDiscoveryDevices" class="action.DiscoveryAction" method="get">
+        <action name="getDiscoveryDevices" class="action.MonitorDiscoveryAction" method="getAllDiscoveryDevices">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
-        <action name="getSingleDiscoveryDevice" class="action.DiscoveryAction" method="monitor">
+        <action name="getSingleDiscoveryDevice" class="action.MonitorDiscoveryAction" method="getSingleDiscoveryDevice">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
-        <action name="deleteDiscoveryDevice" class="action.DiscoveryAction" method="delete">
+        <action name="deleteDiscoveryDevice" class="action.MonitorDiscoveryAction" method="deleteDiscoveryDevice">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
-        <action name="addDiscoveryDevice" class="action.DiscoveryAction" method="add">
+        <action name="addDiscoveryDevice" class="action.MonitorDiscoveryAction" method="addDiscoveryDevice">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
-        <action name="updateDiscoveryDevice" class="action.DiscoveryAction" method="update">
+        <action name="updateDiscoveryDevice" class="action.MonitorDiscoveryAction" method="updateDiscoveryDevice">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
@@ -85,28 +85,28 @@
         </action>
 
 <!--        Monitor-->
-        <action name="getMonitorDevices" class="action.MonitorAction" method="get">
+        <action name="getMonitorDevices" class="action.MonitorTabAction" method="getMonitorDevices">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
-        <action name="deleteMonitorDevice" class="action.MonitorAction" method="delete">
+        <action name="deleteMonitorDevice" class="action.MonitorTabAction" method="deleteMonitorDevice">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
 
 <!--        Metric Data-->
-        <action name="getMetrics" class="action.MetricAction" method="get">
+        <action name="getMetrics" class="action.MonitorDataActions" method="getMonitorData">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
 
-        <action name="deviceStatus" class="action.MetricAction" method="deviceStatus">
+        <action name="deviceStatus" class="action.MonitorDataActions" method="checkDeviceStatus">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>
 
 <!--        Dashboard data-->
-        <action name="getDashboard" class="action.DashboardAction" method="get">
+        <action name="getDashboard" class="action.DashboardAction" method="getDashboardData">
             <interceptor-ref name="loginSession"/>
             <result name="success" type="json" />
         </action>

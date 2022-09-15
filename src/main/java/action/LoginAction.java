@@ -1,11 +1,11 @@
 package action;
 
-import DAO.Database;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import model.UserModel;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
+import services.LoginService;
 
 import java.util.*;
 
@@ -14,27 +14,16 @@ public class LoginAction extends ActionSupport implements ModelDriven<UserModel>
     UserModel user = new UserModel();
     private SessionMap<String,Object> sessionMap;
 
-    public String login() throws Exception {
+    public String login(){
 
-        ArrayList<HashMap<String, String>> existingData = new Database().select("select * from users where username = ?",
-                new ArrayList<>(Collections.singletonList(user.getUsername()))
-        );
+        LoginService.login(user);
 
-        HashMap<String,Object> rs = user.getResult();
+        if(user.getResult().get("code").equals(1)){
 
-        if(existingData.size()==0 || !user.getPassword().equals(existingData.get(0).get("password"))){
-            rs.put("status","Invalid Credentials");
-            rs.put("code",0);
+            sessionMap.put("login",true);
 
-            return SUCCESS;
+            sessionMap.put("username",user.getUsername());
         }
-
-        rs.put("username",user.getUsername());
-        rs.put("status","login Successful");
-        rs.put("code",1);
-
-        sessionMap.put("login",true);
-        sessionMap.put("username",user.getUsername());
 
         return SUCCESS;
     }
@@ -42,6 +31,7 @@ public class LoginAction extends ActionSupport implements ModelDriven<UserModel>
     public String logout(){
 
         sessionMap.remove("login");
+
         sessionMap.remove("username");
 
         return SUCCESS;

@@ -99,7 +99,7 @@ var MONITOR = {
 
             $("#memrtt").append(COMPONENTS.card("Storage", `<h3>${data.result.disk === "" ? "<span class=''>N/A</span>" : `<span class="">${data.result.disk} used</span>`}</h3>`, "12", "null"))
 
-            CHARTS.chart("memory", "doughnut", ["Used Memory [MB]", "Free Memory [MB]"], [data.result.mem, data.result.tmem - data.result.mem], ["pink", "cyan"])
+            CHARTS.chart("memory", "doughnut", ["Used Memory [MB]", "Free Memory [MB]"], [data.result.mem, data.result.total_mem - data.result.mem], ["pink", "cyan"])
 
         }
 
