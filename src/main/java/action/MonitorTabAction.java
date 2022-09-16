@@ -12,8 +12,6 @@ public class MonitorTabAction extends ActionSupport implements ModelDriven<Devic
 
     public String getMonitorDevices(){
 
-        System.out.println(CacheData.data);
-
         MonitorTabService.getMonitorDevices(result);
 
         return SUCCESS;

@@ -85,6 +85,8 @@ public class MonitorTabService {
 
             HashMap<String, Object> rs = deviceModel.getResult();
 
+            CacheData.excludeMonitorDevices();
+
             rs.put("status", "Device deleted");
 
             rs.put("code", 0);

@@ -2,7 +2,7 @@ var MONITOR = {
     loadMonitor: function () {
         $("#body").removeClass()
 
-        $("#body").html(`<div class="container"><div id="visual"><div class="row pt-4 d-flex justify-content-between align-items-center"><div class="col-auto"><button class="btn btn-outline-danger" onclick="MONITOR.showMonitorTable()">BACK</button></div><div class="col-auto" id="ipAddress">10.20.40.224</div><hr><div class="row d-flex justify-content-end" id="actions"></div><div class="row d-flex justify-content-evenly" id="graph"></div></div></div><div id="table"><div class="row"><div class="col-9 mx-auto bg-light shadow mt-5 p-3 rounded"><table id="monitorTable" class="table table-hover table-bordered display"></table></div></div></div></div>`)
+        $("#body").html(`<div class="container"><div id="visual"><div class="row pt-4 d-flex justify-content-between align-items-center"><div class="col-auto"><button class="btn btn-outline-danger" onclick="MONITOR.showMonitorTable()">BACK</button></div><div class="col-auto" id="deviceInfo">10.20.40.224</div><hr><div class="row d-flex justify-content-end" id="actions"></div><div class="row d-flex justify-content-evenly" id="graph"></div></div></div><div id="table"><div class="row"><div class="col-9 mx-auto bg-light shadow mt-5 p-3 rounded"><table id="monitorTable" class="table table-hover table-bordered display"></table></div></div></div></div>`)
 
         $("#body").on("click", ".pingNow", MONITOR.pingDevice);
 
@@ -85,9 +85,11 @@ var MONITOR = {
 
         $("#visual").css("display", "block")
 
-        $("#ipAddress").html(data.result.ip)
+        $("#deviceInfo").html(data.result.ip)
 
         $("#actions").html(data.result.actions)
+
+        $("#lastPollTime").html("Last poll time: "+data.result.timestamp)
 
         $("#graph").html(COMPONENTS.card("Availability", CHARTS.canvas("availability"), "3"))
 
@@ -97,7 +99,7 @@ var MONITOR = {
 
             $("#graph").append(COMPONENTS.card("Memory", CHARTS.canvas("memory"), "3"))
 
-            $("#memrtt").append(COMPONENTS.card("Storage", `<h3>${data.result.disk === "" ? "<span class=''>N/A</span>" : `<span class="">${data.result.disk} used</span>`}</h3>`, "12", "null"))
+            $("#memrtt").append(COMPONENTS.card("Storage", `<h3>${data.result.disk === "" ? "<span class='text-danger'>N/A</span>" : `<span class="">${data.result.disk} used</span>`}</h3>`, "12", "null"))
 
             CHARTS.chart("memory", "doughnut", ["Used Memory [MB]", "Free Memory [MB]"], [data.result.mem, data.result.total_mem - data.result.mem], ["pink", "cyan"])
 
@@ -107,7 +109,7 @@ var MONITOR = {
 
         $("#graph").append(COMPONENTS.card("Ping Chart", CHARTS.canvas("pingchart"), "5"))
 
-        CHARTS.chart("availability", "doughnut", ["UP %", "DOWN %"], [data.result.availability, 100 - parseInt(data.result.availability)], ["blue", "red"])
+        CHARTS.chart("availability", "doughnut", ["UP %", "DOWN %"], [data.result.availability, 100 - data.result.availability], ["blue", "red"])
 
         CHARTS.chart("pingchart", "bar", data.result.time.map(ele => ele.split(" ")[1]), data.result.packets, Array(data.result.packets.length).fill("#80c6ff"), "Received packets out of 4", [0, 4])
 
@@ -120,9 +122,13 @@ var MONITOR = {
     },
 
     deleteMonitorModal: function (){
+
         COMPONENTS.modal("Delete device", "Delete", "MONITOR.deleteMonitor",$(this).data("id"))
+
         $('#modalBody').html("Do you want to delete this monitor ?");
+
         $('#modal').modal('toggle');
+
     },
 
     deleteMonitor: function (id) {

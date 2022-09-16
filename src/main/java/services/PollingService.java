@@ -129,6 +129,8 @@ public class PollingService {
 
             rs.put("code", 1);
 
+            CacheData.getData().put(data.get("ip"),"UNKNOWN");
+
         } catch (SQLException e) {
 
             rs.put("status", "Error occurred.");

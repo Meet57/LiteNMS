@@ -3,7 +3,6 @@ package services;
 import DAO.Database;
 import helper.PingUtil;
 import model.MetricModel;
-import websocket.WebSocketServerClass;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -32,7 +31,6 @@ public class MonitorDataService {
                     new ArrayList<>(Arrays.asList(metricModel.getIp(), metricModel.getType(), startDate,endDate))
             );
 
-
             if (raw.size() == 0) {
 
                 rs.put("code", 0);
@@ -42,7 +40,12 @@ public class MonitorDataService {
                 return;
             }
 
-            int availability = 0, mem = 0, total_mem = 0;
+            float availability = Float.parseFloat(db.databaseSelectOperation(
+                    "select round(100*SUM(status)/COUNT(*),2) as availability from metrics where ip = ? and type = ?  and (timestamp between ? and ? )",
+                    new ArrayList<>(Arrays.asList(metricModel.getIp(), metricModel.getType(), startDate,endDate))
+            ).get(0).get("availability"));
+
+            int mem = 0, total_mem = 0;
 
             String disk = "";
 
@@ -54,8 +57,6 @@ public class MonitorDataService {
 
             for (int i = 0; i < raw.size(); i++) {
 
-                availability += Integer.parseInt(raw.get(i).get("packet_loss"));
-
                 packets.add(4 - Integer.parseInt(raw.get(i).get("packet_loss")) / 25);
 
                 time.add(raw.get(i).get("timestamp"));
@@ -65,12 +66,6 @@ public class MonitorDataService {
                     try {
 
                         cpu.add(Float.valueOf(raw.get(i).get("cpu")));
-
-                        if (raw.get(i).get("disk") == null) {
-
-                            disk = raw.get(i).get("disk");
-
-                        }
 
                         mem = Integer.parseInt(raw.get(i).get("mem"));
 
@@ -88,15 +83,13 @@ public class MonitorDataService {
 
             }
 
-            availability = 100 - availability / raw.size();
-
             if (raw.get(raw.size() - 1).get("status").equals("0")) {
 
-                rs.put("ip", "<div class='d-flex'><h1>" + metricModel.getIp() + "</h1><span class=\"badge h-100 rounded-pill mx-2 text-bg-danger\">DOWN</span>\n</div>");
+                rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + metricModel.getIp() + "</h1><span class=\"badge h-100 rounded-pill mx-2 text-bg-danger\">DOWN</span>\n</div>");
 
             } else {
 
-                rs.put("ip", "<div class='d-flex'><h1>" + metricModel.getIp() + "</h1><span class=\"badge h-100 rounded-pill mx-2 text-bg-success\">UP</span>\n</div>");
+                rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + metricModel.getIp() + "</h1><span class=\"badge h-100 rounded-pill mx-2 text-bg-success\">UP</span>\n</div>");
 
             }
 
@@ -105,6 +98,8 @@ public class MonitorDataService {
             rs.put("availability", availability);
 
             rs.put("rtt", raw.get(raw.size() - 1).get("rtt"));
+
+            rs.put("timestamp", raw.get(raw.size() - 1).get("timestamp").split(" ")[1]);
 
             rs.put("packets", packets);
 
@@ -152,8 +147,6 @@ public class MonitorDataService {
             rs.put("code", 0);
 
         }
-
-        WebSocketServerClass.sendMessage(metricModel.getSocketId(),rs);
 
     }
 

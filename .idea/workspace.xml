@@ -12,10 +12,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="starting refactoring 3">
+    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="Code refactoring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/MonitorTabAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MonitorTabAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/CacheData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/CacheData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helper/PingUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/PingUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/MonitorDataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MonitorDataService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/services/MonitorTabService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MonitorTabService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/PollingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/PollingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +70,19 @@
   }
 }</component>
   <component name="RunManager" selected="Jetty Server.Jetty 9.4.48.v20220622">
+    <configuration name="CacheData" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="helper.CacheData" />
+      <module name="LiteNMS" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="helper.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MetricCollector (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="helper.polling.MetricCollector" />
       <module name="LiteNMS" />
@@ -91,19 +111,6 @@
     </configuration>
     <configuration name="PollingUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="helper.PollingUtil" />
-      <module name="LiteNMS" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="helper.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PollingWorker" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="helper.PollingWorker" />
       <module name="LiteNMS" />
       <extension name="coverage">
         <pattern>
@@ -929,20 +936,20 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.CacheData" />
       <item itemvalue="Application.PollingUtil" />
       <item itemvalue="Application.helper.polling.PollingWorker" />
       <item itemvalue="Application.MetricCollector" />
       <item itemvalue="Application.MetricCollector (1)" />
-      <item itemvalue="Application.PollingWorker" />
       <item itemvalue="Jetty Server.Jetty 9.4.48.v20220622" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CacheData" />
         <item itemvalue="Application.PollingUtil" />
         <item itemvalue="Application.MetricCollector (1)" />
         <item itemvalue="Application.MetricCollector" />
         <item itemvalue="Application.helper.polling.PollingWorker" />
-        <item itemvalue="Application.PollingWorker" />
       </list>
     </recent_temporary>
   </component>
@@ -970,7 +977,9 @@
       <workItem from="1663044576590" duration="6173000" />
       <workItem from="1663057457014" duration="17914000" />
       <workItem from="1663129433222" duration="23578000" />
-      <workItem from="1663216484182" duration="33938000" />
+      <workItem from="1663216484182" duration="35142000" />
+      <workItem from="1663259538729" duration="30000" />
+      <workItem from="1663302691646" duration="13119000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>
@@ -1070,7 +1079,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663257759593</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Code refactoring">
+      <created>1663259374382</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1663259374382</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1127,6 +1143,7 @@
     <MESSAGE value="starting refactoring" />
     <MESSAGE value="starting refactoring 2" />
     <MESSAGE value="starting refactoring 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="starting refactoring 3" />
+    <MESSAGE value="Code refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code refactoring" />
   </component>
 </project>

@@ -4,6 +4,7 @@ import DAO.Database;
 import helper.CacheData;
 import helper.PingUtil;
 import helper.PollingUtil;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +53,7 @@ public class MetricCollector {
                                     new ArrayList<Object>(Arrays.asList(result.split(" ")[0], matcher.group(1), matcher.group(3)))
                             );
 
-                            CacheData.getData().put(result.split(" ")[0],"UP");
+                            CacheData.getData().put(result.split(" ")[0], "UP");
 
                         } catch (SQLException e) {
 
@@ -70,7 +71,7 @@ public class MetricCollector {
                                     new ArrayList<Object>(Arrays.asList(result.split(" ")[0], matcher.group(1)))
                             );
 
-                            CacheData.getData().put(result.split(" ")[0],"DOWN");
+                            CacheData.getData().put(result.split(" ")[0], "DOWN");
 
                         } catch (SQLException e) {
 
@@ -87,12 +88,15 @@ public class MetricCollector {
         return new Runnable() {
             @Override
             public void run() {
+
+
+                String pingRs = PingUtil.ping(ip);
+
+                Pattern pattern = Pattern.compile(".* : xmt\\/rcv\\/%loss = \\d\\/\\d\\/(\\d+)%(, min\\/avg\\/max =.*\\/(\\d+.\\d+)\\/)*");
+
+                Matcher matcher = pattern.matcher(pingRs);
+
                 try {
-                    String pingRs = PingUtil.ping(ip);
-
-                    Pattern pattern = Pattern.compile(".* : xmt\\/rcv\\/%loss = \\d\\/\\d\\/(\\d+)%(, min\\/avg\\/max =.*\\/(\\d+.\\d+)\\/)*");
-
-                    Matcher matcher = pattern.matcher(pingRs);
 
                     matcher.find();
 
@@ -114,17 +118,17 @@ public class MetricCollector {
                                     new ArrayList<Object>(Arrays.asList(result.get("ip"), result.get("packet_loss"), result.get("rtt"), 100 - Float.parseFloat(result.get("cpu")), result.get("umem"), result.get("mem"), result.get("disk")))
                             );
 
-                            CacheData.getData().put(ip,"UP");
+                            CacheData.getData().put(ip, "UP");
 
                         } else {
 //                            ssh fail
                             new Database().databaseDMLOperation(
                                     "add",
-                                    "insert into metrics (ip, timestamp, type, packet_loss, rtt,status) values (?,now(),'ssh',?,?,1)",
+                                    "insert into metrics (ip, timestamp, type, packet_loss, rtt,status) values (?,now(),'ssh',?,?,0)",
                                     new ArrayList<Object>(Arrays.asList(ip, result.get("packet_loss"), result.get("rtt")))
                             );
 
-                            CacheData.getData().put(ip,"UP");
+                            CacheData.getData().put(ip, "DOWN");
                         }
 
                     } else {
@@ -135,11 +139,27 @@ public class MetricCollector {
                                 new ArrayList<Object>(Arrays.asList(ip, matcher.group(1)))
                         );
 
-                        CacheData.getData().put(ip,"DOWN");
+                        CacheData.getData().put(ip, "DOWN");
 
                     }
 
                 } catch (Exception e) {
+
+                    try {
+
+                        new Database().databaseDMLOperation(
+                                "add",
+                                "insert into metrics (ip, timestamp, type, packet_loss, status) values (?,now(),'ssh',?,0)",
+                                new ArrayList<Object>(Arrays.asList(ip, matcher.group(1)))
+                        );
+
+                    } catch (SQLException ex) {
+
+                        ex.printStackTrace();
+
+                    }
+
+                    CacheData.getData().put(ip, "DOWN");
                     System.err.println(e.getMessage());
                 }
             }
@@ -155,7 +175,9 @@ public class MetricCollector {
                 Database db = new Database();
 
                 ArrayList<HashMap<String, String>> availableMonitor = null;
+
                 try {
+
                     availableMonitor = db.databaseSelectOperation("select * from tbl_monitor_devices", null);
 
                     runnables.add(pingPolling(availableMonitor.stream().filter(device -> device.get("type").equals("ping")).map(device -> device.get("ip")).toArray(String[]::new)));
@@ -168,7 +190,7 @@ public class MetricCollector {
 
                     for (int i = 0; i < runnables.size(); i++) {
 
-                        executorService.submit(runnables .get(i));
+                        executorService.submit(runnables.get(i));
 
                     }
 

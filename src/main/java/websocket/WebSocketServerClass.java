@@ -65,8 +65,5 @@ public class WebSocketServerClass {
         throwable.printStackTrace();
     }
 
-    public static void sendMessage(String s){
-
-    }
 }
 

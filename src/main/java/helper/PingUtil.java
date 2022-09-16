@@ -18,6 +18,10 @@ public class PingUtil {
 
         ip.add("-a");
 
+        ip.add("-t");
+
+        ip.add("2500");
+
         ip.add(ipAddress);
 
         return !processBuilderOutput(ip).isEmpty();
@@ -71,7 +75,7 @@ public class PingUtil {
 
             process = processBuilder.start();
 
-            process.waitFor(30, TimeUnit.SECONDS);
+            process.waitFor();
 
             in = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
