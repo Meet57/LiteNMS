@@ -39,4 +39,20 @@ public class CacheData {
         }
     }
 
+    public static void excludeMonitorDevices(){
+
+        try {
+
+            ArrayList<HashMap<String, String>> devices = new Database().databaseSelectOperation("select ip from tbl_monitor_devices;",null);
+
+            data.keySet().retainAll(Arrays.asList(devices.stream().map((device) -> device.get("ip")).toArray()));
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
 }
