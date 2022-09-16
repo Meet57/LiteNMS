@@ -1,4 +1,4 @@
-var AUTHENTICATION = {
+var authentication = {
 
     load: function () {
 
@@ -36,11 +36,11 @@ var AUTHENTICATION = {
 
                     data: $("#loginForm").serialize(),
 
-                    callback: AUTHENTICATION.actions,
+                    callback: authentication.actions,
 
                 };
 
-                API.ajaxpost(request);
+                api.ajaxpost(request);
 
             }
 
@@ -60,7 +60,7 @@ var AUTHENTICATION = {
 
         } else {
 
-            COMPONENTS.alert("Authentication", data.result.status, 0)
+            components.alert("Authentication", data.result.status, 0)
 
         }
 

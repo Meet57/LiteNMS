@@ -1,4 +1,4 @@
-var DASHBOARD = {
+var dashboard = {
     loadDashboard: function () {
 
         let request = {
@@ -7,11 +7,11 @@ var DASHBOARD = {
 
             data: {},
 
-            callback: DASHBOARD.loadDashboardData,
+            callback: dashboard.loadDashboardData,
 
         };
 
-        API.ajaxpost(request);
+        api.ajaxpost(request);
 
     },
 
@@ -25,7 +25,7 @@ var DASHBOARD = {
 
         if (data.cpu !== undefined) {
 
-            $("#body").append(COMPONENTS.card(
+            $("#body").append(components.card(
 
                 "TOP N CPU usage",
 
@@ -38,7 +38,7 @@ var DASHBOARD = {
 
         if (data.rtt !== undefined) {
 
-            $("#body").append(COMPONENTS.card(
+            $("#body").append(components.card(
 
                 "TOP N RTT",
 
@@ -52,7 +52,7 @@ var DASHBOARD = {
 
         if (data.disk !== undefined) {
 
-            $("#body").append(COMPONENTS.card(
+            $("#body").append(components.card(
 
                 "TOP N DISK USAGE",
 
@@ -64,7 +64,7 @@ var DASHBOARD = {
 
         if (data.devices !== undefined) {
 
-            $("#body").append(COMPONENTS.card(
+            $("#body").append(components.card(
 
                 "Current Status of devices",
 

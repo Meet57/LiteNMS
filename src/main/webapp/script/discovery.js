@@ -1,18 +1,18 @@
-var DISCOVERY = {
+var discovery = {
 
     loadDiscovery: function () {
 
         $("#body").removeClass()
 
-        $("#body").html(`<div class="container"><div class="row"><div class="col-9 mx-auto mt-2 py-3"><button type="button" class="btn btn-primary" onclick="DISCOVERY.modelForm()">Add Device</button></div></div><div class="row"><div class="col-9 mx-auto bg-light shadow mt-2 p-3 rounded"><table id="discoveryTable" class="table table-hover table-bordered display"></table></div></div></div>`)
+        $("#body").html(`<div class="container"><div class="row"><div class="col-9 mx-auto mt-2 py-3"><button type="button" class="btn btn-primary" onclick="discovery.modelForm()">Add Device</button></div></div><div class="row"><div class="col-9 mx-auto bg-light shadow mt-2 p-3 rounded"><table id="discoveryTable" class="table table-hover table-bordered display"></table></div></div></div>`)
 
-        $("#discoveryTable").on("click", ".deleteButton", DISCOVERY.deleteDeviceModal);
+        $("#discoveryTable").on("click", ".deleteButton", discovery.deleteDeviceModal);
 
-        $("#discoveryTable").on("click", ".editButton", DISCOVERY.getDeviceData);
+        $("#discoveryTable").on("click", ".editButton", discovery.getDeviceData);
 
-        $("#discoveryTable").on("click", ".runButton", DISCOVERY.getDiscovery);
+        $("#discoveryTable").on("click", ".runButton", discovery.getDiscovery);
 
-        $("#discoveryTable").on("click", ".provisionButton", DISCOVERY.monitorDevice);
+        $("#discoveryTable").on("click", ".provisionButton", discovery.monitorDevice);
 
         let request = {
 
@@ -20,11 +20,11 @@ var DISCOVERY = {
 
             data: {},
 
-            callback: DISCOVERY.loadDiscoveryTable,
+            callback: discovery.loadDiscoveryTable,
 
         };
 
-        API.ajaxpost(request);
+        api.ajaxpost(request);
 
     },
 
@@ -38,13 +38,13 @@ var DISCOVERY = {
 
                 data: {},
 
-                callback: DISCOVERY.loadDiscoveryTable,
+                callback: discovery.loadDiscoveryTable,
 
             };
 
             $('#discoveryTable').DataTable().destroy()
 
-            API.ajaxpost(request)
+            api.ajaxpost(request)
 
             return
 
@@ -76,7 +76,7 @@ var DISCOVERY = {
 
     modelForm: function () {
 
-        COMPONENTS.modal("Add device", "Add", "DISCOVERY.addDeviceAction")
+        components.modal("Add device", "Add", "discovery.addDeviceAction")
 
         $("#modalBody").html(`<form id="discoveryForm"><div class="btn-group" role="group" aria-label="Basic radio toggle button group"><input type="radio" class="btn-check" name="type" value="ping" id="pingRadio" autocomplete="off" checked="checked"><label class="btn btn-outline-primary" for="pingRadio">ping</label><input type="radio" class="btn-check" name="type" value="ssh" id="sshRadio" autocomplete="off"><label class="btn btn-outline-primary" for="sshRadio">ssh</label></div><div id="deviceCredForm"></div></form>`);
 
@@ -136,15 +136,15 @@ var DISCOVERY = {
 
                 data: $('#discoveryForm').serialize(),
 
-                callback: DISCOVERY.sendNotification,
+                callback: discovery.sendNotification,
 
             };
 
-            API.ajaxpost(request, false)
+            api.ajaxpost(request, false)
 
             $('#modal').modal('toggle');
 
-            DISCOVERY.loadDiscoveryTable(null, true);
+            discovery.loadDiscoveryTable(null, true);
 
         } else {
 
@@ -154,15 +154,15 @@ var DISCOVERY = {
 
                 data: $('#discoveryForm').serialize(),
 
-                callback: DISCOVERY.sendNotification,
+                callback: discovery.sendNotification,
 
             };
 
-            API.ajaxpost(request, false)
+            api.ajaxpost(request, false)
 
             $('#modal').modal('toggle');
 
-            DISCOVERY.loadDiscoveryTable(null, true);
+            discovery.loadDiscoveryTable(null, true);
 
         }
 
@@ -171,7 +171,7 @@ var DISCOVERY = {
 
     deleteDeviceModal: function () {
 
-        COMPONENTS.modal("Delete device", "Delete", "DISCOVERY.deleteDeviceAction", $(this).data("id"))
+        components.modal("Delete device", "Delete", "discovery.deleteDeviceAction", $(this).data("id"))
 
         $('#modalBody').html("Do you want to delete this device ?");
 
@@ -189,11 +189,11 @@ var DISCOVERY = {
 
             data: {id},
 
-            callback: DISCOVERY.sendNotification,
+            callback: discovery.sendNotification,
 
         };
 
-        API.ajaxget(request, true, true);
+        api.ajaxget(request, true, true);
 
     },
 
@@ -205,11 +205,11 @@ var DISCOVERY = {
 
             data: {id: $(this).data("id")},
 
-            callback: DISCOVERY.openDeviceEditForm,
+            callback: discovery.openDeviceEditForm,
 
         };
 
-        API.ajaxget(request);
+        api.ajaxget(request);
 
     },
 
@@ -217,7 +217,7 @@ var DISCOVERY = {
 
         data = data.result.data
 
-        COMPONENTS.modal("Update device", "Update", "DISCOVERY.addDeviceAction")
+        components.modal("Update device", "Update", "discovery.addDeviceAction")
 
         if (data.type === "ping") {
 
@@ -251,11 +251,11 @@ var DISCOVERY = {
 
             },
 
-            callback: DISCOVERY.sendNotification,
+            callback: discovery.sendNotification,
 
         };
 
-        API.ajaxget(request, true, true)
+        api.ajaxget(request, true, true)
 
     },
 
@@ -271,21 +271,21 @@ var DISCOVERY = {
                 ip: $(this).data("ip"),
             },
 
-            callback: DISCOVERY.sendNotification,
+            callback: discovery.sendNotification,
 
         };
 
-        API.ajaxget(request)
+        api.ajaxget(request)
 
     },
 
     sendNotification: function (data, updateTable = false) {
 
-        COMPONENTS.alert("Discovery Tab", data.result.status, data.result.code);
+        components.alert("Discovery Tab", data.result.status, data.result.code);
 
         if (updateTable) {
 
-            DISCOVERY.loadDiscoveryTable(null, true)
+            discovery.loadDiscoveryTable(null, true)
 
         }
 

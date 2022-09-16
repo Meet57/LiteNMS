@@ -1,4 +1,4 @@
-var CHARTS = {
+var charts = {
 
     canvas: function (id) {
 

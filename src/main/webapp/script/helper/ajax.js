@@ -1,4 +1,4 @@
-var API = {
+var api = {
 
     ajaxpost: function (request,async = true,parameter) {
 
@@ -28,7 +28,7 @@ var API = {
 
             error: function () {
 
-                COMPONENTS.alert("Error", "Some error occurred while calling API", "danger")
+                components.alert("Error", "Some error occurred while calling API", "danger")
 
             },
 
@@ -70,7 +70,7 @@ var API = {
 
             error: function () {
 
-                COMPONENTS.alert("Error", "Some error occurred while calling API", "danger")
+                components.alert("Error", "Some error occurred while calling API", "danger")
 
             },
 

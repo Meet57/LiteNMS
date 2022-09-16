@@ -12,20 +12,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="16 sep 3:02 pm">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/script/charts.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/script/helper/validator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="js files refactoring done">
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/authentication.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/authentication.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/charts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/charts.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/components.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/discovery.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/helper/ajax.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/helper/ajax.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/navigation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -982,7 +979,7 @@
       <workItem from="1663129433222" duration="23578000" />
       <workItem from="1663216484182" duration="35142000" />
       <workItem from="1663259538729" duration="30000" />
-      <workItem from="1663302691646" duration="21011000" />
+      <workItem from="1663302691646" duration="22453000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>
@@ -1103,7 +1100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663320708338</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="js files refactoring done">
+      <created>1663331554979</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1663331554979</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1163,6 +1167,7 @@
     <MESSAGE value="Code refactoring" />
     <MESSAGE value="16 sep 3:00 pm" />
     <MESSAGE value="16 sep 3:02 pm" />
-    <option name="LAST_COMMIT_MESSAGE" value="16 sep 3:02 pm" />
+    <MESSAGE value="js files refactoring done" />
+    <option name="LAST_COMMIT_MESSAGE" value="js files refactoring done" />
   </component>
 </project>

@@ -1,4 +1,4 @@
-var NAVIGATION = {
+var navigation = {
 
     showDashboard: function () {
 
@@ -6,7 +6,7 @@ var NAVIGATION = {
 
         $('#dashboardNav').addClass("active")
 
-        DASHBOARD.loadDashboard()
+        dashboard.loadDashboard()
 
         localStorage.setItem("navigation", "showDashboard")
 
@@ -18,7 +18,7 @@ var NAVIGATION = {
 
         $('#discoveryNav').addClass("active")
 
-        DISCOVERY.loadDiscovery()
+        discovery.loadDiscovery()
 
         localStorage.setItem("navigation", "showDiscovery")
 
@@ -30,7 +30,7 @@ var NAVIGATION = {
 
         $('#monitorNav').addClass("active")
 
-        MONITOR.loadMonitor()
+        monitor.loadMonitor()
 
         localStorage.setItem("navigation", "showMonitor")
 
@@ -46,11 +46,11 @@ var NAVIGATION = {
 
         if (tab) {
 
-            NAVIGATION[tab]()
+            navigation[tab]()
 
         } else {
 
-            NAVIGATION.showDashboard()
+            navigation.showDashboard()
 
         }
 
@@ -72,7 +72,7 @@ var NAVIGATION = {
 
         };
 
-        API.ajaxpost(request);
+        api.ajaxpost(request);
 
     }
     

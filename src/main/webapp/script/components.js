@@ -1,4 +1,4 @@
-var COMPONENTS = {
+var components = {
 
     card: function (title, body, col = "auto", height = "h-100") {
 

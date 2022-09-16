@@ -24,11 +24,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <a class="nav-item nav-link" id="dashboardNav" onclick="NAVIGATION.showDashboard()"
+                    <a class="nav-item nav-link" id="dashboardNav" onclick="navigation.showDashboard()"
                         aria-current="page" href="#">Dashboard</a>
-                    <a class="nav-item nav-link" id="discoveryNav" onclick="NAVIGATION.showDiscovery()"
+                    <a class="nav-item nav-link" id="discoveryNav" onclick="navigation.showDiscovery()"
                         href="#">Discovery</a>
-                    <a class="nav-item nav-link" id="monitorNav" onclick="NAVIGATION.showMonitor()" href="#">Monitor</a>
+                    <a class="nav-item nav-link" id="monitorNav" onclick="navigation.showMonitor()" href="#">Monitor</a>
                 </ul>
                 <div class="">
                     <div class="dropdown">
@@ -39,7 +39,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="User">
                             <li><span class="dropdown-item" id="navUsername">Meet Patel</span></li>
-                            <li class="dropdown-item"><button class="btn btn-outline-danger" onclick="NAVIGATION.logout()">Logout</button></li>
+                            <li class="dropdown-item"><button class="btn btn-outline-danger" onclick="navigation.logout()">Logout</button></li>
                         </ul>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="modal-body" id="modalBody">...</div>
                 <div class="modal-footer" id="modalFooter">
                     <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="modalSubmitButton" onclick="DISCOVERY.addDeviceAction()"></button>
+                    <button type="button" class="btn btn-primary" id="modalSubmitButton" onclick="discovery.addDeviceAction()"></button>
                 </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
     <script src="./script/socket/socket.js"></script>
 
     <script>
-        NAVIGATION.loadPage()
+        navigation.loadPage()
     </script>
 
 </body>
