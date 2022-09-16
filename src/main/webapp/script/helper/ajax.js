@@ -1,6 +1,7 @@
 var API = {
 
-    ajaxpost: function (request,async = true) {
+    ajaxpost: function (request,async = true,parameter) {
+
         $.ajax({
 
             type: 'POST',
@@ -19,19 +20,26 @@ var API = {
 
                     callbacks.add(request.callback);
 
-                    callbacks.fire(data);
+                    callbacks.fire(data,parameter);
 
                     callbacks.remove(request.callback);
                 }
             },
+
             error: function () {
+
                 COMPONENTS.alert("Error", "Some error occurred while calling API", "danger")
+
             },
+
             timeout: 15000
+
         });
+
     },
 
-    ajaxget: function (request,async=true) {
+    ajaxget: function (request,async=true,parameter) {
+
         $.ajax({
 
             type: 'GET',
@@ -43,22 +51,33 @@ var API = {
             async: async,
 
             success: function (data) {
+
                 let callbacks;
 
                 if (request.callback !== undefined) {
+
                     callbacks = $.Callbacks();
 
                     callbacks.add(request.callback);
 
-                    callbacks.fire(data);
+                    callbacks.fire(data,parameter);
 
                     callbacks.remove(request.callback);
+
                 }
+
             },
+
             error: function () {
+
                 COMPONENTS.alert("Error", "Some error occurred while calling API", "danger")
+
             },
+
             timeout: 15000
+
         });
+
     }
+
 };

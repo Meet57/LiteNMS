@@ -46,16 +46,6 @@ function sendMessageToServer() {
 
 }
 
-function processOnClose(message) {
+function processOnClose(message) {}
 
-    websocket.send("Client Disconnected.....");
-
-    console.log("Server Disconnected....")
-
-}
-
-function processOnError(message) {
-
-    console.log("Error......")
-
-}
+function processOnError(message) {}

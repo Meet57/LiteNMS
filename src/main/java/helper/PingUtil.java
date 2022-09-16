@@ -18,10 +18,6 @@ public class PingUtil {
 
         ip.add("-a");
 
-        ip.add("-t");
-
-        ip.add("2500");
-
         ip.add(ipAddress);
 
         return !processBuilderOutput(ip).isEmpty();
