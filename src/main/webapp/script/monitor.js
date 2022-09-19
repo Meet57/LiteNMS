@@ -177,9 +177,13 @@ var monitor = {
 
             url: "deviceStatus",
 
-            data: {ip: $(this).data("ip"),socketId: localStorage.getItem("socketId")},
+            data: {
 
-            callback: monitor.sendNotification,
+                ip: $(this).data("ip"),
+
+                socketId: localStorage.getItem("socketId")
+
+            },
 
         };
 

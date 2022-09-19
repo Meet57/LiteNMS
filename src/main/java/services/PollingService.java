@@ -5,6 +5,7 @@ import helper.CacheData;
 import helper.PingUtil;
 import helper.PollingUtil;
 import model.DeviceModel;
+import websocket.WebSocketServerClass;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +19,11 @@ public class PollingService {
 
         Database db = new Database();
 
-        HashMap<String, Object> rs = deviceModel.getResult();
+        HashMap<String, Object> rs = new HashMap<>();
+
+        rs.put("type", "notification");
+
+        rs.put("title","Discovery Result");
 
         try {
 
@@ -80,11 +85,15 @@ public class PollingService {
 
             }
 
+            WebSocketServerClass.sendMessage(deviceModel.getSocketId(), rs);
+
         } catch (SQLException e) {
 
             rs.put("status", "Error occurred during discovery");
 
             rs.put("code", 0);
+
+            WebSocketServerClass.sendMessage(deviceModel.getSocketId(), rs);
 
             e.printStackTrace();
 
@@ -95,7 +104,11 @@ public class PollingService {
 
         Database db = new Database();
 
-        HashMap<String, Object> rs = deviceModel.getResult();
+        HashMap<String, Object> rs =new HashMap<>();
+
+        rs.put("type", "notification");
+
+        rs.put("title","Discovery Result");
 
         HashMap<String, String> data = null;
 
@@ -118,6 +131,8 @@ public class PollingService {
 
                 rs.put("code", 1);
 
+                WebSocketServerClass.sendMessage(deviceModel.getSocketId(), rs);
+
                 return;
             }
 
@@ -131,11 +146,15 @@ public class PollingService {
 
             CacheData.getData().put(data.get("ip"),"UNKNOWN");
 
+            WebSocketServerClass.sendMessage(deviceModel.getSocketId(), rs);
+
         } catch (SQLException e) {
 
             rs.put("status", "Error occurred.");
 
             rs.put("code", 0);
+
+            WebSocketServerClass.sendMessage(deviceModel.getSocketId(), rs);
 
             e.printStackTrace();
         }

@@ -16,7 +16,8 @@ websocket.onerror = function (message) {
     processOnError(message);
 };
 
-function processOnOpen(message) {}
+function processOnOpen(message) {
+}
 
 function processOnMessage(message) {
 
@@ -24,10 +25,26 @@ function processOnMessage(message) {
 
     console.log(data)
 
-    switch (data.type){
+    switch (data.type) {
+
         case 'socketId':
-            localStorage.setItem("socketId",data.socketId)
+
+            localStorage.setItem("socketId", data.socketId)
+
             break
+
+        case 'notification':
+
+            components.alert(data.title, data.status, data.code)
+
+            if (data.title === "Discovery Result") {
+
+                discovery.loadDiscoveryTable(null, true);
+
+            }
+
+            break
+
     }
 
 }
@@ -46,6 +63,8 @@ function sendMessageToServer() {
 
 }
 
-function processOnClose(message) {}
+function processOnClose(message) {
+}
 
-function processOnError(message) {}
+function processOnError(message) {
+}

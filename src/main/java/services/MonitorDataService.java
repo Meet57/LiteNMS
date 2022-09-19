@@ -3,6 +3,7 @@ package services;
 import DAO.Database;
 import helper.PingUtil;
 import model.MetricModel;
+import websocket.WebSocketServerClass;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -130,7 +131,9 @@ public class MonitorDataService {
 
     public static void checkDeviceStatus(MetricModel metricModel){
 
-        HashMap<String, Object> rs = metricModel.getResult();
+        HashMap<String, Object> rs = new HashMap<>();
+
+        rs.put("title","Monitor Result");
 
         rs.put("type","notification");
 
@@ -147,6 +150,8 @@ public class MonitorDataService {
             rs.put("code", 0);
 
         }
+
+        WebSocketServerClass.sendMessage(metricModel.getSocketId(), rs);
 
     }
 
