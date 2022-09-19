@@ -56,7 +56,7 @@ var authentication = {
 
             localStorage.removeItem("navigation")
 
-            window.location.href = '/';
+            window.location.replace("/")
 
         } else {
 

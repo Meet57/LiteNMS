@@ -30,17 +30,19 @@ var components = {
 
     modal: function (header, buttonName, buttonFunction, parameter) {
 
+        let modalButton = $("#modalSubmitButton");
+
         $("#modalHeading").html(header)
 
-        $("#modalSubmitButton").html(buttonName)
+        modalButton.html(buttonName)
 
         if (!parameter) {
 
-            $("#modalSubmitButton").attr("onclick", buttonFunction + "()");
+            modalButton.attr("onclick", buttonFunction + "()");
 
         } else {
 
-            $("#modalSubmitButton").attr("onclick", buttonFunction + "(" + parameter + ")");
+            modalButton.attr("onclick", buttonFunction + "(" + parameter + ")");
 
         }
 

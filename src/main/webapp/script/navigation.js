@@ -66,7 +66,9 @@ var navigation = {
                 
                 localStorage.setItem("navigation", "logout")
 
-                window.location.href = 'login';
+                localStorage.removeItem("username")
+
+                window.location.replace('login')
 
             },
 

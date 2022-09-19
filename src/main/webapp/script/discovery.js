@@ -249,13 +249,13 @@ var discovery = {
 
                 ip: $(this).data("ip"),
 
-            },
+                socketId: localStorage.getItem("socketId")
 
-            callback: discovery.sendNotification,
+            },
 
         };
 
-        api.ajaxget(request, true, true)
+        api.ajaxget(request)
 
     },
 
@@ -266,12 +266,16 @@ var discovery = {
             url: "putProvision",
 
             data: {
-                id: $(this).data("id"),
-                type: $(this).data("type"),
-                ip: $(this).data("ip"),
-            },
 
-            callback: discovery.sendNotification,
+                id: $(this).data("id"),
+
+                type: $(this).data("type"),
+
+                ip: $(this).data("ip"),
+
+                socketId: localStorage.getItem("socketId")
+
+            },
 
         };
 
