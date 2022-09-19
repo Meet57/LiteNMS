@@ -4,6 +4,7 @@ import DAO.Database;
 import helper.CacheData;
 import helper.PingUtil;
 import helper.PollingUtil;
+import websocket.WebSocketServerClass;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -128,6 +129,12 @@ public class MetricCollector {
                                     new ArrayList<Object>(Arrays.asList(ip, result.get("packet_loss"), result.get("rtt")))
                             );
 
+                            result.put("title","Polling Status for: "+ip);
+
+                            result.put("type","notification");
+
+                            WebSocketServerClass.sendBroadcast(result);
+
                             CacheData.getData().put(ip, "DOWN");
                         }
 
@@ -170,11 +177,18 @@ public class MetricCollector {
         return new Runnable() {
             @Override
             public void run() {
+
                 List<Runnable> runnables = new ArrayList<>();
 
                 Database db = new Database();
 
                 ArrayList<HashMap<String, String>> availableMonitor = null;
+
+                HashMap<String,String> rs = new HashMap<>();
+
+                rs.put("type","notification");
+
+                rs.put("title","Polling Status");
 
                 try {
 
@@ -194,9 +208,21 @@ public class MetricCollector {
 
                     }
 
+                    rs.put("status","Polling started");
+
+                    rs.put("code","1");
+
                 } catch (SQLException e) {
 
                     e.printStackTrace();
+
+                    rs.put("status",e.getMessage());
+
+                    rs.put("code","0");
+
+                }finally {
+
+                    WebSocketServerClass.sendBroadcast(rs);
 
                 }
             }

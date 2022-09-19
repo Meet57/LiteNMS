@@ -13,6 +13,7 @@ public class WebSocketServerClass {
 
     private Session session;
     private static HashMap<String, Session> users = new HashMap<>();
+
     @OnOpen
     public void handleOpen(Session session) {
 
@@ -20,12 +21,12 @@ public class WebSocketServerClass {
 
             JSONObject jo = new JSONObject();
 
-            jo.put("socketId",session.getId());
+            jo.put("socketId", session.getId());
 
-            jo.put("type","socketId");
+            jo.put("type", "socketId");
 
 
-            users.put(session.getId(),session);
+            users.put(session.getId(), session);
 
             session.getBasicRemote().sendText(String.valueOf(jo));
 
@@ -36,7 +37,7 @@ public class WebSocketServerClass {
         }
     }
 
-    public static void sendMessage(String id,HashMap<String,Object> message){
+    public static void sendMessage(String id, HashMap<String, Object> message) {
 
         try {
 
@@ -50,7 +51,27 @@ public class WebSocketServerClass {
 
         }
     }
+
+    public static void sendBroadcast(HashMap<String, String> message) {
+
+        try {
+
+            JSONObject jo = new JSONObject(message);
+
+            for (String id : users.keySet()) {
+                users.get(id).getBasicRemote().sendText(jo.toString());
+            }
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
     @OnMessage
+
     public String handleMessage(String message) {
         return message + " [SERVER]";
     }

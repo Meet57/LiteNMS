@@ -273,9 +273,9 @@ var discovery = {
 
                 ip: $(this).data("ip"),
 
-                socketId: localStorage.getItem("socketId")
-
             },
+
+            callback: discovery.sendNotification,
 
         };
 

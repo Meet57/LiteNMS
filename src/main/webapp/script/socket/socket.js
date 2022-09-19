@@ -35,7 +35,7 @@ function processOnMessage(message) {
 
         case 'notification':
 
-            components.alert(data.title, data.status, data.code)
+            components.alert(data.title, data.status, parseInt(data.code))
 
             if (data.title === "Discovery Result") {
 

@@ -104,7 +104,7 @@ public class PollingService {
 
         Database db = new Database();
 
-        HashMap<String, Object> rs =new HashMap<>();
+        HashMap<String, Object> rs = deviceModel.getResult();
 
         rs.put("type", "notification");
 
@@ -131,8 +131,6 @@ public class PollingService {
 
                 rs.put("code", 1);
 
-                WebSocketServerClass.sendMessage(deviceModel.getSocketId(), rs);
-
                 return;
             }
 
@@ -146,15 +144,11 @@ public class PollingService {
 
             CacheData.getData().put(data.get("ip"),"UNKNOWN");
 
-            WebSocketServerClass.sendMessage(deviceModel.getSocketId(), rs);
-
         } catch (SQLException e) {
 
             rs.put("status", "Error occurred.");
 
             rs.put("code", 0);
-
-            WebSocketServerClass.sendMessage(deviceModel.getSocketId(), rs);
 
             e.printStackTrace();
         }
