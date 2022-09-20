@@ -1,4 +1,4 @@
-var websocket = new WebSocket("ws://localhost:8080/websocket/endpoint");
+var websocket = new WebSocket("ws://"+window.location.host+"/websocket/endpoint");
 
 websocket.onopen = function (message) {
     processOnOpen(message);

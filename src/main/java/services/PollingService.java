@@ -116,26 +116,28 @@ public class PollingService {
 
             data = db.databaseSelectOperation("select * from tbl_devices where id = ?", new ArrayList<>(Collections.singletonList(String.valueOf(deviceModel.getId())))).get(0);
 
-            ArrayList<HashMap<String, String>> existingDevices = db.databaseSelectOperation("select * from tbl_monitor_devices where type = ? and ip = ?", new ArrayList<Object>(
-                    Arrays.asList(data.get("type"), data.get("ip"))));
+            ArrayList<HashMap<String, String>> existingDevices = db.databaseSelectOperation("select * from tbl_monitor_devices where id = ?", new ArrayList<Object>(
+                    Collections.singletonList(data.get("id"))));
 
             db.databaseDMLOperation("update", "update tbl_devices set provision = 2 where id = ?", new ArrayList<>(Collections.singletonList(String.valueOf(deviceModel.getId()))));
 
             if (existingDevices.size() > 0) {
 
-                db.databaseDMLOperation("update", "update tbl_monitor_devices set deviceName = ?,username = ? , password = ? where id = ?",
-                        new ArrayList<>(Arrays.asList(data.get("deviceName"), data.get("username"), data.get("password"), existingDevices.get(0).get("id")))
+                db.databaseDMLOperation("update", "update tbl_monitor_devices set ip = ? ,deviceName = ?,username = ? , password = ? where id = ?",
+                        new ArrayList<>(Arrays.asList(data.get("ip"),data.get("deviceName"), data.get("username"), data.get("password"), data.get("id")))
                 );
 
                 rs.put("status", data.get("ip") + ": device updated for monitoring");
 
                 rs.put("code", 1);
 
+                CacheData.getData().put(data.get("ip"),"UNKNOWN");
+
                 return;
             }
 
-            db.databaseDMLOperation("add", "insert into tbl_monitor_devices (deviceName,ip,type,username,password) values (?,?,?,?,?)",
-                    new ArrayList<Object>(Arrays.asList(data.get("deviceName"), data.get("ip"), data.get("type"), data.get("username"), data.get("password")))
+            db.databaseDMLOperation("add", "insert into tbl_monitor_devices (id,deviceName,ip,type,username,password) values (?,?,?,?,?,?)",
+                    new ArrayList<Object>(Arrays.asList(data.get("id"),data.get("deviceName"), data.get("ip"), data.get("type"), data.get("username"), data.get("password")))
             );
 
             rs.put("status", data.get("ip") + ": device added for monitoring");

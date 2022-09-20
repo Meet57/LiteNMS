@@ -1,6 +1,7 @@
 package services;
 
 import DAO.Database;
+import helper.CacheData;
 import helper.PingUtil;
 import model.MetricModel;
 import websocket.WebSocketServerClass;
@@ -28,8 +29,8 @@ public class MonitorDataService {
         try {
 
             raw = db.databaseSelectOperation(
-                    "select * from metrics where ip = ? and type = ? and (timestamp between ? and ? )",
-                    new ArrayList<>(Arrays.asList(metricModel.getIp(), metricModel.getType(), startDate,endDate))
+                    "select * from metrics where device_id = ? and (timestamp between ? and ? )",
+                    new ArrayList<>(Arrays.asList(metricModel.getDevice_id(), startDate,endDate))
             );
 
             if (raw.size() == 0) {
@@ -42,13 +43,15 @@ public class MonitorDataService {
             }
 
             float availability = Float.parseFloat(db.databaseSelectOperation(
-                    "select round(100*SUM(status)/COUNT(*),2) as availability from metrics where ip = ? and type = ?  and (timestamp between ? and ? )",
-                    new ArrayList<>(Arrays.asList(metricModel.getIp(), metricModel.getType(), startDate,endDate))
+                    "select round(100*SUM(status)/COUNT(*),2) as availability from metrics where device_id = ?  and (timestamp between ? and ? )",
+                    new ArrayList<>(Arrays.asList(metricModel.getDevice_id(), startDate,endDate))
             ).get(0).get("availability"));
 
             int mem = 0, total_mem = 0;
 
             String disk = "";
+
+            String ip = raw.get(raw.size() - 1).get("ip");
 
             ArrayList<Integer> packets = new ArrayList<>();
 
@@ -84,13 +87,17 @@ public class MonitorDataService {
 
             }
 
-            if (raw.get(raw.size() - 1).get("status").equals("0")) {
+            if (CacheData.getData().get(ip).equals("DOWN")) {
 
-                rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + metricModel.getIp() + "</h1><span class=\"badge h-100 rounded-pill mx-2 text-bg-danger\">DOWN</span>\n</div>");
+                rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + ip + "</h1><span class=\"badge h-100 mx-2 text-bg-danger\">DOWN</span>\n</div>");
 
-            } else {
+            } else if ((CacheData.getData().get(ip).equals("UP"))) {
 
-                rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + metricModel.getIp() + "</h1><span class=\"badge h-100 rounded-pill mx-2 text-bg-success\">UP</span>\n</div>");
+                rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + ip + "</h1><span class=\"badge h-100 mx-2 text-bg-success\">UP</span>\n</div>");
+
+            } else{
+
+                rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + ip + "</h1><span class=\"badge h-100 mx-2 text-bg-dark\">UNKNOWN</span>\n</div>");
 
             }
 
@@ -114,7 +121,7 @@ public class MonitorDataService {
 
             rs.put("time", time);
 
-            rs.put("actions", "<button class='col-auto btn btn-outline-primary pingNow' data-ip='" + metricModel.getIp() + "' >Ping Now</button>");
+            rs.put("actions", "<button class='col-auto btn btn-outline-primary pingNow' data-ip='" + ip + "' >Ping Now</button>");
 
 
         } catch (SQLException e) {

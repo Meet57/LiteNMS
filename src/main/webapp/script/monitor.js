@@ -38,7 +38,7 @@ var monitor = {
             api.ajaxpost(request)
 
             return
-            
+
         }
 
         var dataSet = data.result.list
@@ -78,7 +78,7 @@ var monitor = {
 
             url: "getMetrics",
 
-            data: {ip: $(this).data("ip"), type: $(this).data("type")},
+            data: {device_id: $(this).data("id"), type: $(this).data("type")},
 
             callback: monitor.loadMetricData,
         };
@@ -105,7 +105,7 @@ var monitor = {
 
         $("#actions").html(data.result.actions)
 
-        $("#lastPollTime").html("Last poll time: "+data.result.timestamp)
+        $("#lastPollTime").html("Last poll time: " + data.result.timestamp)
 
         $("#graph").html(components.card("Availability", charts.canvas("availability"), "3"))
 
@@ -139,9 +139,9 @@ var monitor = {
 
     },
 
-    deleteMonitorModal: function (){
+    deleteMonitorModal: function () {
 
-        components.modal("Delete device", "Delete", "monitor.deleteMonitor",$(this).data("id"))
+        components.modal("Delete device", "Delete", "monitor.deleteMonitor", $(this).data("id"))
 
         $('#modalBody').html("Do you want to delete this monitor ?");
 
@@ -165,14 +165,14 @@ var monitor = {
 
         };
 
-        api.ajaxget(request,false);
+        api.ajaxget(request, false);
 
-        monitor.loadMonitorTable(null,true)
+        monitor.loadMonitorTable(null, true)
 
     },
 
     pingDevice: function () {
-        
+
         let request = {
 
             url: "deviceStatus",

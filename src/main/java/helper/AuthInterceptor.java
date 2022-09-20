@@ -7,7 +7,7 @@ import com.opensymphony.xwork2.interceptor.Interceptor;
 
 import java.util.Map;
 
-public class MyInterceptor implements Interceptor {
+public class AuthInterceptor implements Interceptor {
 
     @Override
     public void destroy() {

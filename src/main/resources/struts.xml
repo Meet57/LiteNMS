@@ -8,7 +8,7 @@
 
     <package name="Start" namespace="/" extends="struts-default">
         <interceptors>
-            <interceptor name="userSession" class="helper.MyInterceptor" />
+            <interceptor name="userSession" class="helper.AuthInterceptor" />
         </interceptors>
 
         <action name="login">
@@ -27,7 +27,7 @@
         </result-types>
 
         <interceptors>
-            <interceptor name="userSession" class="helper.MyInterceptor" />
+            <interceptor name="userSession" class="helper.AuthInterceptor" />
             <interceptor-stack name="loginSession">
                 <interceptor-ref name="userSession"/>
                 <interceptor-ref name="defaultStack"/>

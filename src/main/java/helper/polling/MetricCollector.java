@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,24 +24,26 @@ public class MetricCollector {
         scs.scheduleAtFixedRate(
                 schedulerTask(executorService),
                 0,
-                5,
+                1,
                 TimeUnit.MINUTES
         );
     }
 
-    public static Runnable pingPolling(String[] ipAddresses) {
+    public static Runnable pingPolling(HashMap<String, String> ipAddresses) {
         return new Runnable() {
             @Override
             public void run() {
-                String[] allResults = PingUtil.ping(ipAddresses);
+                String[] allResults = PingUtil.ping(ipAddresses.keySet().toArray(new String[0]));
+
+                Pattern pattern = Pattern.compile(".* : xmt\\/rcv\\/%loss = \\d\\/\\d\\/(\\d+)%(, min\\/avg\\/max =.*\\/(\\d+.\\d+)\\/)*");
 
                 for (String result : allResults) {
-
-                    Pattern pattern = Pattern.compile(".* : xmt\\/rcv\\/%loss = \\d\\/\\d\\/(\\d+)%(, min\\/avg\\/max =.*\\/(\\d+.\\d+)\\/)*");
 
                     Matcher matcher = pattern.matcher(result);
 
                     matcher.find();
+
+                    String ip = result.split(" ")[0];
 
                     if (matcher.group(1).equals("0")) {
 
@@ -50,8 +51,8 @@ public class MetricCollector {
 
                             new Database().databaseDMLOperation(
                                     "add",
-                                    "insert into metrics (ip, timestamp, type, packet_loss, rtt,status) values (?,now(),'ping',?,?,1)",
-                                    new ArrayList<Object>(Arrays.asList(result.split(" ")[0], matcher.group(1), matcher.group(3)))
+                                    "insert into metrics (ip, timestamp, type, packet_loss, rtt,status,device_id) values (?,now(),'ping',?,?,1,?)",
+                                    new ArrayList<Object>(Arrays.asList(ip, matcher.group(1), matcher.group(3), ipAddresses.get(ip)))
                             );
 
                             CacheData.getData().put(result.split(" ")[0], "UP");
@@ -68,8 +69,8 @@ public class MetricCollector {
 
                             new Database().databaseDMLOperation(
                                     "add",
-                                    "insert into metrics (ip, timestamp, type, packet_loss, status) values (?,now(),'ping',?,0)",
-                                    new ArrayList<Object>(Arrays.asList(result.split(" ")[0], matcher.group(1)))
+                                    "insert into metrics (ip, timestamp, type, packet_loss, status,device_id) values (?,now(),'ping',?,0,?)",
+                                    new ArrayList<Object>(Arrays.asList(ip, matcher.group(1), ipAddresses.get(ip)))
                             );
 
                             CacheData.getData().put(result.split(" ")[0], "DOWN");
@@ -85,11 +86,10 @@ public class MetricCollector {
         };
     }
 
-    public static Runnable shhPolling(String ip, String username, String password) {
+    public static Runnable shhPolling(String ip, String username, String password, String id) {
         return new Runnable() {
             @Override
             public void run() {
-
 
                 String pingRs = PingUtil.ping(ip);
 
@@ -115,8 +115,8 @@ public class MetricCollector {
 //                            ssh success
                             new Database().databaseDMLOperation(
                                     "add",
-                                    "insert into metrics (ip, timestamp, type, packet_loss, rtt, cpu, mem, total_mem, disk, status) values (?,now(),'ssh',?,?,?,?,?,?,1)",
-                                    new ArrayList<Object>(Arrays.asList(result.get("ip"), result.get("packet_loss"), result.get("rtt"), 100 - Float.parseFloat(result.get("cpu")), result.get("umem"), result.get("mem"), result.get("disk")))
+                                    "insert into metrics (ip, timestamp, type, packet_loss, rtt, cpu, mem, total_mem, disk, status, device_id) values (?,now(),'ssh',?,?,?,?,?,?,1,?)",
+                                    new ArrayList<Object>(Arrays.asList(result.get("ip"), result.get("packet_loss"), result.get("rtt"), 100 - Float.parseFloat(result.get("cpu")), result.get("umem"), result.get("mem"), result.get("disk"), id))
                             );
 
                             CacheData.getData().put(ip, "UP");
@@ -125,25 +125,25 @@ public class MetricCollector {
 //                            ssh fail
                             new Database().databaseDMLOperation(
                                     "add",
-                                    "insert into metrics (ip, timestamp, type, packet_loss, rtt,status) values (?,now(),'ssh',?,?,0)",
-                                    new ArrayList<Object>(Arrays.asList(ip, result.get("packet_loss"), result.get("rtt")))
+                                    "insert into metrics (ip, timestamp, type, packet_loss, rtt,status,device_id) values (?,now(),'ssh',?,?,1,?)",
+                                    new ArrayList<Object>(Arrays.asList(ip, result.get("packet_loss"), result.get("rtt"), id))
                             );
 
-                            result.put("title","Polling Status for: "+ip);
+                            result.put("title", "Polling Status for: " + ip);
 
-                            result.put("type","notification");
+                            result.put("type", "notification");
 
                             WebSocketServerClass.sendBroadcast(result);
 
-                            CacheData.getData().put(ip, "DOWN");
+                            CacheData.getData().put(ip, "UP");
                         }
 
                     } else {
 
                         new Database().databaseDMLOperation(
                                 "add",
-                                "insert into metrics (ip, timestamp, type, packet_loss, status) values (?,now(),'ssh',?,0)",
-                                new ArrayList<Object>(Arrays.asList(ip, matcher.group(1)))
+                                "insert into metrics (ip, timestamp, type, packet_loss, status,device_id) values (?,now(),'ssh',?,0,?)",
+                                new ArrayList<Object>(Arrays.asList(ip, matcher.group(1), id))
                         );
 
                         CacheData.getData().put(ip, "DOWN");
@@ -178,49 +178,50 @@ public class MetricCollector {
             @Override
             public void run() {
 
-                List<Runnable> runnables = new ArrayList<>();
-
                 Database db = new Database();
 
                 ArrayList<HashMap<String, String>> availableMonitor = null;
 
-                HashMap<String,String> rs = new HashMap<>();
+                HashMap<String, String> rs = new HashMap<>();
 
-                rs.put("type","notification");
+                rs.put("type", "notification");
 
-                rs.put("title","Polling Status");
+                rs.put("title", "Polling Status");
 
                 try {
 
                     availableMonitor = db.databaseSelectOperation("select * from tbl_monitor_devices", null);
 
-                    runnables.add(pingPolling(availableMonitor.stream().filter(device -> device.get("type").equals("ping")).map(device -> device.get("ip")).toArray(String[]::new)));
+//                    executorService.submit(pingPolling(availableMonitor.stream().filter(device -> device.get("type").equals("ping")).map(device -> device.get("ip")).toArray(String[]::new)));
+
+
+                    HashMap<String, String> pingDevices = new HashMap<>();
+
+                    availableMonitor.stream().filter(device -> device.get("type").equals("ping")).forEach((device -> {
+                        pingDevices.put(device.get("ip"), device.get("id"));
+                    }));
+
+                    executorService.submit(pingPolling(pingDevices));
 
                     availableMonitor.stream().filter(device -> device.get("type").equals("ssh")).forEach(
                             monitor -> {
-                                runnables.add(shhPolling(monitor.get("ip"), monitor.get("username"), monitor.get("password")));
+                                executorService.submit(shhPolling(monitor.get("ip"), monitor.get("username"), monitor.get("password"), monitor.get("id")));
                             }
                     );
 
-                    for (int i = 0; i < runnables.size(); i++) {
+                    rs.put("status", "Polling started");
 
-                        executorService.submit(runnables.get(i));
-
-                    }
-
-                    rs.put("status","Polling started");
-
-                    rs.put("code","1");
+                    rs.put("code", "1");
 
                 } catch (SQLException e) {
 
                     e.printStackTrace();
 
-                    rs.put("status",e.getMessage());
+                    rs.put("status", e.getMessage());
 
-                    rs.put("code","0");
+                    rs.put("code", "0");
 
-                }finally {
+                } finally {
 
                     WebSocketServerClass.sendBroadcast(rs);
 

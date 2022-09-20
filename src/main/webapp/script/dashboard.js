@@ -27,7 +27,7 @@ var dashboard = {
 
             $("#body").append(components.card(
 
-                "TOP N CPU usage",
+                "TOP 5 CPU usage",
 
                 data.cpu,
 
@@ -40,7 +40,7 @@ var dashboard = {
 
             $("#body").append(components.card(
 
-                "TOP N RTT",
+                "TOP 5 RTT",
 
                 data.rtt,
 
@@ -54,7 +54,7 @@ var dashboard = {
 
             $("#body").append(components.card(
 
-                "TOP N DISK USAGE",
+                "TOP 5 DISK USAGE",
 
                 data.disk,
 

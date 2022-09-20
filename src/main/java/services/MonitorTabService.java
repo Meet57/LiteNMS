@@ -31,7 +31,7 @@ public class MonitorTabService {
 
             for (HashMap<String, String> ele : raw) {
 
-                html = "<button class='btn btn-outline-primary btn-sm viewMonitorButton' data-ip='" + ele.get("ip") + "' data-type='" + ele.get("type") + "'>VIEW</button><button class='btn btn-outline-danger btn-sm ms-2 deleteMonitorButton' data-id='" + ele.get("id") + "'>DELETE</button>";
+                html = "<button class='btn btn-outline-primary btn-sm viewMonitorButton' data-id='" + ele.get("id") + "' data-type='" + ele.get("type") + "'>VIEW</button><button class='btn btn-outline-danger btn-sm ms-2 deleteMonitorButton' data-id='" + ele.get("id") + "'>DELETE</button>";
 
                 Object ip = devicesStatus.get(ele.get("ip"));
 
@@ -79,7 +79,7 @@ public class MonitorTabService {
 
         try {
 
-            db.databaseDMLOperation("delete", "delete from metrics where (ip,type) = (select ip,type from tbl_monitor_devices where id = ?)", new ArrayList<Object>(Collections.singletonList(deviceModel.getId())));
+            db.databaseDMLOperation("delete", "delete from metrics where device_id = ?", new ArrayList<Object>(Collections.singletonList(deviceModel.getId())));
 
             db.databaseDMLOperation("delete", "delete from tbl_monitor_devices where id = ?", new ArrayList<Object>(Collections.singletonList(deviceModel.getId())));
 

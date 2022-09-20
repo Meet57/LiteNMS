@@ -26,19 +26,19 @@ public class DashboardDataService {
             result.put(
                     "cpu",
                     hashMapToHTML(db.databaseSelectOperation("select ip, max(cpu) as cpu from metrics where ( (timestamp between ? and ? ) and cpu is NOT NULL ) group by ip order by cpu desc limit 5;",
-                            new ArrayList<>(Arrays.asList(startDate,endDate))), new ArrayList<>(Arrays.asList("ip", "cpu")))
+                            new ArrayList<>(Arrays.asList(startDate,endDate))), new ArrayList<>(Arrays.asList("ip", "cpu")), new ArrayList<>(Arrays.asList("IP", "CPU in %")))
             );
 
             result.put(
                     "rtt",
                     hashMapToHTML(db.databaseSelectOperation("select ip, max(rtt) as rtt from metrics where ( (timestamp between ? and ? ) and rtt != -1 ) group by ip order by rtt desc limit 5;",
-                            new ArrayList<>(Arrays.asList(startDate,endDate))), new ArrayList<>(Arrays.asList("ip", "rtt")))
+                            new ArrayList<>(Arrays.asList(startDate,endDate))), new ArrayList<>(Arrays.asList("ip", "rtt")),new ArrayList<>(Arrays.asList("IP", "RTT in ms")))
             );
 
             result.put(
                     "disk",
                     hashMapToHTML(db.databaseSelectOperation("select ip, max(disk) as disk from metrics where ( (timestamp between ? and ? ) and disk is NOT NULL ) group by ip order by disk desc limit 5;",
-                            new ArrayList<>(Arrays.asList(startDate,endDate))), new ArrayList<>(Arrays.asList("ip", "disk")))
+                            new ArrayList<>(Arrays.asList(startDate,endDate))), new ArrayList<>(Arrays.asList("ip", "disk")),new ArrayList<>(Arrays.asList("IP", "Disk usage in %")))
             );
 
             HashMap<String, Object> devices = new HashMap<>(CacheData.getData());
@@ -62,7 +62,7 @@ public class DashboardDataService {
 
     }
 
-    public static String hashMapToHTML(ArrayList<HashMap<String, String>> data, ArrayList<String> columns) {
+    public static String hashMapToHTML(ArrayList<HashMap<String, String>> data, ArrayList<String> columns, ArrayList<String> heading) {
 
         StringBuilder sb = new StringBuilder();
 
@@ -70,7 +70,7 @@ public class DashboardDataService {
 
             sb.append("<table class='w-100 table table-striped table-hover mt-3'><thead class='table-dark'><tr>");
 
-            for (String col : columns) {
+            for (String col : heading) {
                 sb.append("<td>").append(col).append("</td>");
             }
 

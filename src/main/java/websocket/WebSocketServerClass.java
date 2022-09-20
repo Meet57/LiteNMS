@@ -25,7 +25,6 @@ public class WebSocketServerClass {
 
             jo.put("type", "socketId");
 
-
             users.put(session.getId(), session);
 
             session.getBasicRemote().sendText(String.valueOf(jo));

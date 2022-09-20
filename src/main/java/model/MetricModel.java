@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class MetricModel {
     private String ip,type,socketId;
+    private int device_id;
     private HashMap<String, Object> result;
 
     public MetricModel() {
@@ -24,6 +25,14 @@ public class MetricModel {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public int getDevice_id() {
+        return device_id;
+    }
+
+    public void setDevice_id(int device_id) {
+        this.device_id = device_id;
     }
 
     public String getType() {
