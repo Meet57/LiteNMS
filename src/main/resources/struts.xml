@@ -105,6 +105,11 @@
             <result name="success" type="json" />
         </action>
 
+        <action name="pollDevice" class="action.MonitorDataActions" method="pollDevice">
+            <interceptor-ref name="loginSession"/>
+            <result name="success" type="json" />
+        </action>
+
 <!--        Dashboard data-->
         <action name="getDashboard" class="action.DashboardAction" method="getDashboardData">
             <interceptor-ref name="loginSession"/>

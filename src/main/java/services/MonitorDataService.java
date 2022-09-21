@@ -3,6 +3,8 @@ package services;
 import DAO.Database;
 import helper.CacheData;
 import helper.PingUtil;
+import helper.polling.LiveCollector;
+import helper.polling.MetricCollector;
 import model.MetricModel;
 import websocket.WebSocketServerClass;
 
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class MonitorDataService {
@@ -30,7 +33,7 @@ public class MonitorDataService {
 
             raw = db.databaseSelectOperation(
                     "select * from metrics where device_id = ? and (timestamp between ? and ? )",
-                    new ArrayList<>(Arrays.asList(metricModel.getDevice_id(), startDate,endDate))
+                    new ArrayList<>(Arrays.asList(metricModel.getDevice_id(), startDate, endDate))
             );
 
             if (raw.size() == 0) {
@@ -44,7 +47,7 @@ public class MonitorDataService {
 
             float availability = Float.parseFloat(db.databaseSelectOperation(
                     "select round(100*SUM(status)/COUNT(*),2) as availability from metrics where device_id = ?  and (timestamp between ? and ? )",
-                    new ArrayList<>(Arrays.asList(metricModel.getDevice_id(), startDate,endDate))
+                    new ArrayList<>(Arrays.asList(metricModel.getDevice_id(), startDate, endDate))
             ).get(0).get("availability"));
 
             int mem = 0, total_mem = 0;
@@ -95,7 +98,7 @@ public class MonitorDataService {
 
                 rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + ip + "</h1><span class=\"badge h-100 mx-2 text-bg-success\">UP</span>\n</div>");
 
-            } else{
+            } else {
 
                 rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + ip + "</h1><span class=\"badge h-100 mx-2 text-bg-dark\">UNKNOWN</span>\n</div>");
 
@@ -121,7 +124,7 @@ public class MonitorDataService {
 
             rs.put("time", time);
 
-            rs.put("actions", "<button class='col-auto btn btn-outline-primary pingNow' data-ip='" + ip + "' >Ping Now</button>");
+            rs.put("actions", "<button class='col-auto me-2 btn btn-outline-success pollNow' data-id='" + raw.get(raw.size() - 1).get("device_id") + "' >Poll Now</button><button class='col-auto btn btn-outline-primary pingNow' data-ip='" + ip + "' >Ping Now</button>");
 
 
         } catch (SQLException e) {
@@ -136,29 +139,59 @@ public class MonitorDataService {
 
     }
 
-    public static void checkDeviceStatus(MetricModel metricModel){
+    public static void checkDeviceStatus(MetricModel metricModel) {
 
         HashMap<String, Object> rs = new HashMap<>();
 
-        rs.put("title","Monitor Result");
+        rs.put("title", "Monitor Result");
 
-        rs.put("type","notification");
+        rs.put("type", "notification");
 
         if (PingUtil.isUp(metricModel.getIp())) {
 
-            rs.put("status", metricModel.getIp()+": Device is up");
+            rs.put("status", metricModel.getIp() + ": Device is up");
 
             rs.put("code", Constants.SUCCESS);
 
         } else {
 
-            rs.put("status", metricModel.getIp()+": Device is down");
+            rs.put("status", metricModel.getIp() + ": Device is down");
 
             rs.put("code", Constants.ERROR);
 
         }
 
         WebSocketServerClass.sendMessage(metricModel.getSocketId(), rs);
+
+    }
+
+    public static void pollDevice(MetricModel metricModel) {
+
+        HashMap<String, Object> rs = new HashMap<>();
+
+        try {
+
+            HashMap<String, String> device = new Database().databaseSelectOperation("select * from tbl_monitor_devices where id = ?", new ArrayList<>(Collections.singletonList(metricModel.getDevice_id()))).get(0);
+
+            if (device.get("type").equals("ping")) {
+
+                new Thread(LiveCollector.pingPolling(device.get("ip"), device.get("id"), metricModel.getSocketId())).start();
+
+            } else {
+
+                new Thread(LiveCollector.shhPolling(device.get("ip"), device.get("username"), device.get("password"), device.get("id"), metricModel.getSocketId())).start();
+
+            }
+
+        } catch (SQLException e) {
+
+            rs.put("status", "Server Error");
+
+            rs.put("code", Constants.ERROR);
+
+            e.printStackTrace();
+
+        }
 
     }
 

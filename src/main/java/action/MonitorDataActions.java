@@ -17,6 +17,14 @@ public class MonitorDataActions extends ActionSupport implements ModelDriven<Met
 
     }
 
+    public String pollDevice(){
+
+        MonitorDataService.pollDevice(result);
+
+        return SUCCESS;
+
+    }
+
     public String checkDeviceStatus() {
 
         MonitorDataService.checkDeviceStatus(result);

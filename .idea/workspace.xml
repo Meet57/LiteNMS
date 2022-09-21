@@ -12,19 +12,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="device id">
-      <change afterPath="$PROJECT_DIR$/src/main/java/services/Constants.java" afterDir="false" />
+    <list default="true" id="a1df4a93-4476-4da6-a9a0-89596c9a9826" name="Changes" comment="https with socket">
+      <change afterPath="$PROJECT_DIR$/src/main/java/helper/polling/LiveCollector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helper/CacheData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/CacheData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helper/Init.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/Init.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/PollingUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helper/polling/MetricCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/action/MonitorDataActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/action/MonitorDataActions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/services/MonitorDataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MonitorDataService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/MonitorDiscoveryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MonitorDiscoveryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/MonitorTabService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MonitorTabService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/PollingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/PollingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/struts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/struts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/monitor.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/script/socket/socket.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -973,7 +968,8 @@
       <workItem from="1663577641659" duration="10102000" />
       <workItem from="1663649096244" duration="19498000" />
       <workItem from="1663680305903" duration="2124000" />
-      <workItem from="1663734287211" duration="2755000" />
+      <workItem from="1663734287211" duration="8287000" />
+      <workItem from="1663752820376" duration="1623000" />
     </task>
     <task id="LOCAL-00001" summary="5th 1">
       <created>1662368325408</created>
@@ -1136,7 +1132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663660916153</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="https with socket">
+      <created>1663739309158</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1663739309158</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1177,7 +1180,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="5th 1" />
     <MESSAGE value="5th crud done" />
     <MESSAGE value="Before turning it to modelDriven" />
     <MESSAGE value="Before changing UI for monitor" />
@@ -1202,17 +1204,7 @@
     <MESSAGE value="socket notification done for discovery" />
     <MESSAGE value="any error on ssh polling notification" />
     <MESSAGE value="device id" />
-    <option name="LAST_COMMIT_MESSAGE" value="device id" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/websocket/WebSocketServerClass.java</url>
-          <line>27</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="https with socket" />
+    <option name="LAST_COMMIT_MESSAGE" value="https with socket" />
   </component>
 </project>

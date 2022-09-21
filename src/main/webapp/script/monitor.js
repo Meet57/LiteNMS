@@ -6,6 +6,8 @@ var monitor = {
 
         $("#body").on("click", ".pingNow", monitor.pingDevice);
 
+        $("#body").on("click", ".pollNow", monitor.pollDevice);
+
         $("#monitorTable").on("click", ".deleteMonitorButton", monitor.deleteMonitorModal);
 
         $("#monitorTable").on("click", ".viewMonitorButton", monitor.viewMonitor);
@@ -87,7 +89,7 @@ var monitor = {
 
     },
 
-    loadMetricData: function (data) {
+    loadMetricData: function (data,socketUpdate = false) {
 
         if (data.result.code === 0) {
 
@@ -97,9 +99,13 @@ var monitor = {
 
         }
 
-        $("#table").css("display", "none")
+        if(!socketUpdate){
 
-        $("#visual").css("display", "block")
+            $("#table").css("display", "none")
+
+            $("#visual").css("display", "block")
+
+        }
 
         $("#deviceInfo").html(data.result.ip)
 
@@ -180,6 +186,26 @@ var monitor = {
             data: {
 
                 ip: $(this).data("ip"),
+
+                socketId: localStorage.getItem("socketId")
+
+            },
+
+        };
+
+        api.ajaxget(request);
+
+    },
+
+    pollDevice: function (){
+
+        let request = {
+
+            url: "pollDevice",
+
+            data: {
+
+                device_id: $(this).data("id"),
 
                 socketId: localStorage.getItem("socketId")
 

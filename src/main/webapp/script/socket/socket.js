@@ -51,6 +51,22 @@ function processOnMessage(message) {
 
             }
 
+            if(data.title.includes("Polling result for")){
+
+                let request = {
+
+                    url: "getMetrics",
+
+                    data: {device_id: data.id, type: data.deviceType},
+
+                    callback: monitor.loadMetricData,
+
+                };
+
+                api.ajaxpost(request,true,true);
+
+            }
+
             break
 
     }
