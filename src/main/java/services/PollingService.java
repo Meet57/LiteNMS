@@ -35,7 +35,7 @@ public class PollingService {
 
                     rs.put("status", deviceModel.getIp() + " :Discovery successful");
 
-                    rs.put("code", 1);
+                    rs.put("code", Constants.SUCCESS);
 
                     db.databaseDMLOperation("update", "update tbl_devices set provision = 1 where id = ?", new ArrayList<>(Arrays.asList(String.valueOf(deviceModel.getId()))));
 
@@ -43,7 +43,7 @@ public class PollingService {
 
                     rs.put("status", deviceModel.getIp() + " :Discovery failed");
 
-                    rs.put("code", 0);
+                    rs.put("code", Constants.ERROR);
 
                 }
 
@@ -59,11 +59,11 @@ public class PollingService {
 
                     HashMap<String, String> metric = polling.polling(data.get("username"), data.get("password"), deviceModel.getIp(), 22);
 
-                    if (metric.get("code").equals("1")) {
+                    if (metric.get("code").equals(Constants.SUCCESS_STR)) {
 
                         rs.put("status", deviceModel.getIp() + " :Discovery successful");
 
-                        rs.put("code", 1);
+                        rs.put("code", Constants.SUCCESS);
 
                         db.databaseDMLOperation("update", "update tbl_devices set provision = 1 where id = ?", new ArrayList<>(Arrays.asList(String.valueOf(deviceModel.getId()))));
 
@@ -71,7 +71,7 @@ public class PollingService {
 
                         rs.put("status", metric.get("status"));
 
-                        rs.put("code", 0);
+                        rs.put("code", Constants.ERROR);
 
                     }
 
@@ -79,7 +79,7 @@ public class PollingService {
 
                     rs.put("status", deviceModel.getIp() + " :Discovery failed");
 
-                    rs.put("code", 0);
+                    rs.put("code", Constants.ERROR);
 
                 }
 
@@ -91,7 +91,7 @@ public class PollingService {
 
             rs.put("status", "Error occurred during discovery");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
             WebSocketServerClass.sendMessage(deviceModel.getSocketId(), rs);
 
@@ -129,9 +129,9 @@ public class PollingService {
 
                 rs.put("status", data.get("ip") + ": device updated for monitoring");
 
-                rs.put("code", 1);
+                rs.put("code", Constants.SUCCESS);
 
-                CacheData.getData().put(data.get("ip"),"UNKNOWN");
+                CacheData.getData().put(data.get("ip"),Constants.UNKNOWN);
 
                 return;
             }
@@ -142,15 +142,15 @@ public class PollingService {
 
             rs.put("status", data.get("ip") + ": device added for monitoring");
 
-            rs.put("code", 1);
+            rs.put("code", Constants.SUCCESS);
 
-            CacheData.getData().put(data.get("ip"),"UNKNOWN");
+            CacheData.getData().put(data.get("ip"),Constants.UNKNOWN);
 
         } catch (SQLException e) {
 
             rs.put("status", "Error occurred.");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package helper;
 
 import com.jcraft.jsch.*;
+import services.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class PollingUtil {
 
             if (output.split(" ")[0].equals("ERROR")) {
 
-                metrics.put("code", "0");
+                metrics.put("code", Constants.ERROR_STR);
 
                 metrics.put("status", output);
 
@@ -36,7 +37,7 @@ public class PollingUtil {
 
             String[] arr = output.split("\n");
 
-            metrics.put("code", "1");
+            metrics.put("code", Constants.SUCCESS_STR);
 
             metrics.put("ip", host);
 
@@ -50,7 +51,7 @@ public class PollingUtil {
 
         } catch (Exception e) {
 
-            metrics.put("code", "0");
+            metrics.put("code", Constants.ERROR_STR);
 
             metrics.put("status", "Something went worng<br> Please check dependencies in the client monitor<br> Try installing sysstat in the system");
 

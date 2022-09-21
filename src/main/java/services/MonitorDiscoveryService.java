@@ -42,8 +42,6 @@ public class MonitorDiscoveryService {
 
             raw = db.databaseSelectOperation("select * from tbl_devices", null);
 
-
-
             ArrayList<ArrayList<String>> output = new ArrayList<>();
 
             raw.forEach(ele -> {
@@ -84,13 +82,13 @@ public class MonitorDiscoveryService {
 
             rs.put("status", "Device deleted");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
         } catch (SQLException e) {
 
             rs.put("status", "Error occurred while deleting");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
             e.printStackTrace();
 
@@ -113,7 +111,7 @@ public class MonitorDiscoveryService {
 
                 rs.put("status", "Already exists");
 
-                rs.put("code", 0);
+                rs.put("code", Constants.ERROR);
 
                 return;
 
@@ -131,13 +129,13 @@ public class MonitorDiscoveryService {
 
             rs.put("status", deviceModel.getIp() + ": device added successfully");
 
-            rs.put("code", 1);
+            rs.put("code", Constants.SUCCESS);
 
         } catch (SQLException e) {
 
             rs.put("status", "Error occurred while adding");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
             e.printStackTrace();
 
@@ -157,19 +155,21 @@ public class MonitorDiscoveryService {
                 db.databaseDMLOperation("update", "update tbl_devices set provision = false,deviceName = ?,ip = ? where id = ? ", new ArrayList<Object>(Arrays.asList(deviceModel.getDeviceName(), deviceModel.getIp(), String.valueOf(deviceModel.getId()))));
 
             } else {
+
                 db.databaseDMLOperation("update", "update tbl_devices set provision = false,deviceName = ?,ip = ?,username = ?,password=? where id = ? ", new ArrayList<Object>(Arrays.asList(deviceModel.getDeviceName(), deviceModel.getIp(), deviceModel.getUsername(), deviceModel.getPassword(), String.valueOf(deviceModel.getId()))));
+
             }
 
 
             rs.put("status", deviceModel.getIp() + ": device updated successfully");
 
-            rs.put("code", 1);
+            rs.put("code", Constants.SUCCESS);
 
         } catch (SQLException e) {
 
             rs.put("status", "Error occurred while updating");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
             e.printStackTrace();
 

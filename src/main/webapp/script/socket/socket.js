@@ -1,4 +1,12 @@
-var websocket = new WebSocket("ws://"+window.location.host+"/websocket/endpoint");
+var websocket
+
+if(window.location.protocol === "http:"){
+    websocket = new WebSocket("ws://"+window.location.host+"/websocket/endpoint");
+}else{
+    websocket = new WebSocket("wss://"+window.location.host+"/websocket/endpoint");
+}
+
+
 
 websocket.onopen = function (message) {
     processOnOpen(message);

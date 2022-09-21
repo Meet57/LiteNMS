@@ -35,7 +35,7 @@ public class MonitorDataService {
 
             if (raw.size() == 0) {
 
-                rs.put("code", 0);
+                rs.put("code", Constants.ERROR);
 
                 rs.put("status", "Polling Data is not available yet");
 
@@ -87,11 +87,11 @@ public class MonitorDataService {
 
             }
 
-            if (CacheData.getData().get(ip).equals("DOWN")) {
+            if (CacheData.getData().get(ip).equals(Constants.DOWN)) {
 
                 rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + ip + "</h1><span class=\"badge h-100 mx-2 text-bg-danger\">DOWN</span>\n</div>");
 
-            } else if ((CacheData.getData().get(ip).equals("UP"))) {
+            } else if ((CacheData.getData().get(ip).equals(Constants.UP))) {
 
                 rs.put("ip", "<div class='d-flex'><span class='text-muted mt-auto' id='lastPollTime'></span><h1>" + ip + "</h1><span class=\"badge h-100 mx-2 text-bg-success\">UP</span>\n</div>");
 
@@ -101,7 +101,7 @@ public class MonitorDataService {
 
             }
 
-            rs.put("code", 1);
+            rs.put("code", Constants.SUCCESS);
 
             rs.put("availability", availability);
 
@@ -128,7 +128,7 @@ public class MonitorDataService {
 
             rs.put("status", "Server Error");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
             e.printStackTrace();
 
@@ -148,13 +148,13 @@ public class MonitorDataService {
 
             rs.put("status", metricModel.getIp()+": Device is up");
 
-            rs.put("code", 1);
+            rs.put("code", Constants.SUCCESS);
 
         } else {
 
             rs.put("status", metricModel.getIp()+": Device is down");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
         }
 

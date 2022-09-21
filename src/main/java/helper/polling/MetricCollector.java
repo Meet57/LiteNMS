@@ -4,6 +4,7 @@ import DAO.Database;
 import helper.CacheData;
 import helper.PingUtil;
 import helper.PollingUtil;
+import services.Constants;
 import websocket.WebSocketServerClass;
 
 import java.sql.SQLException;
@@ -17,14 +18,14 @@ import java.util.regex.Pattern;
 public class MetricCollector {
     public static void startPolling() {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ExecutorService executorService = Executors.newFixedThreadPool(Constants.POLLING_THREADS);
 
         ScheduledExecutorService scs = Executors.newSingleThreadScheduledExecutor();
 
         scs.scheduleAtFixedRate(
                 schedulerTask(executorService),
                 0,
-                1,
+                5,
                 TimeUnit.MINUTES
         );
     }
@@ -45,9 +46,9 @@ public class MetricCollector {
 
                     String ip = result.split(" ")[0];
 
-                    if (matcher.group(1).equals("0")) {
+                    try {
 
-                        try {
+                        if (matcher.group(1).equals(Constants.ERROR_STR)) {
 
                             new Database().databaseDMLOperation(
                                     "add",
@@ -55,17 +56,10 @@ public class MetricCollector {
                                     new ArrayList<Object>(Arrays.asList(ip, matcher.group(1), matcher.group(3), ipAddresses.get(ip)))
                             );
 
-                            CacheData.getData().put(result.split(" ")[0], "UP");
+                            CacheData.getData().put(result.split(" ")[0], Constants.UP);
 
-                        } catch (SQLException e) {
 
-                            e.printStackTrace();
-
-                        }
-
-                    } else {
-
-                        try {
+                        } else {
 
                             new Database().databaseDMLOperation(
                                     "add",
@@ -73,13 +67,14 @@ public class MetricCollector {
                                     new ArrayList<Object>(Arrays.asList(ip, matcher.group(1), ipAddresses.get(ip)))
                             );
 
-                            CacheData.getData().put(result.split(" ")[0], "DOWN");
-
-                        } catch (SQLException e) {
-
-                            e.printStackTrace();
+                            CacheData.getData().put(result.split(" ")[0], Constants.DOWN);
 
                         }
+
+                    } catch (SQLException e) {
+
+                        e.printStackTrace();
+
                     }
                 }
             }
@@ -101,7 +96,7 @@ public class MetricCollector {
 
                     matcher.find();
 
-                    if (matcher.group(1).equals("0")) {
+                    if (matcher.group(1).equals(Constants.ERROR_STR)) {
 
                         PollingUtil poll = new PollingUtil();
 
@@ -111,7 +106,7 @@ public class MetricCollector {
 
                         result.put("packet_loss", matcher.group(1));
 
-                        if (result.get("code").equals("1")) {
+                        if (result.get("code").equals(Constants.SUCCESS_STR)) {
 //                            ssh success
                             new Database().databaseDMLOperation(
                                     "add",
@@ -119,7 +114,7 @@ public class MetricCollector {
                                     new ArrayList<Object>(Arrays.asList(result.get("ip"), result.get("packet_loss"), result.get("rtt"), 100 - Float.parseFloat(result.get("cpu")), result.get("umem"), result.get("mem"), result.get("disk"), id))
                             );
 
-                            CacheData.getData().put(ip, "UP");
+                            CacheData.getData().put(ip, Constants.UP);
 
                         } else {
 //                            ssh fail
@@ -135,7 +130,7 @@ public class MetricCollector {
 
                             WebSocketServerClass.sendBroadcast(result);
 
-                            CacheData.getData().put(ip, "UP");
+                            CacheData.getData().put(ip, Constants.UP);
                         }
 
                     } else {
@@ -146,7 +141,7 @@ public class MetricCollector {
                                 new ArrayList<Object>(Arrays.asList(ip, matcher.group(1), id))
                         );
 
-                        CacheData.getData().put(ip, "DOWN");
+                        CacheData.getData().put(ip, Constants.DOWN);
 
                     }
 
@@ -166,7 +161,7 @@ public class MetricCollector {
 
                     }
 
-                    CacheData.getData().put(ip, "DOWN");
+                    CacheData.getData().put(ip, Constants.DOWN);
                     System.err.println(e.getMessage());
                 }
             }
@@ -194,7 +189,6 @@ public class MetricCollector {
 
 //                    executorService.submit(pingPolling(availableMonitor.stream().filter(device -> device.get("type").equals("ping")).map(device -> device.get("ip")).toArray(String[]::new)));
 
-
                     HashMap<String, String> pingDevices = new HashMap<>();
 
                     availableMonitor.stream().filter(device -> device.get("type").equals("ping")).forEach((device -> {
@@ -211,7 +205,7 @@ public class MetricCollector {
 
                     rs.put("status", "Polling started");
 
-                    rs.put("code", "1");
+                    rs.put("code", Constants.SUCCESS_STR);
 
                 } catch (SQLException e) {
 
@@ -219,7 +213,7 @@ public class MetricCollector {
 
                     rs.put("status", e.getMessage());
 
-                    rs.put("code", "0");
+                    rs.put("code", Constants.ERROR_STR);
 
                 } finally {
 

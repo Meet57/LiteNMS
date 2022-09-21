@@ -2,6 +2,7 @@ package helper;
 
 import DAO.ConnectionPool;
 import DAO.Database;
+import services.Constants;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class CacheData {
 
             for (HashMap<String, String> device: devices) {
 
-                data.put(device.get("ip"),"UNKNOWN");
+                data.put(device.get("ip"), Constants.UNKNOWN);
 
             }
 

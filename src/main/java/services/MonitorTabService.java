@@ -35,11 +35,11 @@ public class MonitorTabService {
 
                 Object ip = devicesStatus.get(ele.get("ip"));
 
-                if ("UP".equals(ip)) {
+                if (Constants.UP.equals(ip)) {
 
                     deviceStatus = "<i class=\"bi text-success bi-arrow-up\"></i>";
 
-                } else if ("DOWN".equals(ip)) {
+                } else if (Constants.DOWN.equals(ip)) {
 
                     deviceStatus = "<i class=\"bi text-danger bi-arrow-down\"></i>";
 
@@ -89,7 +89,7 @@ public class MonitorTabService {
 
             rs.put("status", "Device deleted");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
         } catch (SQLException e) {
 

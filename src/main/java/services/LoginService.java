@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class LoginService {
+
+
     public static void login(UserModel userModel) {
 
         HashMap<String, Object> rs = userModel.getResult();
@@ -25,7 +27,7 @@ public class LoginService {
 
                 rs.put("status", "Invalid Credentials");
 
-                rs.put("code", 0);
+                rs.put("code", Constants.ERROR);
 
                 return;
             }
@@ -34,13 +36,13 @@ public class LoginService {
 
             rs.put("status", "login Successful");
 
-            rs.put("code", 1);
+            rs.put("code", Constants.SUCCESS);
 
         } catch (SQLException e) {
 
             rs.put("status", "Server Error");
 
-            rs.put("code", 0);
+            rs.put("code", Constants.ERROR);
 
             e.printStackTrace();
 
