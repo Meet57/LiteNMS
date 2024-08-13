@@ -20,7 +20,7 @@ public class ConnectionPool {
 
                 Class.forName("com.mysql.cj.jdbc.Driver");
 
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/litenms", "root", "password");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/litenms", "root", "");
 
                 connectionPool.put(con);
 
